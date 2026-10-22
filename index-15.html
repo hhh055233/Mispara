@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="מספרת גברים מקצועית — תספורות, עיצוב זקן וסטייל אישי.">
+<title>BARBER | מספרת גברים</title>
+<style>
+:root{--bg:#101010;--panel:#1b1b1b;--gold:#d6ad60;--text:#fff;--muted:#bcbcbc}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;line-height:1.7}
+a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}
+header{position:sticky;top:0;z-index:5;background:#101010f2;border-bottom:1px solid #303030;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.logo{font-size:25px;font-weight:900;letter-spacing:2px;color:var(--gold)}nav{display:flex;gap:16px;flex-wrap:wrap}nav a:hover{color:var(--gold)}
+.hero{min-height:68vh;display:grid;place-items:center;text-align:center;padding:65px 20px;background:linear-gradient(#0009,#000d),url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1800&q=85') center/cover}
+.hero-inner{max-width:760px}.eyebrow{color:var(--gold);letter-spacing:3px;font-weight:bold}.hero h1{font-size:clamp(40px,8vw,76px);line-height:1.12;margin:16px 0}.gold{color:var(--gold)}.hero p{font-size:18px;color:#e0e0e0;margin:0 auto 26px;max-width:650px}
+.btn{display:inline-block;background:var(--gold);color:#111;border:1px solid var(--gold);border-radius:6px;padding:12px 20px;font-weight:bold;cursor:pointer}.btn:hover{background:transparent;color:var(--gold)}.btn.secondary{background:transparent;color:#fff;border-color:#777;margin-right:8px}
+section{padding:65px 6%}.section-title{text-align:center;font-size:34px;margin:0 0 8px}.section-desc{text-align:center;color:var(--muted);margin:0 0 32px}
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:1100px;margin:auto}.service{background:var(--panel);border:1px solid #303030;border-radius:10px;padding:24px;text-align:center}.service .icon{font-size:36px}.service p{color:var(--muted);font-size:14px}.price{color:var(--gold);font-size:23px;font-weight:bold;margin-top:12px}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:1100px;margin:auto}.gallery img{width:100%;height:250px;object-fit:cover;border-radius:8px;background:#222}
+.about{background:#171717;text-align:center}.about p{max-width:700px;margin:18px auto;color:var(--muted)}.contact{text-align:center}.contact p{color:var(--muted);margin:12px 0 25px}
+.custom-area{max-width:1000px;margin:0 auto}.custom-block{white-space:pre-wrap;margin:12px auto;padding:10px 0;max-width:900px}.custom-block a{color:var(--gold);text-decoration:underline}
+footer{text-align:center;padding:25px 15px;border-top:1px solid #303030;color:var(--muted);white-space:pre-wrap}
+.wa-float{position:fixed;left:16px;bottom:16px;z-index:8;background:#25d366;color:#fff;padding:12px 17px;border-radius:40px;font-weight:bold;box-shadow:0 4px 20px #0008}
+#adminPanel{display:none;position:relative;z-index:10;background:#191a20;border:1px solid #4a4a4a;border-radius:16px;padding:22px;max-width:1100px;margin:25px auto;color:#fff}
+#adminPanel h2{margin-top:0}.admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field input,.field textarea,.field select{width:100%;padding:10px;border-radius:7px;border:1px solid #555;background:#101116;color:white}.field textarea{min-height:78px}.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.status{white-space:pre-wrap;color:#d8c18f;margin-top:12px}.hint{color:#c2c2c2;font-size:13px}.admin-blocks{display:grid;gap:8px}.admin-block{display:grid;grid-template-columns:1fr 130px auto;gap:8px;align-items:center}.admin-block input,.admin-block select{min-width:0;padding:9px;background:#101116;color:white;border:1px solid #555;border-radius:6px}
+@media(max-width:720px){header{flex-direction:column}nav{justify-content:center;gap:12px}.services,.gallery{grid-template-columns:1fr}.gallery img{height:230px}.admin-grid{grid-template-columns:1fr}.admin-block{grid-template-columns:1fr}.hero{min-height:60vh}section{padding:50px 5%}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" id="siteLogo" href="#home">BARBER.</a>
+  <nav><a href="#home">ראשי</a><a href="#services">שירותים</a><a href="#gallery">גלריה</a><a href="#about">עלינו</a><a href="#contact">יצירת קשר</a></nav>
+</header>
+
+<main id="siteContent">
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="eyebrow" id="eyebrow">YOUR STYLE. YOUR RULES.</div>
+    <h1 id="heroTitle">הסטייל שלך.<br><span class="gold">המקצועיות שלנו.</span></h1>
+    <p id="heroText">תספורות מדויקות, עיצוב זקן ואווירה שאי אפשר לפספס. מגיע לך להיראות בדיוק כמו שאתה רוצה.</p>
+    <a class="btn" id="heroButton" href="https://wa.me/972509541350" target="_blank" rel="noopener">דברו איתנו בוואטסאפ</a>
+    <a class="btn secondary" href="#services">לכל השירותים</a>
+  </div>
+</section>
+
+<section id="services">
+  <h2 class="section-title">השירותים <span class="gold">שלנו</span></h2>
+  <p class="section-desc" id="servicesIntro">מקצועיות, דיוק ותשומת לב לכל פרט.</p>
+  <div class="services" id="servicesList">
+    <article class="service"><div class="icon">✂️</div><h3>תספורת גברים</h3><p>תספורת בהתאמה אישית ובדיוק עד הפרט האחרון.</p><div class="price">₪60</div></article>
+    <article class="service"><div class="icon">💈</div><h3>תספורת פייד</h3><p>מעברים מדויקים ומראה נקי ומודרני.</p><div class="price">₪70</div></article>
+    <article class="service"><div class="icon">🧔</div><h3>עיצוב זקן</h3><p>עיצוב וסידור זקן בהתאמה למראה שלך.</p><div class="price">₪30</div></article>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2 class="section-title">הגלריה <span class="gold">שלנו</span></h2>
+  <p class="section-desc" id="galleryIntro">האווירה והסטייל שלנו.</p>
+  <div class="gallery" id="galleryList">
+    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80" alt="עיצוב מספרה" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80" alt="תספורת גברים" loading="lazy">
+    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80" alt="עבודת ספר" loading="lazy">
+  </div>
+</section>
+
+<section class="about" id="about">
+  <h2 class="section-title">קצת <span class="gold">עלינו</span></h2>
+  <p id="aboutText">אנחנו מאמינים שתספורת טובה היא יותר ממראה חיצוני. היא ביטחון עצמי, סטייל אישי וחוויה טובה. אצלנו כל לקוח מקבל יחס אישי ועבודה מקצועית.</p>
+</section>
+
+<div id="customBeforeFooter" class="custom-area"></div>
+
+<section class="contact" id="contact">
+  <h2 class="section-title" id="contactTitle">מוכנים <span class="gold">לשדרג את הסטייל?</span></h2>
+  <p id="contactText">יש שאלות? רוצים לדעת עוד על השירותים והמחירים? אנחנו כאן בשבילכם.</p>
+  <a class="btn" id="contactButton" href="https://wa.me/972509541350?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a>
+</section>
+</main>
+
+<footer><div id="footerText">© <span id="year"></span> BARBER. כל הזכויות שמורות.</div></footer>
+<a class="wa-float" id="floatingWhatsApp" href="https://wa.me/972509541350" target="_blank" rel="noopener">WhatsApp 💬</a>
+
+<section id="adminPanel">
+  <h2>⚙️ ניהול אתר המספרה</h2>
+  <p class="hint">עריכת תוכן, שירותים, תמונות וטקסט בתחתית. כפתור הפרסום שולח את קובץ האתר ל־GitHub, ו־Vercel מפרסם אוטומטית. יש להגדיר משתני סביבה לפי README.</p>
+  <div class="admin-grid">
+    <label class="field">סיסמת מנהל <input id="adminPassword" type="password" autocomplete="current-password" placeholder="סיסמת המנהל שהוגדרה ב־Vercel"></label>
+    <label class="field">שם / לוגו המספרה <input id="fLogo" value="BARBER."></label>
+    <label class="field">כותרת ראשית <input id="fHeroTitle" value="הסטייל שלך.&#10;המקצועיות שלנו."></label>
+    <label class="field">טקסט ראשי <textarea id="fHeroText">תספורות מדויקות, עיצוב זקן ואווירה שאי אפשר לפספס. מגיע לך להיראות בדיוק כמו שאתה רוצה.</textarea></label>
+    <label class="field">טקסט קטן מעל הכותרת <input id="fEyebrow" value="YOUR STYLE. YOUR RULES."></label>
+    <label class="field">טקסט מתחת לכותרת השירותים <input id="fServicesIntro" value="מקצועיות, דיוק ותשומת לב לכל פרט."></label>
+    <label class="field">טקסט פתיחה לגלריה <input id="fGalleryIntro" value="האווירה והסטייל שלנו."></label>
+    <label class="field">טקסט עלינו <textarea id="fAboutText">אנחנו מאמינים שתספורת טובה היא יותר ממראה חיצוני. היא ביטחון עצמי, סטייל אישי וחוויה טובה. אצלנו כל לקוח מקבל יחס אישי ועבודה מקצועית.</textarea></label>
+    <label class="field">כותרת יצירת קשר <input id="fContactTitle" value="מוכנים לשדרג את הסטייל?"></label>
+    <label class="field">טקסט יצירת קשר <textarea id="fContactText">יש שאלות? רוצים לדעת עוד על השירותים והמחירים? אנחנו כאן בשבילכם.</textarea></label>
+    <label class="field">טקסט תחתית האתר <textarea id="fFooterText">כל הזכויות שמורות.</textarea></label>
+    <label class="field">מספר WhatsApp כולל קידומת מדינה <input id="fWhatsApp" value="972509541350" inputmode="tel"></label>
+    <label class="field">צבע הדגשה <input id="fColor" type="color" value="#d6ad60"></label>
+    <label class="field">תמונת רקע ראשית (כתובת תמונה) <input id="fHeroImage" value="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1800&q=85"><input id="heroImageFile" type="file" accept="image/*"><small class="hint">אפשר להדביק כתובת או לבחור תמונה מהמכשיר.</small></label>
+  </div>
+  <h3>שירותים ומחירים</h3>
+  <p class="hint">אפשר לערוך שלושה שירותים. כל מחיר הוא טקסט, לדוגמה ₪60.</p>
+  <div class="admin-grid">
+    <label class="field">שירות 1 – שם <input id="s1name" value="תספורת גברים"></label><label class="field">שירות 1 – תיאור <input id="s1desc" value="תספורת בהתאמה אישית ובדיוק עד הפרט האחרון."></label><label class="field">שירות 1 – מחיר <input id="s1price" value="₪60"></label>
+    <label class="field">שירות 2 – שם <input id="s2name" value="תספורת פייד"></label><label class="field">שירות 2 – תיאור <input id="s2desc" value="מעברים מדויקים ומראה נקי ומודרני."></label><label class="field">שירות 2 – מחיר <input id="s2price" value="₪70"></label>
+    <label class="field">שירות 3 – שם <input id="s3name" value="עיצוב זקן"></label><label class="field">שירות 3 – תיאור <input id="s3desc" value="עיצוב וסידור זקן בהתאמה למראה שלך."></label><label class="field">שירות 3 – מחיר <input id="s3price" value="₪30"></label>
+  </div>
+  <h3>תמונות גלריה</h3>
+  <div class="admin-grid">
+    <label class="field">תמונה 1 (כתובת או העלאה) <input id="g1" value="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80"><input id="g1File" type="file" accept="image/*"></label>
+    <label class="field">תמונה 2 (כתובת או העלאה) <input id="g2" value="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=700&q=80"><input id="g2File" type="file" accept="image/*"></label>
+    <label class="field">תמונה 3 (כתובת או העלאה) <input id="g3" value="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80"><input id="g3File" type="file" accept="image/*"></label>
+  </div>
+  <h3>הוספת טקסטים במקומות שונים, כולל תחתית האתר</h3>
+  <p class="hint">בחר מקום, כתוב טקסט ולחץ „הוסף טקסט”. הטקסט נוסף לאתר כטקסט רגיל ולא כקוד HTML.</p>
+  <div class="admin-grid">
+    <label class="field">מיקום <select id="blockLocation"><option value="beforeFooter">לפני התחתית</option><option value="afterHero">אחרי הכותרת הראשית</option><option value="afterServices">אחרי השירותים</option><option value="afterGallery">אחרי הגלריה</option><option value="footer">בתוך תחתית האתר</option></select></label>
+    <label class="field">טקסט חדש <textarea id="blockText" placeholder="כתוב כאן את הטקסט שתרצה להוסיף"></textarea></label>
+  </div>
+  <button class="btn" id="addBlock" type="button">➕ הוסף טקסט</button>
+  <div id="blocksList" class="admin-blocks"></div>
+  <div class="admin-actions">
+    <button class="btn" id="previewBtn" type="button">👁️ הצג שינויים</button>
+    <button class="btn" id="saveLocalBtn" type="button">💾 שמור טיוטה במכשיר</button>
+    <button class="btn" id="publishBtn" type="button">🚀 עדכן ופרסם את האתר</button>
+    <button class="btn" id="downloadBtn" type="button">📥 הורד index.html מעודכן</button>
+    <button class="btn" id="closeAdmin" type="button">סגור מנהל</button>
+  </div>
+  <div class="status" id="adminStatus" role="status"></div>
+</section>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const ids = ['fLogo','fHeroTitle','fHeroText','fEyebrow','fServicesIntro','fGalleryIntro','fAboutText','fContactTitle','fContactText','fFooterText','fWhatsApp','fColor','fHeroImage','s1name','s1desc','s1price','s2name','s2desc','s2price','s3name','s3desc','s3price','g1','g2','g3'];
+  let blocks = [];
+  const status = msg => $('adminStatus').textContent = msg;
+  const wa = () => $('fWhatsApp').value.replace(/\D/g,'');
+  function safeText(el, text) { el.textContent = text; }
+  function renderBlocks() {
+    $('blocksList').replaceChildren();
+    blocks.forEach((b,i) => {
+      const row = document.createElement('div'); row.className = 'admin-block';
+      const input = document.createElement('input'); input.value = b.text; input.setAttribute('aria-label','טקסט נוסף');
+      input.addEventListener('input', () => { blocks[i].text = input.value; renderPublicBlocks(); });
+      const sel = document.createElement('select'); sel.setAttribute('aria-label','מיקום טקסט');
+      [['beforeFooter','לפני התחתית'],['afterHero','אחרי הראשי'],['afterServices','אחרי השירותים'],['afterGallery','אחרי הגלריה'],['footer','בתחתית']].forEach(([v,t])=>{const o=document.createElement('option');o.value=v;o.textContent=t;sel.append(o)});
+      sel.value=b.location; sel.addEventListener('change',()=>{blocks[i].location=sel.value;renderPublicBlocks()});
+      const del = document.createElement('button'); del.className='btn'; del.type='button'; del.textContent='מחק'; del.addEventListener('click',()=>{blocks.splice(i,1);renderBlocks();renderPublicBlocks()});
+      row.append(input,sel,del); $('blocksList').append(row);
+    });
+  }
+  function renderPublicBlocks() {
+    const ensure = (id, after) => {
+      let node = $(id);
+      if (!node) {
+        node = document.createElement('div');
+        node.id = id;
+        node.className = 'custom-area';
+        after.insertAdjacentElement('afterend', node);
+      }
+      return node;
+    };
+    const containers = {
+      afterHero: ensure('customAfterHero', $('home')),
+      afterServices: ensure('customAfterServices', $('services')),
+      afterGallery: ensure('customAfterGallery', $('gallery')),
+      beforeFooter: $('customBeforeFooter')
+    };
+    Object.values(containers).filter(Boolean).forEach(n => n.replaceChildren());
+    let footerBlocks = $('customFooterBlocks');
+    if (footerBlocks) footerBlocks.remove();
+
+    blocks.forEach(b => {
+      const p = document.createElement('p');
+      p.className = 'custom-block';
+      p.textContent = b.text;
+      if (b.location === 'footer') {
+        footerBlocks = $('customFooterBlocks');
+        if (!footerBlocks) {
+          footerBlocks = document.createElement('div');
+          footerBlocks.id = 'customFooterBlocks';
+          $('footerText').append(footerBlocks);
+        }
+        footerBlocks.append(p);
+      } else if (containers[b.location]) {
+        containers[b.location].append(p);
+      }
+    });
+  }
+  function readForm() { return Object.fromEntries(ids.map(id=>[id,$(id).value])); }
+  function fillForm(data) { ids.forEach(id=>{if(data[id]!==undefined)$(id).value=data[id]}); blocks=Array.isArray(data.blocks)?data.blocks:blocks; renderBlocks(); }
+  function applyForm() {
+    const v=readForm(), color=v.fColor || '#d6ad60';
+    document.documentElement.style.setProperty('--gold',color);
+    safeText($('siteLogo'),v.fLogo);
+    $('heroTitle').textContent='';
+    const parts=v.fHeroTitle.split('\n');
+    parts.forEach((part,i)=>{if(i)$('heroTitle').append(document.createElement('br'));const span=document.createElement('span');span.className='gold';span.textContent=part;$('heroTitle').append(span);});
+    safeText($('heroText'),v.fHeroText); safeText($('eyebrow'),v.fEyebrow);
+    safeText($('servicesIntro'),v.fServicesIntro); safeText($('galleryIntro'),v.fGalleryIntro);
+    safeText($('aboutText'),v.fAboutText); safeText($('contactTitle'),v.fContactTitle); safeText($('contactText'),v.fContactText);
+    $('footerText').textContent='© '+new Date().getFullYear()+' '+v.fLogo+' '+v.fFooterText;
+    $('home').style.backgroundImage=`linear-gradient(#0009,#000d),url("${v.fHeroImage.replace(/"/g,'')}")`;
+    $('heroButton').href='https://wa.me/'+wa(); $('contactButton').href='https://wa.me/'+wa()+'?text='+encodeURIComponent('היי, אשמח לפרטים על המספרה'); $('floatingWhatsApp').href='https://wa.me/'+wa();
+    [1,2,3].forEach(i=>{const el=$('servicesList').children[i-1];el.querySelector('h3').textContent=v['s'+i+'name'];el.querySelector('p').textContent=v['s'+i+'desc'];el.querySelector('.price').textContent=v['s'+i+'price'];});
+    [1,2,3].forEach(i=>{const img=$('galleryList').children[i-1];img.src=v['g'+i];});
+    renderPublicBlocks();
+  }
+  function currentState(){return {...readForm(),blocks};}
+  function saveLocal(){localStorage.setItem('barberAdminDraft',JSON.stringify(currentState()));status('הטיוטה נשמרה בדפדפן במכשיר הזה בלבד. כדי לעדכן את האתר לכולם, לחץ על „עדכן ופרסם”.');}
+  function exportHtml(){
+    applyForm();
+    // Keep the hidden manager code in the published file so it remains editable next time.
+    // The panel stays hidden until the title-tap + password sequence is completed.
+    document.querySelectorAll('#adminPanel input, #adminPanel textarea, #adminPanel select').forEach(el=>{
+      if (el.id === 'adminPassword') return;
+      if (el instanceof HTMLTextAreaElement) el.textContent = el.value;
+      else if (el instanceof HTMLInputElement) {
+        if (el.type !== 'file') el.setAttribute('value', el.value);
+      } else if (el instanceof HTMLSelectElement) {
+        Array.from(el.options).forEach(o=>{ if(o.selected)o.setAttribute('selected',''); else o.removeAttribute('selected'); });
+      }
+    });
+    const clone=document.documentElement.cloneNode(true);
+    clone.querySelector('#adminPanel').style.display='none';
+    const passwordInput=clone.querySelector('#adminPassword');
+    if(passwordInput) passwordInput.removeAttribute('value');
+    return '<!doctype html>\n'+clone.outerHTML;
+  }
+  // Hidden manager access: tap the logo or main headline 10 times, then enter 5215.
+  let titleTaps = 0, tapTimer = null;
+  function countManagerTap(event) {
+    if (event) event.preventDefault();
+    titleTaps++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { titleTaps = 0; }, 4000);
+    if (titleTaps >= 10) {
+      titleTaps = 0;
+      const code = prompt('הכנס סיסמת מנהל');
+      if (code === '5215') {
+        $('adminPanel').style.display = 'block';
+        $('adminPanel').scrollIntoView({behavior:'smooth'});
+        status('נפתחה גישת המנהל.');
+      } else if (code !== null) {
+        alert('סיסמה שגויה.');
+      }
+    }
+  }
+  $('siteLogo').addEventListener('click', countManagerTap);
+  $('heroTitle').addEventListener('click', countManagerTap);
+  // Let the user select local images; compress them before embedding in the site file.
+  async function imageToDataUrl(file) {
+    if (!file || !file.type.startsWith('image/')) throw new Error('יש לבחור קובץ תמונה.');
+    const dataUrl = await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});
+    const img = await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=dataUrl;});
+    const max = 1600, scale = Math.min(1,max/Math.max(img.width,img.height));
+    const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    return canvas.toDataURL('image/jpeg',0.82);
+  }
+  [['heroImageFile','fHeroImage'],['g1File','g1'],['g2File','g2'],['g3File','g3']].forEach(([fileId,inputId])=>{
+    $(fileId).addEventListener('change',async()=>{
+      const file=$(fileId).files?.[0]; if(!file)return;
+      try { $(inputId).value=await imageToDataUrl(file); applyForm(); status('התמונה נטענה. לחץ „עדכן ופרסם” כדי לפרסם אותה באתר.'); }
+      catch(e){status('לא הצלחתי לטעון את התמונה. נסה קובץ JPG או PNG אחר.');}
+    });
+  });
+  $('closeAdmin').addEventListener('click',()=>{$('adminPanel').style.display='none';});
+  $('previewBtn').addEventListener('click',()=>{applyForm();status('התצוגה עודכנה. השינויים עדיין לא פורסמו לכל המבקרים.');});
+  $('saveLocalBtn').addEventListener('click',saveLocal);
+  $('addBlock').addEventListener('click',()=>{const text=$('blockText').value.trim();if(!text){status('כתוב טקסט לפני ההוספה.');return;}blocks.push({text,location:$('blockLocation').value});$('blockText').value='';renderBlocks();renderPublicBlocks();status('הטקסט נוסף לתצוגה. לחץ „עדכן ופרסם” כדי לפרסם אותו.');});
+  $('downloadBtn').addEventListener('click',()=>{applyForm();const blob=new Blob([exportHtml()],{type:'text/html;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';a.click();URL.revokeObjectURL(a.href);status('קובץ index.html המעודכן הורד.');});
+  $('publishBtn').addEventListener('click',async()=>{
+    if(!confirm('לפרסם את השינויים לכל המבקרים באתר?'))return;
+    const password=$('adminPassword').value;
+    if(!password){status('הקלד את סיסמת המנהל שהוגדרה ב־Vercel.');return;}
+    applyForm();status('שולח את הקובץ ל־GitHub…');
+    try{
+      const response=await fetch('/api/publish',{method:'POST',headers:{'Content-Type':'application/json','x-admin-password':password},body:JSON.stringify({html:exportHtml()})});
+      const data=await response.json().catch(()=>({error:'התקבלה תשובה לא תקינה'}));
+      if(!response.ok)throw new Error(data.error||('שגיאת פרסום: '+response.status));
+      status('נשלח ל־GitHub בהצלחה. Vercel אמור להתחיל פריסה אוטומטית. בדוק את Deployments ב־Vercel כדי לוודא שהפריסה הסתיימה. Commit: '+(data.commit||'נוצר'));
+    }catch(err){status('הפרסום נכשל: '+err.message+'\nבדוק שהאתר נפתח דרך Vercel ושמשתני הסביבה הוגדרו לפי README.');}
+  });
+  try{const saved=JSON.parse(localStorage.getItem('barberAdminDraft')||'null');if(saved){fillForm(saved);applyForm();}}catch(e){}
+  renderBlocks();renderPublicBlocks();
+})();
+</script>
+</body>
+</html>
