@@ -1,0 +1,9 @@
+{
+  "name": "barber-booking-firebase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hebrew RTL barber booking website for Vercel, GitHub and Firebase",
+  "engines": {
+    "node": ">=20"
+  }
+}
