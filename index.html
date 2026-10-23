@@ -4,82 +4,275 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>המספרה של דני | קביעת תור</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&family=Secular+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700&family=Secular+One&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#d4af37;--red:#f0c75e;--blue:#b88924;--paper:#0b0b0b;--line:#393124;--mut:#c8b985;--base-size:17px;--content-width:640px;--logo-size:clamp(44px,13vw,68px);--rounding:14px}
+:root{
+  --ink:#f5f0e5;
+  --red:#d7b56d;
+  --blue:#a17b38;
+  --paper:#0b0b0b;
+  --line:#373027;
+  --mut:#b8ad9a;
+  --base-size:17px;
+  --content-width:760px;
+  --logo-size:68px;
+  --rounding:16px;
+}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--paper);color:var(--ink);font:var(--base-size)/1.6 Heebo,system-ui,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-.pole{height:12px;background:repeating-linear-gradient(135deg,#d4af37 0 14px,#111 14px 28px,#b88924 28px 42px,#111 42px 56px)}
-main{max-width:var(--content-width);margin:0 auto;padding:0 18px 48px}
-h1,h2{font-family:"Secular One",Heebo,sans-serif;font-weight:400;margin:0}
-h1{font-size:var(--logo-size);line-height:1.05;margin:36px 0 12px}
-h2{font-size:26px;margin:44px 0 14px}
-h3{font-size:15px;margin:16px 0 2px;color:var(--mut)}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at top,#282117 0%,#11100e 38%,#080808 78%);
+  color:var(--ink);
+  font:var(--base-size)/1.7 Heebo,Arial,sans-serif;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background:repeating-linear-gradient(135deg,transparent 0 40px,#c9a65b 41px,transparent 42px 80px);
+  z-index:-1;
+}
+.pole{
+  height:5px;
+  background:linear-gradient(90deg,#8b6728,#f2d995,#a67e32,#f8e5ad,#806025);
+  box-shadow:0 2px 20px #d5ad5540;
+}
+main{
+  max-width:var(--content-width);
+  margin:0 auto;
+  padding:0 22px 60px;
+}
+header{
+  position:relative;
+  text-align:center;
+  padding:90px 20px 65px;
+  margin:0 -22px 35px;
+  border-bottom:1px solid #9d7a3c;
+  background:
+    linear-gradient(180deg,#090909bb,#090909ee),
+    radial-gradient(ellipse at center,#4b391b,#11100e 65%);
+}
+header:after{
+  content:"✦";
+  display:block;
+  color:#d9b66d;
+  font-size:24px;
+  margin-top:22px;
+}
+h1,h2{
+  font-family:"Secular One",Heebo,sans-serif;
+  font-weight:400;
+  margin:0;
+}
+h1{
+  color:#e5c77f;
+  font-size:var(--logo-size);
+  line-height:1.2;
+  margin:0 0 20px;
+  text-shadow:0 4px 30px #d3a94c33;
+}
+h2{
+  font-size:29px;
+  color:#e4c477;
+  margin:44px 0 18px;
+}
+h3{
+  font-size:16px;
+  margin:18px 0 8px;
+  color:#dfc27e;
+}
+p{margin:12px 0}
 .mut{color:var(--mut)}
-.err{color:var(--red)}
-.btn{display:inline-block;border:0;border-radius:10px;background:var(--ink);color:#080808;font:600 17px Heebo,sans-serif;padding:14px 26px;cursor:pointer;text-decoration:none}
-.btn:hover{background:var(--red)}
-.btn:disabled{opacity:.4;cursor:not-allowed;background:var(--ink)}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.svc{display:flex;gap:10px;align-items:baseline;padding:8px 0}
-.dots{flex:1;border-bottom:2px dotted var(--line)}
-.box{background:#151515;border:1px solid var(--line);border-radius:var(--rounding);padding:20px;margin-top:44px}
-.box h2,dialog h2{margin:0 0 14px}
-.step{font-weight:600;margin:22px 0 10px;display:flex;gap:10px;align-items:center}
-.n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#080808;font-size:14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
-.chip{border:1.5px solid var(--line);background:#171717;border-radius:10px;padding:10px 14px;font:inherit;color:var(--ink);cursor:pointer}
-.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip:disabled{opacity:.35;cursor:not-allowed}
-.day{display:flex;flex-direction:column;align-items:center;min-width:64px;flex:none;line-height:1.35}
+.err{color:#ff8c80}
+.btn{
+  display:inline-block;
+  border:1px solid #f1d89a;
+  border-radius:10px;
+  background:linear-gradient(135deg,#f0d797,#b68a3d);
+  color:#17120a;
+  font:700 17px Heebo,sans-serif;
+  padding:14px 28px;
+  cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 8px 24px #0005;
+  transition:transform .2s,filter .2s;
+}
+.btn:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+:focus-visible{outline:3px solid #e6c879;outline-offset:3px}
+.svc{
+  display:flex;
+  gap:12px;
+  align-items:baseline;
+  padding:15px 5px;
+  border-bottom:1px solid #393024;
+}
+.svc b{color:#f2e5c5}
+.svc span:last-child{color:#e7c777;font-weight:700}
+.dots{flex:1;border-bottom:1px dotted #75603c}
+.box{
+  background:linear-gradient(145deg,#191713,#10100f);
+  border:1px solid #6c542d;
+  border-radius:var(--rounding);
+  padding:25px;
+  margin-top:45px;
+  box-shadow:0 15px 45px #0006;
+}
+.box h2{margin:0 0 22px}
+.step{
+  font-weight:700;
+  margin:25px 0 12px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.n{
+  display:inline-grid;
+  place-items:center;
+  width:29px;
+  height:29px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#f0d797,#a77a31);
+  color:#17120a;
+  font-size:14px;
+}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
+.chip{
+  border:1px solid #625033;
+  background:#171613;
+  border-radius:10px;
+  padding:10px 14px;
+  font:inherit;
+  color:#f5eddb;
+  cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.chip:hover{border-color:#e4c477}
+.chip[aria-pressed=true]{
+  background:linear-gradient(135deg,#e6ca85,#a77a31);
+  color:#17120a;
+  border-color:#f1d797;
+}
+.chip:disabled{opacity:.3;cursor:not-allowed}
+.day{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:68px;
+  flex:none;
+  line-height:1.5;
+}
 .day small{font-size:13px;opacity:.8}
-input{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px}
+input,select{
+  width:100%;
+  font:inherit;
+  color:#f5eddb;
+  background:#11100e;
+  padding:13px 14px;
+  border:1px solid #59472a;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+input::placeholder{color:#938875}
+select option{background:#11100e;color:#f5eddb}
+label{display:block;margin:12px 0}
+input[type=color]{height:48px;padding:4px}
 .msg{margin-top:12px;font-weight:600;min-height:1.6em}
-footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--mut);font-size:15px}
-.link{background:none;border:0;color:var(--mut);text-decoration:underline;font:inherit;cursor:pointer;padding:6px 0;margin-top:10px}
-dialog{border:0;border-radius:16px;padding:20px;width:min(92vw,520px);max-height:85vh;color:var(--ink);font:inherit}
-dialog::backdrop{background:#000000dd}
-.ap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+footer{
+  margin-top:50px;
+  padding-top:25px;
+  border-top:1px solid #5b4729;
+  color:var(--mut);
+  font-size:15px;
+}
+.link{
+  background:none;
+  border:0;
+  color:#d8b96f;
+  text-decoration:underline;
+  font:inherit;
+  cursor:pointer;
+  padding:6px 0;
+  margin-top:10px;
+}
+dialog{
+  border:1px solid #94713a;
+  border-radius:18px;
+  padding:24px;
+  width:min(94vw,560px);
+  max-height:88vh;
+  overflow:auto;
+  color:var(--ink);
+  background:#12110f;
+  font:inherit;
+  box-shadow:0 25px 80px #000b;
+}
+dialog::backdrop{background:#000c;backdrop-filter:blur(5px)}
+dialog h2{margin:0 0 18px}
+.ap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:13px 0;
+  border-bottom:1px solid #383024;
+}
+.ap b{color:#e7c777}
+@media(max-width:520px){
+  main{padding-left:15px;padding-right:15px}
+  header{margin-left:-15px;margin-right:-15px;padding:65px 15px 45px}
+  h1{font-size:clamp(40px,12vw,58px)}
+  h2{font-size:25px}
+  .box{padding:18px}
+  .btn{width:100%;text-align:center}
+}
 </style>
 </head>
 <body>
 <div class="pole"></div>
 <main>
-  <header>
-    <h1 id="brandLogo">המספרה של דני</h1>
-    <p class="mut">תספורת וגילוח בהזמנה מראש. בוחרים שעה, ומקבלים תור. בלי טלפונים ובלי המתנה.</p>
-    <a class="btn" href="#book">קבעו תור</a>
-  </header>
+<header>
+  <h1 id="brandLogo">המספרה של דני</h1>
+  <p class="mut">דיוק. סטייל. מקצועיות.</p>
+  <p>חוויית תספורת מוקפדת באווירה יוקרתית.</p>
+  <a class="btn" href="#book">קבעו תור עכשיו</a>
+</header>
 
-  <h2>מחירון</h2>
-  <div id="prices"></div>
+<h2>התפריט שלנו</h2>
+<div id="prices"></div>
 
-  <section class="box" id="book">
-    <h2>קביעת תור</h2>
-    <div class="step"><span class="n">1</span>איזה שירות?</div>
-    <div class="chips" id="svcs"></div>
-    <div class="step"><span class="n">2</span>איזה יום?</div>
-    <div class="chips days" id="days"></div>
-    <div class="step"><span class="n">3</span>באיזו שעה?</div>
-    <div class="chips" id="times"><span class="mut">בחרו שירות ויום כדי לראות שעות פנויות</span></div>
-    <div class="step"><span class="n">4</span>הפרטים שלכם</div>
-    <input id="nm" placeholder="שם מלא" autocomplete="name" oninput="ready()">
-    <input id="ph" type="tel" inputmode="tel" placeholder="טלפון" autocomplete="tel" oninput="ready()">
-    <button class="btn" id="go" disabled>קבעו את התור</button>
-    <div class="msg" id="msg" role="status"></div>
-  </section>
+<section class="box" id="book">
+  <h2>קביעת תור</h2>
+  <p class="mut">בחרו שירות, יום ושעה שמתאימים לכם.</p>
+  <div class="step"><span class="n">1</span>בחירת שירות</div>
+  <div class="chips" id="svcs"></div>
+  <div class="step"><span class="n">2</span>בחירת יום</div>
+  <div class="chips days" id="days"></div>
+  <div class="step"><span class="n">3</span>בחירת שעה</div>
+  <div class="chips" id="times"><span class="mut">בחרו שירות ויום כדי לראות שעות פנויות</span></div>
+  <div class="step"><span class="n">4</span>הפרטים שלכם</div>
+  <input id="nm" placeholder="שם מלא" autocomplete="name" oninput="ready()">
+  <input id="ph" type="tel" inputmode="tel" placeholder="מספר טלפון" autocomplete="tel" oninput="ready()">
+  <button class="btn" id="go" disabled>אישור קביעת התור</button>
+  <div class="msg" id="msg" role="status"></div>
+</section>
 
-  <footer>
-    <div id="info"></div>
-    <button class="link" id="adm" hidden>כניסת מנהל</button>
-  </footer>
+<footer>
+  <div id="info"></div>
+  <button class="link" id="adm" hidden>כניסת מנהל</button>
+</footer>
 </main>
 
 <dialog id="dlg">
   <div id="login">
-    <h2>כניסת מנהל</h2>
+    <h2>כניסה למערכת</h2>
     <form id="lf">
       <input id="pw" type="password" placeholder="סיסמה" autocomplete="current-password" required>
       <button class="btn">כניסה</button>
@@ -88,26 +281,47 @@ dialog::backdrop{background:#000000dd}
   </div>
   <div id="panel" hidden>
     <h2>ניהול האתר</h2>
-    <p class="mut">השינויים נשמרים בשרת ומשפיעים על כל המבקרים באתר.</p>
+    <p class="mut">שינויים בפרטי העסק ובעיצוב נשמרים בהגדרות האתר.</p>
     <form id="settingsForm">
       <h3>פרטי העסק</h3>
       <input id="setName" placeholder="שם המספרה" required>
       <input id="setPhone" placeholder="טלפון" required>
       <input id="setAddr" placeholder="כתובת">
       <input id="setHours" placeholder="שעות פעילות">
-      <h3>צבעים</h3>
-      <label>צבע טקסט וכפתורים <input id="setInk" type="color" value="#d4af37"></label>
-      <label>צבע הדגשה <input id="setRed" type="color" value="#f0c75e"></label>
-      <label>צבע נוסף <input id="setBlue" type="color" value="#b88924"></label>
-      <label>צבע רקע <input id="setPaper" type="color" value="#0b0b0b"></label>
-      <h3>גודל ומראה</h3>
-      <label>גודל טקסט כללי <select id="setSize"><option value="15">קטן</option><option value="17">רגיל</option><option value="19">גדול</option><option value="21">גדול מאוד</option></select></label>
-      <label>רוחב האתר <select id="setWidth"><option value="520">צר</option><option value="640">רגיל</option><option value="800">רחב</option><option value="1000">רחב מאוד</option></select></label>
-      <label>גודל הלוגו <select id="setLogo"><option value="40">קטן</option><option value="52">רגיל</option><option value="68">גדול</option><option value="82">גדול מאוד</option></select></label>
-      <label>עיגול פינות <select id="setRound"><option value="6">מרובע</option><option value="14">רגיל</option><option value="24">מעוגל</option></select></label>
-      <button class="btn" type="submit">שמירת הגדרות עכשיו</button>
-      <button class="chip" id="downloadHtml" type="button" style="margin-top:10px;width:100%">הורדת קובץ HTML מעודכן ל-GitHub</button>
-      <p class="mut">הגדרות נשמרות אוטומטית אחרי שינוי שדה. הקובץ שיורד יכלול גם את פרטי העסק והעיצוב הנוכחיים.</p>
+      <h3>צבעי האתר</h3>
+      <label>צבע ראשי<input id="setInk" type="color" value="#f5f0e5"></label>
+      <label>צבע זהב<input id="setRed" type="color" value="#d7b56d"></label>
+      <label>זהב כהה<input id="setBlue" type="color" value="#a17b38"></label>
+      <label>צבע רקע<input id="setPaper" type="color" value="#0b0b0b"></label>
+      <h3>גודל הטקסט</h3>
+      <select id="setSize">
+        <option value="15">קטן</option>
+        <option value="17" selected>רגיל</option>
+        <option value="19">גדול</option>
+        <option value="21">גדול מאוד</option>
+      </select>
+      <h3>רוחב האתר</h3>
+      <select id="setWidth">
+        <option value="520">צר</option>
+        <option value="640">רגיל</option>
+        <option value="800">רחב</option>
+        <option value="1000">רחב מאוד</option>
+      </select>
+      <h3>גודל הכותרת</h3>
+      <select id="setLogo">
+        <option value="40">קטן</option>
+        <option value="52">רגיל</option>
+        <option value="68" selected>גדול</option>
+        <option value="82">גדול מאוד</option>
+      </select>
+      <h3>עיגול פינות</h3>
+      <select id="setRound">
+        <option value="6">מרובע</option>
+        <option value="14" selected>רגיל</option>
+        <option value="24">מעוגל</option>
+      </select>
+      <button class="btn" type="submit">שמירת הגדרות</button>
+      <button class="chip" id="downloadHtml" type="button" style="margin-top:12px;width:100%">הורדת קובץ HTML מעודכן</button>
       <div class="msg" id="setMsg" role="status"></div>
     </form>
     <h2>התורים הקרובים</h2>
@@ -118,182 +332,433 @@ dialog::backdrop{background:#000000dd}
 </dialog>
 
 <script>
-/* ===== הגדרות: ערכו כאן ===== */
-const API = "PASTE_APPS_SCRIPT_URL_HERE";
-const DEFAULT_BIZ = {name:"המספרה של דני", phone:"050-0000000", addr:"רחוב הרצל 1, תל אביב", hours:"ראשון עד שישי, 9:00–19:00"};
-const DEFAULT_DESIGN = {ink:"#14223a",red:"#c8372d",blue:"#2b5aa8",paper:"#f3f5f8",size:17,width:640,logo:68,round:14};
-let BIZ = {...DEFAULT_BIZ};
-let DESIGN = {...DEFAULT_DESIGN};
-let adminPass = "";
+const API = "https://script.google.com/macros/s/AKfycbzO_bXEm37XRQ-mBkIYLquYOk3DWZ9SMwiYlkfyk1Ywb5azu_8t0SxF_yO1UY6kUDuibA/exec";
 
-const $ = s => document.querySelector(s), pad = n => String(n).padStart(2,"0");
-const el = (t,c,x) => {const e = document.createElement(t); if(c) e.className = c; if(x != null) e.textContent = x; return e};
-const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
-const fmt = s => new Date(s+"T12:00").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
-const post = b => fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(r => r.json());
-const get = q => fetch(API+"?"+new URLSearchParams(q)).then(r => r.json());
-const say = (s,t,bad) => {const m = $(s); m.textContent = t; m.className = "msg"+(bad ? " err" : "")};
-const mark = (p,b) => p.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
-let cfg, S = {svc:null,date:null,time:null};
+const DEFAULT_BIZ = {
+  name:"המספרה של דני",
+  phone:"050-0000000",
+  addr:"הכניסו כאן את כתובת העסק",
+  hours:"ראשון עד שישי, 9:00–19:00"
+};
+
+const DEFAULT_DESIGN = {
+  ink:"#f5f0e5",
+  red:"#d7b56d",
+  blue:"#a17b38",
+  paper:"#0b0b0b",
+  size:17,
+  width:760,
+  logo:68,
+  round:16
+};
+
+let BIZ={...DEFAULT_BIZ};
+let DESIGN={...DEFAULT_DESIGN};
+let adminPass="";
+let cfg;
+let S={svc:null,date:null,time:null};
+
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,"0");
+const el=(t,c,x)=>{
+  const e=document.createElement(t);
+  if(c)e.className=c;
+  if(x!=null)e.textContent=x;
+  return e;
+};
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const fmt=s=>new Date(s+"T12:00").toLocaleDateString("he-IL",{
+  weekday:"long",day:"numeric",month:"long"
+});
+const post=b=>fetch(API,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify(b)
+}).then(r=>r.json());
+const get=q=>fetch(API+"?"+new URLSearchParams(q)).then(r=>r.json());
+const say=(s,t,bad)=>{
+  const m=$(s);
+  m.textContent=t;
+  m.className="msg"+(bad?" err":"");
+};
+const mark=(p,b)=>p.querySelectorAll("button").forEach(x=>{
+  x.setAttribute("aria-pressed",x===b);
+});
 
 function ready(){
-  $("#go").disabled = !(S.svc != null && S.date && S.time && $("#nm").value.trim().length > 1 && /^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,"")));
+  $("#go").disabled=!(
+    S.svc!==null &&
+    S.date &&
+    S.time &&
+    $("#nm").value.trim().length>1 &&
+    /^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,""))
+  );
 }
 
 function applySettings(settings){
-  if(settings && settings.biz) BIZ = {...DEFAULT_BIZ,...settings.biz};
-  if(settings && settings.design) DESIGN = {...DESIGN,...settings.design};
+  if(settings&&settings.biz)BIZ={...DEFAULT_BIZ,...settings.biz};
+  if(settings&&settings.design)DESIGN={...DESIGN,...settings.design};
+
   const root=document.documentElement.style;
-  root.setProperty("--ink",DESIGN.ink); root.setProperty("--red",DESIGN.red); root.setProperty("--blue",DESIGN.blue); root.setProperty("--paper",DESIGN.paper);
-  root.setProperty("--base-size",Number(DESIGN.size||17)+"px"); root.setProperty("--content-width",Number(DESIGN.width||640)+"px");
-  root.setProperty("--logo-size","clamp(40px, 13vw, "+Number(DESIGN.logo||68)+"px)"); root.setProperty("--rounding",Number(DESIGN.round||14)+"px");
-  document.title = BIZ.name+" | קביעת תור"; $("h1").textContent=BIZ.name;
-  $("#info").replaceChildren(el("div",0,BIZ.addr),el("div",0,BIZ.hours));
-  const tel=el("a",0,BIZ.phone); tel.href="tel:"+BIZ.phone.replace(/\D/g,""); $("#info").append(tel);
+  root.setProperty("--ink",DESIGN.ink);
+  root.setProperty("--red",DESIGN.red);
+  root.setProperty("--blue",DESIGN.blue);
+  root.setProperty("--paper",DESIGN.paper);
+  root.setProperty("--base-size",Number(DESIGN.size||17)+"px");
+  root.setProperty("--content-width",Number(DESIGN.width||760)+"px");
+  root.setProperty("--logo-size","clamp(40px,13vw,"+Number(DESIGN.logo||68)+"px)");
+  root.setProperty("--rounding",Number(DESIGN.round||16)+"px");
+
+  document.title=BIZ.name+" | קביעת תור";
+  $("#brandLogo").textContent=BIZ.name;
+
+  $("#info").replaceChildren(
+    el("div","",BIZ.addr),
+    el("div","",BIZ.hours)
+  );
+
+  const tel=el("a","",BIZ.phone);
+  tel.href="tel:"+BIZ.phone.replace(/\D/g,"");
+  tel.style.color="#e4c477";
+  $("#info").append(tel);
 }
+
 async function init(){
-  try{ const publicSettings=await get({action:"settings"}); applySettings(publicSettings); }catch(e){applySettings(null)}
-  try{ cfg = await get({action:"config"}); }
-  catch(e){ return say("#msg","אין חיבור למערכת התורים. נסו שוב או התקשרו: "+BIZ.phone, 1); }
-  const C = $("#svcs"), D = $("#days"), f = new Intl.DateTimeFormat("he-IL",{weekday:"short"});
-  cfg.services.forEach(([n,m,p],i) => {
-    const r = el("div","svc"); r.append(el("b",0,n), el("span","dots"), el("span",0,"₪"+p)); $("#prices").append(r);
-    const b = el("button","chip",n+" · "+m+" דק׳"); b.type = "button"; b.setAttribute("aria-pressed","false");
-    b.onclick = () => {S.svc = i; S.time = null; mark(C,b); slots()}; C.append(b);
+  try{
+    applySettings(await get({action:"settings"}));
+  }catch(e){
+    applySettings(null);
+  }
+
+  try{
+    cfg=await get({action:"config"});
+  }catch(e){
+    return say("#msg","אין חיבור למערכת התורים. בדקו את הגדרות השרת.",true);
+  }
+
+  const C=$("#svcs");
+  const D=$("#days");
+  const f=new Intl.DateTimeFormat("he-IL",{weekday:"short"});
+
+  cfg.services.forEach(([n,m,p],i)=>{
+    const r=el("div","svc");
+    r.append(el("b","",n),el("span","dots"),el("span","","₪"+p));
+    $("#prices").append(r);
+
+    const b=el("button","chip",n+" · "+m+" דקות");
+    b.type="button";
+    b.setAttribute("aria-pressed","false");
+    b.onclick=()=>{
+      S.svc=i;
+      S.time=null;
+      mark(C,b);
+      slots();
+    };
+    C.append(b);
   });
-  for(let i = 0; i < 14; i++){
-    const d = new Date(); d.setDate(d.getDate()+i);
-    const b = el("button","chip day"); b.type = "button"; b.setAttribute("aria-pressed","false");
-    b.append(el("small",0,i ? f.format(d) : "היום"), el("b",0,d.getDate()+"/"+(d.getMonth()+1)));
-    b.disabled = cfg.closed.includes(d.getDay());
-    b.onclick = () => {S.date = iso(d); S.time = null; mark(D,b); slots()}; D.append(b);
+
+  for(let i=0;i<14;i++){
+    const d=new Date();
+    d.setDate(d.getDate()+i);
+    const b=el("button","chip day");
+    b.type="button";
+    b.setAttribute("aria-pressed","false");
+    b.append(
+      el("small","",i?"":"היום"),
+      el("b","",d.getDate()+"/"+(d.getMonth()+1))
+    );
+    if(i)b.firstChild.textContent=f.format(d);
+    b.disabled=cfg.closed.includes(d.getDay());
+    b.onclick=()=>{
+      S.date=iso(d);
+      S.time=null;
+      mark(D,b);
+      slots();
+    };
+    D.append(b);
   }
 }
 
 async function slots(){
-  const T = $("#times"); T.replaceChildren(); ready();
-  if(S.svc == null || !S.date) return T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+  const T=$("#times");
+  T.replaceChildren();
+  ready();
+
+  if(S.svc===null||!S.date){
+    T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+    return;
+  }
+
   T.append(el("span","mut","טוען שעות..."));
+
   try{
-    const r = await get({action:"slots",date:S.date,svc:S.svc});
+    const r=await get({action:"slots",date:S.date,svc:S.svc});
     T.replaceChildren();
-    if(!r.slots.length) return T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
-    r.slots.forEach(t => {
-      const b = el("button","chip",t); b.type = "button"; b.setAttribute("aria-pressed","false");
-      b.onclick = () => {S.time = t; mark(T,b); ready()}; T.append(b);
+
+    if(!r.slots||!r.slots.length){
+      T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
+      return;
+    }
+
+    r.slots.forEach(t=>{
+      const b=el("button","chip",t);
+      b.type="button";
+      b.setAttribute("aria-pressed","false");
+      b.onclick=()=>{
+        S.time=t;
+        mark(T,b);
+        ready();
+      };
+      T.append(b);
     });
-  }catch(e){ T.replaceChildren(el("span","err","שגיאה בטעינת השעות. נסו שוב.")); }
+  }catch(e){
+    T.replaceChildren(el("span","err","שגיאה בטעינת השעות. נסו שוב."));
+  }
 }
 
-$("#go").onclick = async () => {
-  $("#go").disabled = true; say("#msg","קובעים את התור...");
+$("#go").onclick=async()=>{
+  $("#go").disabled=true;
+  say("#msg","קובעים את התור...");
+
   try{
-    const r = await post({action:"book",svc:S.svc,date:S.date,time:S.time,name:$("#nm").value.trim(),phone:$("#ph").value.trim()});
+    const r=await post({
+      action:"book",
+      svc:S.svc,
+      date:S.date,
+      time:S.time,
+      name:$("#nm").value.trim(),
+      phone:$("#ph").value.trim()
+    });
+
     if(r.ok){
-      $("#book").replaceChildren(el("h2",0,"התור נקבע"), el("p",0,cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),
-        el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone));
-    } else { say("#msg", r.error || "לא הצלחנו לקבוע את התור", 1); S.time = null; slots(); }
-  }catch(e){ say("#msg","שגיאת תקשורת. נסו שוב.",1); ready(); }
+      $("#book").replaceChildren(
+        el("h2","","התור נקבע בהצלחה"),
+        el("p","",cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),
+        el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone)
+      );
+    }else{
+      say("#msg",r.error||"לא הצלחנו לקבוע את התור",true);
+      S.time=null;
+      slots();
+    }
+  }catch(e){
+    say("#msg","שגיאת תקשורת. נסו שוב.",true);
+    ready();
+  }
 };
 
-/* ===== מנהל ===== */
-const dlg = $("#dlg");
-const show = on => {$("#login").hidden = on; $("#panel").hidden = !on};
-let logoClicks=0, logoTimer=null;
+const dlg=$("#dlg");
+const show=on=>{
+  $("#login").hidden=on;
+  $("#panel").hidden=!on;
+};
+
+let logoClicks=0;
+let logoTimer=null;
 $("#brandLogo").style.cursor="pointer";
-$("#brandLogo").addEventListener("click",()=>{logoClicks++; clearTimeout(logoTimer); logoTimer=setTimeout(()=>logoClicks=0,2200); if(logoClicks>=10){logoClicks=0; dlg.showModal(); show(false); $("#pw").focus();}});
-$("#adm").onclick = () => {dlg.showModal(); show(false)};
-$("#close").onclick = () => dlg.close();
-$("#out").onclick = () => {adminPass=""; $("#pw").value = ""; show(false)};
-$("#lf").onsubmit = e => {e.preventDefault(); load($("#pw").value)};
-$("#settingsForm").onsubmit = async e => {
-  e.preventDefault(); const b=$("#setMsg"); b.textContent="שומר הגדרות...";
-  const settings={biz:{name:$("#setName").value.trim(),phone:$("#setPhone").value.trim(),addr:$("#setAddr").value.trim(),hours:$("#setHours").value.trim()},design:{ink:$("#setInk").value,red:$("#setRed").value,blue:$("#setBlue").value,paper:$("#setPaper").value,size:+$("#setSize").value,width:+$("#setWidth").value,logo:+$("#setLogo").value,round:+$("#setRound").value}};
-  try{const r=await post({action:"saveSettings",pass:adminPass,settings}); if(!r.ok){b.textContent=r.error||"שמירה נכשלה";return;} applySettings(settings); b.textContent="ההגדרות נשמרו לכל המבקרים באתר.";}catch(err){b.textContent="שגיאת תקשורת בשמירה.";}
+$("#brandLogo").addEventListener("click",()=>{
+  logoClicks++;
+  clearTimeout(logoTimer);
+  logoTimer=setTimeout(()=>logoClicks=0,2200);
+  if(logoClicks>=10){
+    logoClicks=0;
+    dlg.showModal();
+    show(false);
+    $("#pw").focus();
+  }
+});
+
+$("#close").onclick=()=>dlg.close();
+$("#out").onclick=()=>{
+  adminPass="";
+  $("#pw").value="";
+  show(false);
+};
+
+$("#lf").onsubmit=e=>{
+  e.preventDefault();
+  load($("#pw").value);
+};
+
+$("#settingsForm").onsubmit=async e=>{
+  e.preventDefault();
+  const msg=$("#setMsg");
+  msg.textContent="שומר הגדרות...";
+
+  const settings={
+    biz:{
+      name:$("#setName").value.trim(),
+      phone:$("#setPhone").value.trim(),
+      addr:$("#setAddr").value.trim(),
+      hours:$("#setHours").value.trim()
+    },
+    design:{
+      ink:$("#setInk").value,
+      red:$("#setRed").value,
+      blue:$("#setBlue").value,
+      paper:$("#setPaper").value,
+      size:+$("#setSize").value,
+      width:+$("#setWidth").value,
+      logo:+$("#setLogo").value,
+      round:+$("#setRound").value
+    }
+  };
+
+  try{
+    const r=await post({action:"saveSettings",pass:adminPass,settings});
+    if(!r.ok){
+      msg.textContent=r.error||"שמירה נכשלה";
+      return;
+    }
+    applySettings(settings);
+    msg.textContent="ההגדרות נשמרו.";
+  }catch(e){
+    msg.textContent="שגיאת תקשורת בשמירה.";
+  }
 };
 
 async function load(pass){
   say("#lmsg","בודקים...");
+
   try{
-    const r = await post({action:"list",pass});
-    if(!r.ok){ adminPass=""; show(false); return say("#lmsg", r.error || "סיסמה שגויה", 1); }
+    const r=await post({action:"list",pass});
+    if(!r.ok){
+      adminPass="";
+      show(false);
+      return say("#lmsg",r.error||"סיסמה שגויה",true);
+    }
+
     adminPass=pass;
-    say("#lmsg","");
     show(true);
-    const isBarber = r.role === "barber";
-    $("#settingsForm").hidden = isBarber;
-    $("#downloadHtml").hidden = isBarber;
-    $("#panel").querySelector("h2").textContent = isBarber ? "תורים קרובים — תצוגת ספר" : "ניהול האתר";
-    draw(r.items || [], pass, isBarber);
-    if(!isBarber) fillSettings();
-  }catch(e){ say("#lmsg","שגיאת תקשורת. בדקו את כתובת השרת.",1); }
+    $("#settingsForm").hidden=false;
+    $("#downloadHtml").hidden=false;
+    $("#panel").querySelector("h2").textContent="ניהול האתר";
+    draw(r.items||[],pass);
+    fillSettings();
+  }catch(e){
+    say("#lmsg","שגיאת תקשורת. בדקו את כתובת השרת.",true);
+  }
 }
-
-// שמירה אוטומטית לאחר שינוי שדה, בנוסף לכפתור השמירה הידני.
-let autoSaveTimer = null;
-$("#settingsForm").addEventListener("change", () => {
-  if (!adminPass) return;
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer = setTimeout(() => $("#settingsForm").requestSubmit(), 700);
-});
-
-// מייצא HTML חדש עם פרטי העסק והעיצוב הנוכחיים, כדי להעלות אותו ל-GitHub.
-$("#downloadHtml").onclick = async () => {
-  const b = $("#downloadHtml"), msg = $("#setMsg");
-  const old = b.textContent; b.disabled = true; b.textContent = "מכין קובץ...";
-  try {
-    if (!/^https?:$/.test(location.protocol)) throw new Error("יש לפתוח את האתר מהכתובת הציבורית שלו, לא מקובץ מקומי.");
-    const response = await fetch(location.href.split("#")[0], {cache:"no-store"});
-    if (!response.ok) throw new Error("לא הצלחתי לקרוא את קובץ האתר מהשרת.");
-    let source = await response.text();
-    const apiMatch = source.match(/const API = (["'])(.*?)\1;/);
-    if (!apiMatch || !apiMatch[2] || apiMatch[2] === "PASTE_APPS_SCRIPT_URL_HERE") throw new Error("צריך להגדיר קודם את כתובת ה-Web App של Google Apps Script בקובץ האתר.");
-    const bizLiteral = JSON.stringify(BIZ);
-    const designLiteral = JSON.stringify(DESIGN);
-    source = source.replace(/const DEFAULT_BIZ = \{[^\n]*\};/, "const DEFAULT_BIZ = " + bizLiteral + ";");
-    source = source.replace(/const DEFAULT_DESIGN = \{[^\n]*\};/, "const DEFAULT_DESIGN = " + designLiteral + ";");
-    if (!source.includes("const DEFAULT_BIZ = " + bizLiteral + ";") || !source.includes("const DEFAULT_DESIGN = " + designLiteral + ";")) throw new Error("לא הצלחתי להטמיע את ההגדרות בקובץ. עדכן את קובץ האתר לגרסה האחרונה.");
-    const blob = new Blob([source], {type:"text/html;charset=utf-8"});
-    const url = URL.createObjectURL(blob), a = document.createElement("a");
-    a.href = url; a.download = "index.html"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    msg.textContent = "הקובץ המעודכן ירד. אפשר להעלות את index.html ל-GitHub.";
-  } catch (err) { msg.textContent = err.message || "הורדת הקובץ נכשלה."; }
-  finally { b.disabled = false; b.textContent = old; }
-};
 
 function fillSettings(){
-  $("#setName").value=BIZ.name; $("#setPhone").value=BIZ.phone; $("#setAddr").value=BIZ.addr; $("#setHours").value=BIZ.hours;
-  $("#setInk").value=DESIGN.ink; $("#setRed").value=DESIGN.red; $("#setBlue").value=DESIGN.blue; $("#setPaper").value=DESIGN.paper;
-  $("#setSize").value=String(DESIGN.size); $("#setWidth").value=String(DESIGN.width); $("#setLogo").value=String(DESIGN.logo); $("#setRound").value=String(DESIGN.round);
+  $("#setName").value=BIZ.name;
+  $("#setPhone").value=BIZ.phone;
+  $("#setAddr").value=BIZ.addr;
+  $("#setHours").value=BIZ.hours;
+  $("#setInk").value=DESIGN.ink;
+  $("#setRed").value=DESIGN.red;
+  $("#setBlue").value=DESIGN.blue;
+  $("#setPaper").value=DESIGN.paper;
+  $("#setSize").value=String(DESIGN.size);
+  $("#setWidth").value=String(DESIGN.width);
+  $("#setLogo").value=String(DESIGN.logo);
+  $("#setRound").value=String(DESIGN.round);
 }
-function draw(items,pass,isBarber=false){
-  const P = $("#list"); P.replaceChildren();
-  if(!items.length) return P.append(el("p","mut","אין תורים קרובים."));
-  let last = "";
-  items.forEach(it => {
-    const [d,t] = it.start.split("T");
-    if(d !== last){ P.append(el("h3",0,fmt(d))); last = d; }
-    const row = el("div","ap"), info = el("div");
-    info.append(el("b",0,t+"  "+it.title), el("div","mut",it.desc || ""));
-    row.append(info);
-    if(!isBarber){
-      const x = el("button","chip","ביטול"); x.type = "button";
-      x.onclick = async () => {
-        if(!confirm("לבטל את התור?")) return;
-        x.disabled = true;
-        try{
-          const q = await post({action:"cancel",pass,id:it.id});
-          if(q.ok) await load(pass);
-          else { alert(q.error || "ביטול התור נכשל"); x.disabled = false; }
-        }catch(e){ alert("שגיאת תקשורת"); x.disabled = false; }
-      };
-      row.append(x);
+
+let autoSaveTimer=null;
+$("#settingsForm").addEventListener("change",()=>{
+  if(!adminPass)return;
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer=setTimeout(()=>$("#settingsForm").requestSubmit(),700);
+});
+
+$("#downloadHtml").onclick=async()=>{
+  const b=$("#downloadHtml");
+  const msg=$("#setMsg");
+  const old=b.textContent;
+  b.disabled=true;
+  b.textContent="מכין קובץ...";
+
+  try{
+    if(!/^https?:$/.test(location.protocol)){
+      throw new Error("פתחו את האתר מהכתובת הציבורית שלו.");
     }
+
+    const response=await fetch(location.href.split("#")[0],{cache:"no-store"});
+    if(!response.ok)throw new Error("לא הצלחתי לקרוא את קובץ האתר מהשרת.");
+
+    let source=await response.text();
+    const bizLiteral=JSON.stringify(BIZ);
+    const designLiteral=JSON.stringify(DESIGN);
+
+    source=source.replace(
+      /const DEFAULT_BIZ = \{[\s\S]*?\};/,
+      "const DEFAULT_BIZ = "+bizLiteral+";"
+    );
+    source=source.replace(
+      /const DEFAULT_DESIGN = \{[\s\S]*?\};/,
+      "const DEFAULT_DESIGN = "+designLiteral+";"
+    );
+
+    const blob=new Blob([source],{type:"text/html;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="index.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    msg.textContent="הקובץ המעודכן ירד.";
+  }catch(e){
+    msg.textContent=e.message||"הורדת הקובץ נכשלה.";
+  }finally{
+    b.disabled=false;
+    b.textContent=old;
+  }
+};
+
+function draw(items,pass){
+  const P=$("#list");
+  P.replaceChildren();
+
+  if(!items.length){
+    P.append(el("p","mut","אין תורים קרובים."));
+    return;
+  }
+
+  let last="";
+  items.forEach(it=>{
+    const parts=it.start.split("T");
+    const d=parts[0],t=parts[1];
+
+    if(d!==last){
+      P.append(el("h3","",fmt(d)));
+      last=d;
+    }
+
+    const row=el("div","ap");
+    const info=el("div","");
+    info.append(
+      el("b","",t+"  "+it.title),
+      el("div","mut",it.desc||"")
+    );
+
+    const x=el("button","chip","ביטול");
+    x.type="button";
+    x.onclick=async()=>{
+      if(!confirm("לבטל את התור?"))return;
+      x.disabled=true;
+
+      try{
+        const q=await post({action:"cancel",pass,id:it.id});
+        if(q.ok)await load(pass);
+        else{
+          alert(q.error||"ביטול התור נכשל");
+          x.disabled=false;
+        }
+      }catch(e){
+        alert("שגיאת תקשורת");
+        x.disabled=false;
+      }
+    };
+
+    row.append(info,x);
     P.append(row);
   });
 }
 
 init();
 </script>
-<input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-30&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_000000005388820abd457df17d14c994%26fn%3Dindex%252820261023-132204%2529.html%26cd%3Dattachment%26ts%3D497989%26p%3Dfs%26cid%3D1%26sig%3D533f9196ff7e57bcfc9ef2f3d9757aeeba85ef9c7dd35975db41929e34343e12%26v%3D0&user_id=12435&sigid=fcfb40b3ab07187c64c448c8d2e2b42beb0b30a8f76f1f9bf22423ffd28914f7&startm=200711&keyword=&referer=https%3A%2F%2Fchatgpt.com%2F&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-30'/><input type='hidden' name='ntsp_user_level' value='-30'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body>
+</body>
 </html>
