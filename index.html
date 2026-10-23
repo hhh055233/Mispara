@@ -1,557 +1,696 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>המספרה של דני</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>המספרה של דני | קביעת תור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&family=Secular+One&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#14223a;--red:#c8372d;--blue:#2b5aa8;--paper:#f3f5f8;--line:#d5dbe4;--mut:#56647a;--round:14px;--width:760px}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 Heebo,Arial,sans-serif}
-[hidden]{display:none!important}.stripe{height:10px;background:repeating-linear-gradient(135deg,var(--red) 0 14px,#fff 14px 28px,var(--blue) 28px 42px,#fff 42px 56px)}
-main{max-width:var(--width);margin:auto;padding:20px 16px 50px}h1{font-size:clamp(36px,9vw,68px);line-height:1.1;margin:32px 0 12px}h2{margin:28px 0 12px}h3{margin:16px 0 6px;font-size:16px}
-.mut{color:var(--mut)}.btn,button{font:inherit;cursor:pointer}.btn{display:inline-block;border:0;border-radius:10px;background:var(--ink);color:white;padding:12px 20px;text-decoration:none}.btn:hover{background:var(--red)}button:disabled{opacity:.45}
-.card{background:white;border:1px solid var(--line);border-radius:var(--round);padding:18px;margin:22px 0}
-input,textarea,select{display:block;width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:9px;margin:5px 0 12px;background:white;color:var(--ink)}
-textarea{min-height:90px}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink);padding:9px 13px}.chip[aria-pressed=true]{background:var(--ink);color:white}
-.svc{display:flex;gap:10px;align-items:center;padding:7px 0}.dots{flex:1;border-bottom:2px dotted var(--line)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.photo{width:100%;height:190px;object-fit:cover;border-radius:10px;background:#e5e7eb}
-.msg{min-height:1.5em;margin:8px 0}.err{color:#b42318}.adminRow{border-bottom:1px solid var(--line);padding:12px 0;display:flex;gap:10px;justify-content:space-between;align-items:center}
-footer{border-top:1px solid var(--line);padding-top:20px;margin-top:36px}
-dialog{width:min(96vw,760px);max-height:90vh;overflow:auto;border:0;border-radius:16px;padding:20px;color:var(--ink)}
-dialog::backdrop{background:#14223aaa}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tabs button{font-size:14px}
-.small{font-size:14px}.danger{color:#a11;border-color:#d99}
+:root{--ink:#14223a;--red:#c8372d;--blue:#2b5aa8;--paper:#f3f5f8;--line:#d5dbe4;--mut:#56647a;--base-size:17px;--content-width:640px;--logo-size:clamp(44px,13vw,68px);--rounding:14px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:var(--base-size)/1.6 Heebo,system-ui,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+.pole{height:12px;background:repeating-linear-gradient(135deg,var(--red) 0 14px,#fff 14px 28px,var(--blue) 28px 42px,#fff 42px 56px)}
+main{max-width:var(--content-width);margin:0 auto;padding:0 18px 48px}
+h1,h2{font-family:"Secular One",Heebo,sans-serif;font-weight:400;margin:0}
+h1{font-size:var(--logo-size);line-height:1.05;margin:36px 0 12px}
+h2{font-size:26px;margin:44px 0 14px}
+h3{font-size:15px;margin:16px 0 2px;color:var(--mut)}
+.mut{color:var(--mut)}
+.err{color:var(--red)}
+.btn{display:inline-block;border:0;border-radius:10px;background:var(--ink);color:#fff;font:600 17px Heebo,sans-serif;padding:14px 26px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--red)}
+.btn:disabled{opacity:.4;cursor:not-allowed;background:var(--ink)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.svc{display:flex;gap:10px;align-items:baseline;padding:8px 0}
+.dots{flex:1;border-bottom:2px dotted var(--line)}
+.box{background:#fff;border:1px solid var(--line);border-radius:var(--rounding);padding:20px;margin-top:44px}
+.box h2,dialog h2{margin:0 0 14px}
+.step{font-weight:600;margin:22px 0 10px;display:flex;gap:10px;align-items:center}
+.n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:10px 14px;font:inherit;color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip:disabled{opacity:.35;cursor:not-allowed}
+.day{display:flex;flex-direction:column;align-items:center;min-width:64px;flex:none;line-height:1.35}
+.day small{font-size:13px;opacity:.8}
+input{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:10px}
+.msg{margin-top:12px;font-weight:600;min-height:1.6em}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--mut);font-size:15px}
+.link{background:none;border:0;color:var(--mut);text-decoration:underline;font:inherit;cursor:pointer;padding:6px 0;margin-top:10px}
+dialog{border:0;border-radius:16px;padding:20px;width:min(92vw,520px);max-height:85vh;color:var(--ink);font:inherit}
+dialog::backdrop{background:#14223a99}
+.ap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 </style>
 </head>
 <body>
-<div class="stripe"></div>
+<div class="pole"></div>
 <main>
-<header>
-  <h1 id="brand">המספרה של דני</h1>
-  <p id="subtitle">תספורת וגילוח בהזמנה מראש.</p>
-  <p id="intro"></p>
-  <a class="btn" href="#booking">קבעו תור</a>
-</header>
+  <header>
+    <h1 id="brandLogo">המספרה של דני</h1>
+    <p class="mut">תספורת וגילוח בהזמנה מראש. בוחרים שעה, ומקבלים תור. בלי טלפונים ובלי המתנה.</p>
+    <a class="btn" href="#book">קבעו תור</a>
+  </header>
 
-<section id="offersSection" hidden>
-  <h2>מבצעים</h2><div id="offers" class="grid"></div>
-</section>
+  <h2>מחירון</h2>
+  <div id="prices"></div>
 
-<section>
-  <h2>מחירון</h2><div id="prices"></div>
-</section>
+  <section class="box" id="book">
+    <h2>קביעת תור</h2>
+    <div class="step"><span class="n">1</span>איזה שירות?</div>
+    <div class="chips" id="svcs"></div>
+    <div class="step"><span class="n">2</span>איזה יום?</div>
+    <div class="chips days" id="days"></div>
+    <div class="step"><span class="n">3</span>באיזו שעה?</div>
+    <div class="chips" id="times"><span class="mut">בחרו שירות ויום כדי לראות שעות פנויות</span></div>
+    <div class="step"><span class="n">4</span>הפרטים שלכם</div>
+    <input id="nm" placeholder="שם מלא" autocomplete="name" oninput="ready()">
+    <input id="ph" type="tel" inputmode="tel" placeholder="טלפון" autocomplete="tel" oninput="ready()">
+    <button class="btn" id="go" disabled>קבעו את התור</button>
+    <div class="msg" id="msg" role="status"></div>
+  </section>
 
-<section id="gallerySection" hidden>
-  <h2>גלריה</h2><div id="gallery" class="grid"></div>
-</section>
-
-<div id="customSections"></div>
-
-<section class="card" id="booking">
-  <h2>קביעת תור</h2>
-  <b>1. בחרו שירות</b><div class="chips" id="services"></div>
-  <p><b>2. בחרו יום</b></p><div class="chips" id="days"></div>
-  <p><b>3. בחרו שעה</b></p><div class="chips" id="times">בחרו שירות ויום</div>
-  <p><b>4. הפרטים שלכם</b></p>
-  <input id="customerName" placeholder="שם מלא" autocomplete="name">
-  <input id="customerPhone" type="tel" placeholder="טלפון" autocomplete="tel">
-  <button class="btn" id="bookBtn" disabled>קביעת תור</button>
-  <div class="msg" id="bookingMsg" role="status"></div>
-</section>
-
-<footer>
-  <div id="businessInfo"></div>
-  <div id="social" class="chips"></div>
-  <button class="chip" id="adminOpen" hidden>ניהול</button>
-</footer>
+  <footer>
+    <div id="info"></div>
+    <button class="link" id="adm" hidden>כניסת מנהל</button>
+  </footer>
 </main>
 
-<dialog id="adminDialog">
-  <div id="loginView">
-    <h2>כניסה</h2>
-    <form id="loginForm">
-      <input id="password" type="password" placeholder="סיסמה" required autocomplete="current-password">
+<dialog id="dlg">
+  <div id="login">
+    <h2>כניסת מנהל</h2>
+    <form id="lf">
+      <input id="pw" type="password" placeholder="סיסמה" autocomplete="current-password" required>
       <button class="btn">כניסה</button>
     </form>
-    <div class="msg" id="loginMsg"></div>
+    <div class="msg" id="lmsg"></div>
   </div>
 
-  <div id="adminView" hidden>
+  <div id="panel" hidden>
     <h2>ניהול האתר</h2>
-    <div class="tabs">
-      <button class="chip" data-tab="business">עסק ועיצוב</button>
-      <button class="chip" data-tab="services">שירותים</button>
-      <button class="chip" data-tab="content">תוכן ומבצעים</button>
-      <button class="chip" data-tab="galleryEdit">גלריה</button>
-      <button class="chip" data-tab="socialEdit">רשתות חברתיות</button>
-      <button class="chip" data-tab="appointments">תורים</button>
-    </div>
+    <p class="mut">השינויים נשמרים בשרת ומשפיעים על כל המבקרים באתר.</p>
 
-    <section id="tab-business">
+    <form id="settingsForm">
       <h3>פרטי העסק</h3>
-      <label>שם המספרה<input id="bName"></label>
-      <label>טלפון<input id="bPhone"></label>
-      <label>כתובת<input id="bAddr"></label>
-      <label>שעות פעילות<input id="bHours"></label>
-      <h3>עיצוב</h3>
-      <label>צבע טקסט וכפתורים<input id="dInk" type="color"></label>
-      <label>צבע הדגשה<input id="dRed" type="color"></label>
-      <label>צבע נוסף<input id="dBlue" type="color"></label>
-      <label>צבע רקע<input id="dPaper" type="color"></label>
-      <label>גודל טקסט<select id="dSize"><option>15</option><option>17</option><option>19</option><option>21</option></select></label>
-      <label>רוחב אתר<select id="dWidth"><option>520</option><option>640</option><option>800</option><option>1000</option></select></label>
-      <label>גודל לוגו<select id="dLogo"><option>40</option><option>52</option><option>68</option><option>82</option></select></label>
-      <label>עיגול פינות<select id="dRound"><option>6</option><option>14</option><option>24</option></select></label>
-    </section>
+      <input id="setName" placeholder="שם המספרה" required>
+      <input id="setPhone" placeholder="טלפון" required>
+      <input id="setAddr" placeholder="כתובת">
+      <input id="setHours" placeholder="שעות פעילות">
 
-    <section id="tab-services" hidden>
-      <h3>שירותים ומחירים</h3><div id="serviceEditor"></div>
-      <button class="chip" id="addService" type="button">הוספת שירות</button>
-    </section>
+      <h3>צבעים</h3>
+      <label>צבע טקסט וכפתורים <input id="setInk" type="color" value="#14223a"></label>
+      <label>צבע הדגשה <input id="setRed" type="color" value="#c8372d"></label>
+      <label>צבע נוסף <input id="setBlue" type="color" value="#2b5aa8"></label>
+      <label>צבע רקע <input id="setPaper" type="color" value="#f3f5f8"></label>
 
-    <section id="tab-content" hidden>
-      <h3>טקסטים ראשיים</h3>
-      <label>כותרת משנה<input id="cSubtitle"></label>
-      <label>טקסט פתיחה<textarea id="cIntro"></textarea></label>
-      <h3>מקטעים באתר</h3><div id="sectionEditor"></div>
-      <button class="chip" id="addSection" type="button">הוספת מקטע</button>
-      <h3>מבצעים</h3><div id="offerEditor"></div>
-      <button class="chip" id="addOffer" type="button">הוספת מבצע</button>
-    </section>
+      <h3>גודל ומראה</h3>
+      <label>גודל טקסט כללי
+        <select id="setSize">
+          <option value="15">קטן</option>
+          <option value="17">רגיל</option>
+          <option value="19">גדול</option>
+          <option value="21">גדול מאוד</option>
+        </select>
+      </label>
 
-    <section id="tab-galleryEdit" hidden>
-      <h3>גלריה</h3>
-      <p class="mut small">אפשר להוסיף קישור לתמונה או להעלות קובץ עד 3MB. הקבצים יישמרו ב-Google Drive.</p>
-      <label>קישור לתמונה<input id="galleryUrl" placeholder="https://..."></label>
-      <label>תיאור התמונה<input id="galleryAlt" placeholder="למשל: תספורת"></label>
-      <button class="chip" id="addGalleryUrl" type="button">הוספה מקישור</button>
-      <label>העלאת תמונה מהמכשיר<input id="galleryFile" type="file" accept="image/png,image/jpeg,image/webp"></label>
-      <button class="chip" id="uploadGallery" type="button">העלאה והוספה</button>
-      <div id="galleryEditor"></div>
-    </section>
+      <label>רוחב האתר
+        <select id="setWidth">
+          <option value="520">צר</option>
+          <option value="640">רגיל</option>
+          <option value="800">רחב</option>
+          <option value="1000">רחב מאוד</option>
+        </select>
+      </label>
 
-    <section id="tab-socialEdit" hidden>
-      <h3>קישורים</h3>
-      <label>וואטסאפ — מספר או קישור<input id="sWhatsapp"></label>
-      <label>Instagram<input id="sInstagram"></label>
-      <label>Facebook<input id="sFacebook"></label>
-      <label>TikTok<input id="sTiktok"></label>
-    </section>
+      <label>גודל הלוגו
+        <select id="setLogo">
+          <option value="40">קטן</option>
+          <option value="52">רגיל</option>
+          <option value="68">גדול</option>
+          <option value="82">גדול מאוד</option>
+        </select>
+      </label>
 
-    <section id="tab-appointments" hidden>
-      <h3>תורים קרובים</h3><div id="appointmentList"></div>
-    </section>
+      <label>עיגול פינות
+        <select id="setRound">
+          <option value="6">מרובע</option>
+          <option value="14">רגיל</option>
+          <option value="24">מעוגל</option>
+        </select>
+      </label>
 
-    <button class="btn" id="saveAll" type="button">שמירת כל השינויים</button>
-    <button class="chip" id="logout" type="button">יציאה</button>
-    <div class="msg" id="adminMsg"></div>
+      <button class="btn" type="submit">שמירת הגדרות עכשיו</button>
+      <button class="chip" id="downloadHtml" type="button" style="margin-top:10px;width:100%">הורדת קובץ HTML מעודכן ל-GitHub</button>
+      <p class="mut">ההגדרות נשמרות אוטומטית אחרי שינוי שדה. הקובץ שיורד יכלול גם את פרטי העסק והעיצוב הנוכחיים.</p>
+      <div class="msg" id="setMsg" role="status"></div>
+    </form>
+
+    <h2>התורים הקרובים</h2>
+    <div id="list"></div>
+    <button class="chip" id="out" type="button" style="margin-top:14px">יציאה</button>
   </div>
 
-  <div id="barberView" hidden>
-    <h2>תורים — צפייה בלבד</h2>
-    <p class="mut">בחשבון ספר אין אפשרות לשנות הגדרות או לבטל תורים.</p>
-    <div id="barberList"></div>
-    <button class="chip" id="barberLogout" type="button">יציאה</button>
-  </div>
-  <button class="chip" id="closeDialog" type="button">סגירה</button>
+  <button class="chip" id="close" type="button" style="margin-top:14px">סגירה</button>
 </dialog>
 
 <script>
+/* ===== הגדרות: ערכו כאן ===== */
 const API = "https://script.google.com/macros/s/AKfycbzO_bXEm37XRQ-mBkIYLquYOk3DWZ9SMwiYlkfyk1Ywb5azu_8t0SxF_yO1UY6kUDuibA/exec";
+
+const DEFAULT_BIZ = {
+  name:"המספרה של דני",
+  phone:"050-0000000",
+  addr:"רחוב הרצל 1, תל אביב",
+  hours:"ראשון עד שישי, 9:00–19:00"
+};
+
+const DEFAULT_DESIGN = {
+  ink:"#14223a",
+  red:"#c8372d",
+  blue:"#2b5aa8",
+  paper:"#f3f5f8",
+  size:17,
+  width:640,
+  logo:68,
+  round:14
+};
+
+let BIZ = {...DEFAULT_BIZ};
+let DESIGN = {...DEFAULT_DESIGN};
+let adminPass = "";
+
 const $ = s => document.querySelector(s);
-const el = (tag, text, cls) => {
-  const n = document.createElement(tag);
-  if (text !== undefined && text !== null) n.textContent = text;
-  if (cls) n.className = cls;
-  return n;
-};
-const post = data => fetch(API, {
-  method:"POST",
-  headers:{"Content-Type":"text/plain;charset=utf-8"},
-  body:JSON.stringify(data)
-}).then(r => r.json());
-const get = data => fetch(API+"?"+new URLSearchParams(data)).then(r => r.json());
 const pad = n => String(n).padStart(2,"0");
+
+const el = (t,c,x) => {
+  const e = document.createElement(t);
+  if(c) e.className = c;
+  if(x != null) e.textContent = x;
+  return e;
+};
+
 const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
-const fmt = d => new Date(d+"T12:00:00").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
-let settings = null, cfg = null, pass = "", role = "";
-let selected = {svc:null,date:null,time:null};
-let galleryDraft = [];
 
-function msg(id, text, error=false) {
-  const n = $(id); n.textContent = text; n.className = "msg"+(error?" err":"");
-}
-function safeUrl(url) {
-  try { const u = new URL(url); return ["https:","http:"].includes(u.protocol) ? u.href : ""; }
-  catch(e) { return ""; }
-}
-function applyDesign(d) {
-  const r = document.documentElement.style;
-  r.setProperty("--ink",d.ink); r.setProperty("--red",d.red);
-  r.setProperty("--blue",d.blue); r.setProperty("--paper",d.paper);
-  r.setProperty("--round",Number(d.round)+"px");
-  r.setProperty("--width",Number(d.width)+"px");
-  document.body.style.fontSize = Number(d.size)+"px";
-}
-function renderPublic() {
-  const b=settings.biz, d=settings.design, c=settings.content;
-  applyDesign(d);
-  document.title=b.name+" | קביעת תור";
-  $("#brand").textContent=b.name;
-  $("#subtitle").textContent=c.subtitle||"";
-  $("#intro").textContent=c.intro||"";
-  $("#businessInfo").replaceChildren(
-    el("div",b.addr),el("div",b.hours),el("div",b.phone)
-  );
-
-  $("#prices").replaceChildren();
-  c.services.forEach(s=>{
-    const row=el("div",null,"svc");
-    row.append(el("b",s.name),el("span",null,"dots"),el("span","₪"+s.price));
-    $("#prices").append(row);
-  });
-
-  $("#offers").replaceChildren();
-  const offers=(c.offers||[]).filter(x=>x.active!==false);
-  $("#offersSection").hidden=!offers.length;
-  offers.forEach(o=>{
-    const card=el("div",null,"card");
-    card.append(el("h3",o.title),el("p",o.text));
-    $("#offers").append(card);
-  });
-
-  $("#gallery").replaceChildren();
-  const gallery=(c.gallery||[]).filter(x=>safeUrl(x.url));
-  $("#gallerySection").hidden=!gallery.length;
-  gallery.forEach(item=>{
-    const im=el("img"); im.className="photo"; im.loading="lazy";
-    im.src=safeUrl(item.url); im.alt=item.alt||"תמונה מהמספרה";
-    $("#gallery").append(im);
-  });
-
-  $("#customSections").replaceChildren();
-  (c.sections||[]).filter(x=>x.active!==false).forEach(s=>{
-    const section=el("section",null,"card");
-    section.append(el("h2",s.title),el("p",s.text));
-    $("#customSections").append(section);
-  });
-
-  $("#social").replaceChildren();
-  const social=c.social||{};
-  let links=[
-    ["whatsapp","וואטסאפ"],["instagram","Instagram"],
-    ["facebook","Facebook"],["tiktok","TikTok"]
-  ];
-  links.forEach(([key,label])=>{
-    let url=social[key]||"";
-    if(key==="whatsapp" && /^\+?[\d\s()-]{9,}$/.test(url)) {
-      url="https://wa.me/"+url.replace(/\D/g,"");
-    }
-    url=safeUrl(url);
-    if(url) {
-      const a=el("a",label,"btn"); a.href=url;
-      a.target="_blank"; a.rel="noopener noreferrer";
-      $("#social").append(a);
-    }
-  });
-}
-
-async function init() {
-  if(API.includes("PASTE_APPS_SCRIPT_URL_HERE")) {
-    msg("#bookingMsg","יש להגדיר את כתובת Google Apps Script בקוד.",true);
-    $("#adminOpen").hidden=false;
-    return;
-  }
-  try {
-    settings=await get({action:"settings"});
-    cfg=await get({action:"config"});
-    if(!settings.content) settings.content={services:[],gallery:[],offers:[],sections:[],social:{}};
-    renderPublic(); renderServices(); renderDays();
-    $("#adminOpen").hidden=false;
-  } catch(e) {
-    msg("#bookingMsg","אין חיבור למערכת. בדקו את כתובת השרת.",true);
-    $("#adminOpen").hidden=false;
-  }
-}
-function renderServices() {
-  $("#services").replaceChildren();
-  (cfg.services||[]).forEach((s,i)=>{
-    const b=el("button",s[0]+" · "+s[1]+" דק׳","chip");
-    b.type="button"; b.setAttribute("aria-pressed",String(selected.svc===i));
-    b.onclick=()=>{selected.svc=i;selected.time=null;renderServices();loadSlots();};
-    $("#services").append(b);
-  });
-}
-function renderDays() {
-  $("#days").replaceChildren();
-  for(let i=0;i<14;i++){
-    const d=new Date(); d.setDate(d.getDate()+i);
-    const b=el("button",null,"chip");
-    b.type="button";
-    b.append(el("div",i===0?"היום":d.toLocaleDateString("he-IL",{weekday:"short"})),
-      el("b",d.getDate()+"/"+(d.getMonth()+1)));
-    b.disabled=(cfg.closed||[]).includes(d.getDay());
-    b.onclick=()=>{selected.date=iso(d);selected.time=null;
-      [...$("#days").children].forEach(x=>x.setAttribute("aria-pressed","false"));
-      b.setAttribute("aria-pressed","true");loadSlots();};
-    $("#days").append(b);
-  }
-}
-async function loadSlots() {
-  $("#times").replaceChildren(el("span","טוען שעות...","mut"));
-  $("#bookBtn").disabled=true;
-  if(selected.svc===null||!selected.date) {
-    $("#times").textContent="בחרו שירות ויום";return;
-  }
-  try {
-    const r=await get({action:"slots",date:selected.date,svc:selected.svc});
-    $("#times").replaceChildren();
-    if(!r.slots||!r.slots.length) {
-      $("#times").append(el("span","אין שעות פנויות ביום הזה.","mut"));return;
-    }
-    r.slots.forEach(t=>{
-      const b=el("button",t,"chip");b.type="button";
-      b.setAttribute("aria-pressed","false");
-      b.onclick=()=>{selected.time=t;
-        [...$("#times").children].forEach(x=>x.setAttribute("aria-pressed","false"));
-        b.setAttribute("aria-pressed","true");readyBooking();};
-      $("#times").append(b);
-    });
-  } catch(e) {$("#times").textContent="שגיאה בטעינת שעות";}
-}
-function readyBooking() {
-  $("#bookBtn").disabled=!(selected.svc!==null&&selected.date&&selected.time&&
-    $("#customerName").value.trim().length>1&&
-    /^0\d{8,9}$/.test($("#customerPhone").value.replace(/\D/g,"")));
-}
-$("#customerName").oninput=readyBooking;
-$("#customerPhone").oninput=readyBooking;
-
-$("#bookBtn").onclick=async()=>{
-  $("#bookBtn").disabled=true;msg("#bookingMsg","קובעים את התור...");
-  try {
-    const r=await post({action:"book",svc:selected.svc,date:selected.date,time:selected.time,
-      name:$("#customerName").value.trim(),phone:$("#customerPhone").value.trim()});
-    if(r.ok) {
-      $("#booking").replaceChildren(el("h2","התור נקבע בהצלחה"),
-        el("p",cfg.services[selected.svc][0]+" · "+fmt(selected.date)+" · "+selected.time),
-        el("p","לשינוי או ביטול פנו למספרה: "+settings.biz.phone));
-    } else {
-      msg("#bookingMsg",r.error||"לא ניתן לקבוע את התור",true);
-      selected.time=null;loadSlots();
-    }
-  } catch(e) {msg("#bookingMsg","שגיאת תקשורת. נסו שוב.",true);readyBooking();}
-};
-
-/* כניסה: לחיצה על הכותרת 10 פעמים או על כפתור הניהול */
-let clicks=0,timer;
-$("#brand").onclick=()=>{
-  clicks++;clearTimeout(timer);timer=setTimeout(()=>clicks=0,2200);
-  if(clicks>=10){clicks=0;openLogin();}
-};
-$("#adminOpen").onclick=openLogin;
-function openLogin() {
-  $("#adminDialog").showModal();
-  $("#loginView").hidden=false;$("#adminView").hidden=true;$("#barberView").hidden=true;
-}
-$("#closeDialog").onclick=()=>$("#adminDialog").close();
-$("#loginForm").onsubmit=async e=>{
-  e.preventDefault();const p=$("#password").value;
-  msg("#loginMsg","בודקים...");
-  try {
-    const r=await post({action:"list",pass:p});
-    if(!r.ok){msg("#loginMsg",r.error||"סיסמה שגויה",true);return;}
-    pass=p;role=r.role;
-    $("#loginView").hidden=true;
-    if(role==="barber") {
-      $("#barberView").hidden=false;
-      renderReadOnly(r.items||[]);
-    } else {
-      $("#adminView").hidden=false;
-      await refreshSettings();
-      renderAppointments(r.items||[]);
-    }
-  } catch(e) {msg("#loginMsg","שגיאת תקשורת",true);}
-};
-function renderReadOnly(items) {
-  const box=$("#barberList");box.replaceChildren();
-  if(!items.length){box.append(el("p","אין תורים קרובים."));return;}
-  items.forEach(it=>{
-    const row=el("div",null,"adminRow");
-    row.append(el("div",new Date(it.start).toLocaleString("he-IL")),
-      el("div",it.title),el("div",it.desc||""));
-    box.append(row);
-  });
-}
-function renderAppointments(items) {
-  const box=$("#appointmentList");box.replaceChildren();
-  if(!items.length){box.append(el("p","אין תורים קרובים."));return;}
-  items.forEach(it=>{
-    const row=el("div",null,"adminRow");
-    const date=el("div",new Date(it.start).toLocaleString("he-IL"));
-    const info=el("div",it.title+"\n"+(it.desc||""));
-    const cancel=el("button","ביטול","chip danger");
-    cancel.onclick=async()=>{
-      if(!confirm("לבטל את התור?"))return;
-      const r=await post({action:"cancel",pass,id:it.id});
-      if(r.ok) {
-        const updated=await post({action:"list",pass});
-        renderAppointments(updated.items||[]);
-      } else alert(r.error||"הביטול נכשל");
-    };
-    row.append(date,info,cancel);box.append(row);
-  });
-}
-$("#barberLogout").onclick=logout;
-$("#logout").onclick=logout;
-function logout() {
-  pass="";role="";$("#password").value="";
-  $("#adminView").hidden=true;$("#barberView").hidden=true;$("#loginView").hidden=false;
-}
-document.querySelectorAll("[data-tab]").forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll("#adminView section[id^='tab-']").forEach(s=>s.hidden=true);
-    $("#tab-"+btn.dataset.tab).hidden=false;
-  };
+const fmt = s => new Date(s+"T12:00").toLocaleDateString("he-IL",{
+  weekday:"long",
+  day:"numeric",
+  month:"long"
 });
 
-async function refreshSettings() {
-  settings=await get({action:"settings"});
-  const b=settings.biz,d=settings.design,c=settings.content;
-  $("#bName").value=b.name;$("#bPhone").value=b.phone;
-  $("#bAddr").value=b.addr;$("#bHours").value=b.hours;
-  $("#dInk").value=d.ink;$("#dRed").value=d.red;$("#dBlue").value=d.blue;$("#dPaper").value=d.paper;
-  $("#dSize").value=d.size;$("#dWidth").value=d.width;$("#dLogo").value=d.logo;$("#dRound").value=d.round;
-  $("#cSubtitle").value=c.subtitle||"";$("#cIntro").value=c.intro||"";
-  $("#sWhatsapp").value=c.social?.whatsapp||"";
-  $("#sInstagram").value=c.social?.instagram||"";
-  $("#sFacebook").value=c.social?.facebook||"";
-  $("#sTiktok").value=c.social?.tiktok||"";
-  galleryDraft=[...(c.gallery||[])];
-  renderServiceEditor();renderSectionEditor();renderOfferEditor();renderGalleryEditor();
-}
-function renderServiceEditor() {
-  const box=$("#serviceEditor");box.replaceChildren();
-  settings.content.services.forEach((s,i)=>{
-    const card=el("div",null,"card");
-    const name=el("input");name.placeholder="שם השירות";name.value=s.name;
-    const duration=el("input");duration.type="number";duration.min="10";duration.max="240";duration.value=s.duration;duration.placeholder="משך בדקות";
-    const price=el("input");price.type="number";price.min="0";price.value=s.price;price.placeholder="מחיר בש״ח";
-    const del=el("button","מחיקת שירות","chip danger");
-    name.oninput=()=>s.name=name.value;duration.oninput=()=>s.duration=Number(duration.value);
-    price.oninput=()=>s.price=Number(price.value);
-    del.onclick=()=>{settings.content.services.splice(i,1);renderServiceEditor();};
-    card.append(name,duration,price,del);box.append(card);
-  });
-}
-$("#addService").onclick=()=>{
-  settings.content.services.push({name:"שירות חדש",duration:30,price:0});renderServiceEditor();
-};
-function renderSectionEditor() {
-  const box=$("#sectionEditor");box.replaceChildren();
-  settings.content.sections.forEach((s,i)=>{
-    const card=el("div",null,"card"),title=el("input"),text=el("textarea");
-    title.value=s.title;text.value=s.text;title.placeholder="כותרת המקטע";
-    text.placeholder="תוכן המקטע";
-    const active=el("input");active.type="checkbox";active.checked=s.active!==false;
-    const label=el("label","מוצג באתר ");label.append(active);
-    const del=el("button","מחיקת מקטע","chip danger");
-    title.oninput=()=>s.title=title.value;text.oninput=()=>s.text=text.value;
-    active.onchange=()=>s.active=active.checked;
-    del.onclick=()=>{settings.content.sections.splice(i,1);renderSectionEditor();};
-    card.append(title,text,label,del);box.append(card);
-  });
-}
-$("#addSection").onclick=()=>{
-  settings.content.sections.push({title:"מקטע חדש",text:"",active:true});renderSectionEditor();
-};
-function renderOfferEditor() {
-  const box=$("#offerEditor");box.replaceChildren();
-  settings.content.offers.forEach((o,i)=>{
-    const card=el("div",null,"card"),title=el("input"),text=el("textarea");
-    title.value=o.title;text.value=o.text;title.placeholder="שם המבצע";text.placeholder="פרטי המבצע";
-    const active=el("input");active.type="checkbox";active.checked=o.active!==false;
-    const label=el("label","מבצע פעיל ");label.append(active);
-    const del=el("button","מחיקת מבצע","chip danger");
-    title.oninput=()=>o.title=title.value;text.oninput=()=>o.text=text.value;
-    active.onchange=()=>o.active=active.checked;
-    del.onclick=()=>{settings.content.offers.splice(i,1);renderOfferEditor();};
-    card.append(title,text,label,del);box.append(card);
-  });
-}
-$("#addOffer").onclick=()=>{
-  settings.content.offers.push({title:"מבצע חדש",text:"",active:true});renderOfferEditor();
-};
-function renderGalleryEditor() {
-  const box=$("#galleryEditor");box.replaceChildren();
-  galleryDraft.forEach((g,i)=>{
-    const row=el("div",null,"adminRow");
-    row.append(el("span",g.alt||g.url));
-    const del=el("button","הסרה","chip danger");
-    del.onclick=()=>{galleryDraft.splice(i,1);renderGalleryEditor();};
-    row.append(del);box.append(row);
-  });
-}
-$("#addGalleryUrl").onclick=()=>{
-  const url=safeUrl($("#galleryUrl").value.trim());
-  if(!url){msg("#adminMsg","קישור התמונה אינו תקין.",true);return;}
-  galleryDraft.push({url,alt:$("#galleryAlt").value.trim()});
-  $("#galleryUrl").value="";$("#galleryAlt").value="";renderGalleryEditor();
-};
-$("#uploadGallery").onclick=async()=>{
-  const file=$("#galleryFile").files[0];
-  if(!file){msg("#adminMsg","בחרו תמונה תחילה.",true);return;}
-  if(file.size>3*1024*1024){msg("#adminMsg","התמונה חייבת להיות עד 3MB.",true);return;}
-  if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
-    msg("#adminMsg","ניתן להעלות PNG, JPEG או WebP בלבד.",true);return;
-  }
-  msg("#adminMsg","מעלה תמונה ל-Google Drive...");
-  const reader=new FileReader();
-  reader.onload=async()=>{
-    try {
-      const r=await post({action:"uploadImage",pass,dataUrl:reader.result});
-      if(!r.ok){msg("#adminMsg",r.error||"העלאה נכשלה",true);return;}
-      galleryDraft.push({url:r.url,alt:$("#galleryAlt").value.trim()});
-      $("#galleryFile").value="";$("#galleryAlt").value="";
-      renderGalleryEditor();msg("#adminMsg","התמונה הועלתה. לחצו על שמירת כל השינויים.");
-    } catch(e){msg("#adminMsg","שגיאת תקשורת בהעלאת התמונה.",true);}
-  };
-  reader.readAsDataURL(file);
+const post = b => fetch(API,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify(b)
+}).then(r => r.json());
+
+const get = q => fetch(API+"?"+new URLSearchParams(q)).then(r => r.json());
+
+const say = (s,t,bad) => {
+  const m = $(s);
+  m.textContent = t;
+  m.className = "msg"+(bad ? " err" : "");
 };
 
-$("#saveAll").onclick=async()=>{
-  msg("#adminMsg","שומר...");
-  settings.biz={
-    name:$("#bName").value.trim(),phone:$("#bPhone").value.trim(),
-    addr:$("#bAddr").value.trim(),hours:$("#bHours").value.trim()
-  };
-  settings.design={
-    ink:$("#dInk").value,red:$("#dRed").value,blue:$("#dBlue").value,paper:$("#dPaper").value,
-    size:Number($("#dSize").value),width:Number($("#dWidth").value),
-    logo:Number($("#dLogo").value),round:Number($("#dRound").value)
-  };
-  settings.content.subtitle=$("#cSubtitle").value.trim();
-  settings.content.intro=$("#cIntro").value.trim();
-  settings.content.gallery=galleryDraft;
-  settings.content.social={
-    whatsapp:$("#sWhatsapp").value.trim(),
-    instagram:$("#sInstagram").value.trim(),
-    facebook:$("#sFacebook").value.trim(),
-    tiktok:$("#sTiktok").value.trim()
-  };
-  try {
-    const r=await post({action:"saveSettings",pass,settings});
-    if(!r.ok){msg("#adminMsg",r.error||"שמירה נכשלה",true);return;}
-    settings=await get({action:"settings"});
-    renderPublic();
-    cfg=await get({action:"config"});
-    renderServices();
-    msg("#adminMsg","השינויים נשמרו בשרת.");
-  } catch(e){msg("#adminMsg","שגיאת תקשורת בשמירה.",true);}
+const mark = (p,b) => p.querySelectorAll("button").forEach(x => {
+  x.setAttribute("aria-pressed", x === b);
+});
+
+let cfg;
+let S = {svc:null,date:null,time:null};
+
+function ready(){
+  $("#go").disabled = !(
+    S.svc != null &&
+    S.date &&
+    S.time &&
+    $("#nm").value.trim().length > 1 &&
+    /^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,""))
+  );
+}
+
+function applySettings(settings){
+  if(settings && settings.biz){
+    BIZ = {...DEFAULT_BIZ,...settings.biz};
+  }
+
+  if(settings && settings.design){
+    DESIGN = {...DESIGN,...settings.design};
+  }
+
+  const root = document.documentElement.style;
+
+  root.setProperty("--ink",DESIGN.ink);
+  root.setProperty("--red",DESIGN.red);
+  root.setProperty("--blue",DESIGN.blue);
+  root.setProperty("--paper",DESIGN.paper);
+  root.setProperty("--base-size",Number(DESIGN.size||17)+"px");
+  root.setProperty("--content-width",Number(DESIGN.width||640)+"px");
+  root.setProperty("--logo-size","clamp(40px, 13vw, "+Number(DESIGN.logo||68)+"px)");
+  root.setProperty("--rounding",Number(DESIGN.round||14)+"px");
+
+  document.title = BIZ.name+" | קביעת תור";
+  $("h1").textContent = BIZ.name;
+
+  $("#info").replaceChildren(
+    el("div",0,BIZ.addr),
+    el("div",0,BIZ.hours)
+  );
+
+  const tel = el("a",0,BIZ.phone);
+  tel.href = "tel:"+BIZ.phone.replace(/\D/g,"");
+  $("#info").append(tel);
+}
+
+async function init(){
+  try{
+    const publicSettings = await get({action:"settings"});
+    applySettings(publicSettings);
+  }catch(e){
+    applySettings(null);
+  }
+
+  try{
+    cfg = await get({action:"config"});
+  }catch(e){
+    return say("#msg","אין חיבור למערכת התורים. נסו שוב או התקשרו: "+BIZ.phone,1);
+  }
+
+  const C = $("#svcs");
+  const D = $("#days");
+  const f = new Intl.DateTimeFormat("he-IL",{weekday:"short"});
+
+  cfg.services.forEach(([n,m,p],i) => {
+    const r = el("div","svc");
+    r.append(el("b",0,n),el("span","dots"),el("span",0,"₪"+p));
+    $("#prices").append(r);
+
+    const b = el("button","chip",n+" · "+m+" דק׳");
+    b.type = "button";
+    b.setAttribute("aria-pressed","false");
+
+    b.onclick = () => {
+      S.svc = i;
+      S.time = null;
+      mark(C,b);
+      slots();
+    };
+
+    C.append(b);
+  });
+
+  for(let i = 0; i < 14; i++){
+    const d = new Date();
+    d.setDate(d.getDate()+i);
+
+    const b = el("button","chip day");
+    b.type = "button";
+    b.setAttribute("aria-pressed","false");
+
+    b.append(
+      el("small",0,i ? f.format(d) : "היום"),
+      el("b",0,d.getDate()+"/"+(d.getMonth()+1))
+    );
+
+    b.disabled = cfg.closed.includes(d.getDay());
+
+    b.onclick = () => {
+      S.date = iso(d);
+      S.time = null;
+      mark(D,b);
+      slots();
+    };
+
+    D.append(b);
+  }
+}
+
+async function slots(){
+  const T = $("#times");
+  T.replaceChildren();
+  ready();
+
+  if(S.svc == null || !S.date){
+    return T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+  }
+
+  T.append(el("span","mut","טוען שעות..."));
+
+  try{
+    const r = await get({
+      action:"slots",
+      date:S.date,
+      svc:S.svc
+    });
+
+    T.replaceChildren();
+
+    if(!r.slots.length){
+      return T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
+    }
+
+    r.slots.forEach(t => {
+      const b = el("button","chip",t);
+      b.type = "button";
+      b.setAttribute("aria-pressed","false");
+
+      b.onclick = () => {
+        S.time = t;
+        mark(T,b);
+        ready();
+      };
+
+      T.append(b);
+    });
+  }catch(e){
+    T.replaceChildren(el("span","err","שגיאה בטעינת השעות. נסו שוב."));
+  }
+}
+
+$("#go").onclick = async () => {
+  $("#go").disabled = true;
+  say("#msg","קובעים את התור...");
+
+  try{
+    const r = await post({
+      action:"book",
+      svc:S.svc,
+      date:S.date,
+      time:S.time,
+      name:$("#nm").value.trim(),
+      phone:$("#ph").value.trim()
+    });
+
+    if(r.ok){
+      $("#book").replaceChildren(
+        el("h2",0,"התור נקבע"),
+        el("p",0,cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),
+        el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone)
+      );
+    }else{
+      say("#msg",r.error || "לא הצלחנו לקבוע את התור",1);
+      S.time = null;
+      slots();
+    }
+  }catch(e){
+    say("#msg","שגיאת תקשורת. נסו שוב.",1);
+    ready();
+  }
 };
+
+/* ===== ניהול האתר וכניסת מנהל/ספר ===== */
+const dlg = $("#dlg");
+const show = on => {
+  $("#login").hidden = on;
+  $("#panel").hidden = !on;
+};
+
+let logoClicks = 0;
+let logoTimer = null;
+
+$("#brandLogo").style.cursor = "pointer";
+
+$("#brandLogo").addEventListener("click",()=>{
+  logoClicks++;
+  clearTimeout(logoTimer);
+  logoTimer = setTimeout(()=>logoClicks=0,2200);
+
+  if(logoClicks >= 10){
+    logoClicks = 0;
+    dlg.showModal();
+    show(false);
+    $("#pw").focus();
+  }
+});
+
+$("#adm").onclick = () => {
+  dlg.showModal();
+  show(false);
+};
+
+$("#close").onclick = () => dlg.close();
+
+$("#out").onclick = () => {
+  adminPass = "";
+  $("#pw").value = "";
+  show(false);
+};
+
+$("#lf").onsubmit = e => {
+  e.preventDefault();
+  load($("#pw").value);
+};
+
+$("#settingsForm").onsubmit = async e => {
+  e.preventDefault();
+
+  const b = $("#setMsg");
+  b.textContent = "שומר הגדרות...";
+
+  const settings = {
+    biz:{
+      name:$("#setName").value.trim(),
+      phone:$("#setPhone").value.trim(),
+      addr:$("#setAddr").value.trim(),
+      hours:$("#setHours").value.trim()
+    },
+    design:{
+      ink:$("#setInk").value,
+      red:$("#setRed").value,
+      blue:$("#setBlue").value,
+      paper:$("#setPaper").value,
+      size:+$("#setSize").value,
+      width:+$("#setWidth").value,
+      logo:+$("#setLogo").value,
+      round:+$("#setRound").value
+    }
+  };
+
+  try{
+    const r = await post({
+      action:"saveSettings",
+      pass:adminPass,
+      settings
+    });
+
+    if(!r.ok){
+      b.textContent = r.error || "שמירה נכשלה";
+      return;
+    }
+
+    applySettings(settings);
+    b.textContent = "ההגדרות נשמרו לכל המבקרים באתר.";
+  }catch(err){
+    b.textContent = "שגיאת תקשורת בשמירה.";
+  }
+};
+
+async function load(pass){
+  say("#lmsg","בודקים...");
+
+  try{
+    const r = await post({
+      action:"list",
+      pass
+    });
+
+    if(!r.ok){
+      adminPass = "";
+      show(false);
+      return say("#lmsg",r.error || "סיסמה שגויה",1);
+    }
+
+    adminPass = pass;
+    say("#lmsg","");
+    show(true);
+
+    const isBarber = r.role === "barber";
+
+    /* הספר רואה תורים בלבד; המנהל מקבל גם הגדרות */
+    $("#settingsForm").hidden = isBarber;
+    $("#downloadHtml").hidden = isBarber;
+
+    $("#panel").querySelector("h2").textContent =
+      isBarber ? "תורים קרובים — תצוגת ספר" : "ניהול האתר";
+
+    draw(r.items || [],pass,isBarber);
+
+    if(!isBarber){
+      fillSettings();
+    }
+  }catch(e){
+    say("#lmsg","שגיאת תקשורת. בדקו את כתובת השרת.",1);
+  }
+}
+
+/* שמירה אוטומטית אחרי שינוי הגדרות */
+let autoSaveTimer = null;
+
+$("#settingsForm").addEventListener("change",()=>{
+  if(!adminPass) return;
+
+  clearTimeout(autoSaveTimer);
+
+  autoSaveTimer = setTimeout(()=>{
+    $("#settingsForm").requestSubmit();
+  },700);
+});
+
+/* הורדת HTML מעודכן עם פרטי העסק והעיצוב */
+$("#downloadHtml").onclick = async () => {
+  const b = $("#downloadHtml");
+  const msg = $("#setMsg");
+  const old = b.textContent;
+
+  b.disabled = true;
+  b.textContent = "מכין קובץ...";
+
+  try{
+    if(!/^https?:$/.test(location.protocol)){
+      throw new Error("יש לפתוח את האתר מהכתובת הציבורית שלו, לא מקובץ מקומי.");
+    }
+
+    const response = await fetch(location.href.split("#")[0],{
+      cache:"no-store"
+    });
+
+    if(!response.ok){
+      throw new Error("לא הצלחתי לקרוא את קובץ האתר מהשרת.");
+    }
+
+    let source = await response.text();
+
+    const apiMatch = source.match(/const API = (["'])(.*?)\1;/);
+
+    if(!apiMatch || !apiMatch[2] || apiMatch[2] === "PASTE_APPS_SCRIPT_URL_HERE"){
+      throw new Error("צריך להגדיר קודם את כתובת ה-Web App של Google Apps Script בקובץ האתר.");
+    }
+
+    const bizLiteral = JSON.stringify(BIZ);
+    const designLiteral = JSON.stringify(DESIGN);
+
+    source = source.replace(
+      /const DEFAULT_BIZ = \{[^\n]*\};/,
+      "const DEFAULT_BIZ = "+bizLiteral+";"
+    );
+
+    source = source.replace(
+      /const DEFAULT_DESIGN = \{[^\n]*\};/,
+      "const DEFAULT_DESIGN = "+designLiteral+";"
+    );
+
+    if(
+      !source.includes("const DEFAULT_BIZ = "+bizLiteral+";") ||
+      !source.includes("const DEFAULT_DESIGN = "+designLiteral+";")
+    ){
+      throw new Error("לא הצלחתי להטמיע את ההגדרות בקובץ. עדכן את קובץ האתר לגרסה האחרונה.");
+    }
+
+    const blob = new Blob([source],{
+      type:"text/html;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "index.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    msg.textContent = "הקובץ המעודכן ירד. אפשר להעלות את index.html ל-GitHub.";
+  }catch(err){
+    msg.textContent = err.message || "הורדת הקובץ נכשלה.";
+  }finally{
+    b.disabled = false;
+    b.textContent = old;
+  }
+};
+
+function fillSettings(){
+  $("#setName").value = BIZ.name;
+  $("#setPhone").value = BIZ.phone;
+  $("#setAddr").value = BIZ.addr;
+  $("#setHours").value = BIZ.hours;
+
+  $("#setInk").value = DESIGN.ink;
+  $("#setRed").value = DESIGN.red;
+  $("#setBlue").value = DESIGN.blue;
+  $("#setPaper").value = DESIGN.paper;
+
+  $("#setSize").value = String(DESIGN.size);
+  $("#setWidth").value = String(DESIGN.width);
+  $("#setLogo").value = String(DESIGN.logo);
+  $("#setRound").value = String(DESIGN.round);
+}
+
+function draw(items,pass,isBarber=false){
+  const P = $("#list");
+  P.replaceChildren();
+
+  if(!items.length){
+    return P.append(el("p","mut","אין תורים קרובים."));
+  }
+
+  let last = "";
+
+  items.forEach(it => {
+    const [d,t] = it.start.split("T");
+
+    if(d !== last){
+      P.append(el("h3",0,fmt(d)));
+      last = d;
+    }
+
+    const row = el("div","ap");
+    const info = el("div");
+
+    info.append(
+      el("b",0,t+"  "+it.title),
+      el("div","mut",it.desc || "")
+    );
+
+    row.append(info);
+
+    /* למנהל יש אפשרות ביטול; הספר מקבל תצוגה בלבד */
+    if(!isBarber){
+      const x = el("button","chip","ביטול");
+      x.type = "button";
+
+      x.onclick = async () => {
+        if(!confirm("לבטל את התור?")) return;
+
+        x.disabled = true;
+
+        try{
+          const q = await post({
+            action:"cancel",
+            pass,
+            id:it.id
+          });
+
+          if(q.ok){
+            await load(pass);
+          }else{
+            alert(q.error || "ביטול התור נכשל");
+            x.disabled = false;
+          }
+        }catch(e){
+          alert("שגיאת תקשורת");
+          x.disabled = false;
+        }
+      };
+
+      row.append(x);
+    }
+
+    P.append(row);
+  });
+}
 
 init();
 </script>
 </body>
-</html> 
+</html>
