@@ -96,106 +96,296 @@ dialog::backdrop{background:#14223a99}
 
 <script>
 /* ===== הגדרות: ערכו כאן ===== */
-const API = "PASTE_APPS_SCRIPT_URL_HERE";
-const BIZ = {name:"המספרה של דני", phone:"050-0000000", addr:"רחוב הרצל 1, תל אביב", hours:"ראשון עד שישי, 9:00–19:00"};
 
-const $ = s => document.querySelector(s), pad = n => String(n).padStart(2,"0");
-const el = (t,c,x) => {const e = document.createElement(t); if(c) e.className = c; if(x != null) e.textContent = x; return e};
+// החלף את הטקסט בכתובת Web App שלך מ-Google Apps Script
+const API = "https://script.google.com/macros/s/AKfycbzO_bXEm37XRQ-mBkIYLquYOk3DWZ9SMwiYlkfyk1Ywb5azu_8t0SxF_yO1UY6kUDuibA/exec";
+
+const BIZ = {
+  name: "המספרה של דני",
+  phone: "050-0000000",
+  addr: "רחוב הרצל 1, תל אביב",
+  hours: "ראשון עד שישי, 9:00–19:00"
+};
+
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,"0");
+
+const el = (t,c,x) => {
+  const e = document.createElement(t);
+  if(c) e.className = c;
+  if(x != null) e.textContent = x;
+  return e;
+};
+
 const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
-const fmt = s => new Date(s+"T12:00").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
-const post = b => fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(r => r.json());
+
+const fmt = s => new Date(s+"T12:00").toLocaleDateString("he-IL",{
+  weekday:"long",
+  day:"numeric",
+  month:"long"
+});
+
+const post = b => fetch(API,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify(b)
+}).then(r => r.json());
+
 const get = q => fetch(API+"?"+new URLSearchParams(q)).then(r => r.json());
-const say = (s,t,bad) => {const m = $(s); m.textContent = t; m.className = "msg"+(bad ? " err" : "")};
-const mark = (p,b) => p.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
-const store = (k,v) => {try{v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k,v)}catch(e){}};
+
+const say = (s,t,bad) => {
+  const m = $(s);
+  m.textContent = t;
+  m.className = "msg"+(bad ? " err" : "");
+};
+
+const mark = (p,b) => p.querySelectorAll("button").forEach(x =>
+  x.setAttribute("aria-pressed", x === b)
+);
+
+const store = (k,v) => {
+  try {
+    v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k,v);
+  } catch(e) {}
+};
+
 let cfg, S = {svc:null,date:null,time:null};
 
 function ready(){
-  $("#go").disabled = !(S.svc != null && S.date && S.time && $("#nm").value.trim().length > 1 && /^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,"")));
+  $("#go").disabled = !(
+    S.svc != null &&
+    S.date &&
+    S.time &&
+    $("#nm").value.trim().length > 1 &&
+    /^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,""))
+  );
 }
 
 async function init(){
   document.title = BIZ.name+" | קביעת תור";
   $("h1").textContent = BIZ.name;
-  $("#info").append(el("div",0,BIZ.addr), el("div",0,BIZ.hours));
-  const tel = el("a",0,BIZ.phone); tel.href = "tel:"+BIZ.phone.replace(/\D/g,""); $("#info").append(tel);
-  try{ cfg = await get({action:"config"}); }
-  catch(e){ return say("#msg","אין חיבור למערכת התורים. נסו שוב או התקשרו: "+BIZ.phone, 1); }
-  const C = $("#svcs"), D = $("#days"), f = new Intl.DateTimeFormat("he-IL",{weekday:"short"});
+  $("#info").append(
+    el("div",0,BIZ.addr),
+    el("div",0,BIZ.hours)
+  );
+
+  const tel = el("a",0,BIZ.phone);
+  tel.href = "tel:"+BIZ.phone.replace(/\D/g,"");
+  $("#info").append(tel);
+
+  try {
+    cfg = await get({action:"config"});
+    if(!cfg.services || !cfg.closed) throw new Error("Invalid configuration");
+  } catch(e) {
+    return say("#msg","אין חיבור למערכת התורים. נסו שוב או התקשרו: "+BIZ.phone,1);
+  }
+
+  const C = $("#svcs"), D = $("#days");
+  const f = new Intl.DateTimeFormat("he-IL",{weekday:"short"});
+
   cfg.services.forEach(([n,m,p],i) => {
-    const r = el("div","svc"); r.append(el("b",0,n), el("span","dots"), el("span",0,"₪"+p)); $("#prices").append(r);
-    const b = el("button","chip",n+" · "+m+" דק׳"); b.type = "button"; b.setAttribute("aria-pressed","false");
-    b.onclick = () => {S.svc = i; S.time = null; mark(C,b); slots()}; C.append(b);
+    const r = el("div","svc");
+    r.append(el("b",0,n),el("span","dots"),el("span",0,"₪"+p));
+    $("#prices").append(r);
+
+    const b = el("button","chip",n+" · "+m+" דק׳");
+    b.type = "button";
+    b.setAttribute("aria-pressed","false");
+    b.onclick = () => {
+      S.svc = i;
+      S.time = null;
+      mark(C,b);
+      slots();
+    };
+    C.append(b);
   });
-  for(let i = 0; i < 14; i++){
-    const d = new Date(); d.setDate(d.getDate()+i);
-    const b = el("button","chip day"); b.type = "button"; b.setAttribute("aria-pressed","false");
-    b.append(el("small",0,i ? f.format(d) : "היום"), el("b",0,d.getDate()+"/"+(d.getMonth()+1)));
+
+  for(let i=0;i<14;i++){
+    const d = new Date();
+    d.setDate(d.getDate()+i);
+
+    const b = el("button","chip day");
+    b.type = "button";
+    b.setAttribute("aria-pressed","false");
+
+    b.append(
+      el("small",0,i ? f.format(d) : "היום"),
+      el("b",0,d.getDate()+"/"+(d.getMonth()+1))
+    );
+
     b.disabled = cfg.closed.includes(d.getDay());
-    b.onclick = () => {S.date = iso(d); S.time = null; mark(D,b); slots()}; D.append(b);
+    b.onclick = () => {
+      S.date = iso(d);
+      S.time = null;
+      mark(D,b);
+      slots();
+    };
+
+    D.append(b);
   }
 }
 
 async function slots(){
-  const T = $("#times"); T.replaceChildren(); ready();
-  if(S.svc == null || !S.date) return T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+  const T = $("#times");
+  T.replaceChildren();
+  ready();
+
+  if(S.svc == null || !S.date){
+    return T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+  }
+
   T.append(el("span","mut","טוען שעות..."));
-  try{
+
+  try {
     const r = await get({action:"slots",date:S.date,svc:S.svc});
     T.replaceChildren();
-    if(!r.slots.length) return T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
+
+    if(!r.slots || !r.slots.length){
+      return T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
+    }
+
     r.slots.forEach(t => {
-      const b = el("button","chip",t); b.type = "button"; b.setAttribute("aria-pressed","false");
-      b.onclick = () => {S.time = t; mark(T,b); ready()}; T.append(b);
+      const b = el("button","chip",t);
+      b.type = "button";
+      b.setAttribute("aria-pressed","false");
+      b.onclick = () => {
+        S.time = t;
+        mark(T,b);
+        ready();
+      };
+      T.append(b);
     });
-  }catch(e){ T.replaceChildren(el("span","err","שגיאה בטעינת השעות. נסו שוב.")); }
+  } catch(e) {
+    T.replaceChildren(el("span","err","שגיאה בטעינת השעות. נסו שוב."));
+  }
 }
 
 $("#go").onclick = async () => {
-  $("#go").disabled = true; say("#msg","קובעים את התור...");
-  try{
-    const r = await post({action:"book",svc:S.svc,date:S.date,time:S.time,name:$("#nm").value.trim(),phone:$("#ph").value.trim()});
+  $("#go").disabled = true;
+  say("#msg","קובעים את התור...");
+
+  try {
+    const r = await post({
+      action:"book",
+      svc:S.svc,
+      date:S.date,
+      time:S.time,
+      name:$("#nm").value.trim(),
+      phone:$("#ph").value.trim()
+    });
+
     if(r.ok){
-      $("#book").replaceChildren(el("h2",0,"התור נקבע"), el("p",0,cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),
-        el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone));
-    } else { say("#msg", r.error || "לא הצלחנו לקבוע את התור", 1); S.time = null; slots(); }
-  }catch(e){ say("#msg","שגיאת תקשורת. נסו שוב.",1); ready(); }
+      $("#book").replaceChildren(
+        el("h2",0,"התור נקבע"),
+        el("p",0,cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),
+        el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone)
+      );
+    } else {
+      say("#msg",r.error || "לא הצלחנו לקבוע את התור",1);
+      S.time = null;
+      slots();
+    }
+  } catch(e) {
+    say("#msg","שגיאת תקשורת. נסו שוב.",1);
+    ready();
+  }
 };
 
 /* ===== מנהל ===== */
 const dlg = $("#dlg");
-const show = on => {$("#login").hidden = on; $("#panel").hidden = !on};
-$("#adm").onclick = () => {dlg.showModal(); let p = null; try{p = sessionStorage.getItem("ap")}catch(e){} if(p) load(p)};
+
+const show = on => {
+  $("#login").hidden = on;
+  $("#panel").hidden = !on;
+};
+
+$("#adm").onclick = () => {
+  dlg.showModal();
+  let p = null;
+  try { p = sessionStorage.getItem("ap"); } catch(e) {}
+  if(p) load(p);
+};
+
 $("#close").onclick = () => dlg.close();
-$("#out").onclick = () => {store("ap",null); $("#pw").value = ""; show(false)};
-$("#lf").onsubmit = e => {e.preventDefault(); load($("#pw").value)};
+
+$("#out").onclick = () => {
+  store("ap",null);
+  $("#pw").value = "";
+  show(false);
+};
+
+$("#lf").onsubmit = e => {
+  e.preventDefault();
+  load($("#pw").value);
+};
 
 async function load(pass){
   say("#lmsg","בודקים...");
-  try{
+
+  try {
     const r = await post({action:"list",pass});
-    if(!r.ok){ store("ap",null); show(false); return say("#lmsg", r.error || "סיסמה שגויה", 1); }
-    store("ap",pass); say("#lmsg",""); show(true); draw(r.items,pass);
-  }catch(e){ say("#lmsg","שגיאת תקשורת",1); }
+
+    if(!r.ok){
+      store("ap",null);
+      show(false);
+      return say("#lmsg",r.error || "סיסמה שגויה",1);
+    }
+
+    store("ap",pass);
+    say("#lmsg","");
+    show(true);
+    draw(r.items,pass);
+  } catch(e) {
+    say("#lmsg","שגיאת תקשורת",1);
+  }
 }
 
 function draw(items,pass){
-  const P = $("#list"); P.replaceChildren();
-  if(!items.length) return P.append(el("p","mut","אין תורים קרובים."));
+  const P = $("#list");
+  P.replaceChildren();
+
+  if(!items.length){
+    return P.append(el("p","mut","אין תורים קרובים."));
+  }
+
   let last = "";
+
   items.forEach(it => {
     const [d,t] = it.start.split("T");
-    if(d !== last){ P.append(el("h3",0,fmt(d))); last = d; }
-    const row = el("div","ap"), info = el("div");
-    info.append(el("b",0,t+"  "+it.title), el("div","mut",it.desc));
-    const x = el("button","chip","ביטול"); x.type = "button";
+
+    if(d !== last){
+      P.append(el("h3",0,fmt(d)));
+      last = d;
+    }
+
+    const row = el("div","ap");
+    const info = el("div");
+
+    info.append(
+      el("b",0,t+"  "+it.title),
+      el("div","mut",it.desc)
+    );
+
+    const x = el("button","chip","ביטול");
+    x.type = "button";
+
     x.onclick = async () => {
       if(!confirm("לבטל את התור?")) return;
+
       x.disabled = true;
-      const q = await post({action:"cancel",pass,id:it.id});
-      q.ok ? load(pass) : alert(q.error || "שגיאה");
+
+      try {
+        const q = await post({action:"cancel",pass,id:it.id});
+        if(q.ok) load(pass);
+        else alert(q.error || "שגיאה");
+      } catch(e) {
+        alert("שגיאת תקשורת");
+        x.disabled = false;
+      }
     };
-    row.append(info,x); P.append(row);
+
+    row.append(info,x);
+    P.append(row);
   });
 }
 
