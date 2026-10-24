@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0b">
+<title>המספרה של דני | קביעת תור</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#f5f0e5;--red:#d7b56d;--blue:#a17b38;--paper:#0b0b0b;--line:#39352c;--mut:#b5ad9d;--base-size:17px;--content-width:1000px;--logo-size:68px;--rounding:16px;--panel:#151411;--goldGlow:#d7b56d22}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:var(--base-size)/1.65 Heebo,system-ui,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+a{color:inherit}
+button,input,select{font:inherit}
+button{touch-action:manipulation}
+.pole{height:5px;background:linear-gradient(90deg,#6f4d19,var(--red),#f4dfaa,var(--red),#6f4d19)}
+main{max-width:var(--content-width);margin:0 auto;padding:0 22px 52px}
+header{position:relative;overflow:hidden;isolation:isolate;min-height:410px;display:flex;flex-direction:column;justify-content:center;padding:48px 0 38px}
+header:before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 75% 20%,#d7b56d20,transparent 40%),linear-gradient(120deg,#17150f,#080808 70%)}
+header:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent,#0b0b0b55)}
+.eyebrow{color:var(--red);font-weight:800;letter-spacing:2px;font-size:13px;margin:0 0 10px}
+h1,h2{font-family:"Secular One",Heebo,sans-serif;font-weight:400;margin:0}
+h1{font-size:clamp(42px,9vw,var(--logo-size));line-height:1.08;margin:0 0 18px;max-width:850px}
+h2{font-size:clamp(25px,5vw,34px);margin:0 0 16px}
+h3{font-size:16px;margin:18px 0 8px;color:var(--red)}
+header p{max-width:620px;color:#d0c7b5;font-size:18px;margin:0 0 25px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.mut{color:var(--mut)}
+.err{color:#ff8a80}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid var(--red);border-radius:999px;background:var(--red);color:#17130b;font-weight:800;padding:13px 25px;cursor:pointer;text-decoration:none;transition:transform .18s,background .18s;min-height:48px}
+.btn:hover{transform:translateY(-2px);background:#f0d79e}
+.btn.secondary{background:transparent;color:var(--ink);border-color:#6b5a36}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.section{padding:28px 0}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:16px}
+.section-head p{margin:0;color:var(--mut);max-width:450px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:6px 0}
+.services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.service-card{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#191814,#10100e);border:1px solid var(--line);border-radius:var(--rounding);padding:17px}
+.service-icon{width:44px;height:44px;flex:none;display:grid;place-items:center;border-radius:14px;border:1px solid #6b572f;color:var(--red);font-size:21px;background:var(--goldGlow)}
+.service-copy{min-width:0;flex:1}
+.service-copy b{display:block;font-size:17px}
+.service-copy small{color:var(--mut)}
+.service-price{font-weight:800;color:var(--red);white-space:nowrap}
+.box{background:linear-gradient(145deg,#191814,#11110f);border:1px solid #39352c;border-radius:calc(var(--rounding) + 4px);padding:clamp(18px,4vw,30px);margin-top:20px;box-shadow:0 18px 55px #0004}
+.box h2,dialog h2{margin:0 0 14px}
+.step{font-weight:700;margin:24px 0 11px;display:flex;gap:10px;align-items:center}
+.n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--red);color:#17130b;font-size:14px;font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.chip{border:1px solid #494235;background:#11110f;border-radius:12px;padding:10px 14px;color:var(--ink);cursor:pointer;min-height:44px;flex:none}
+.chip[aria-pressed=true]{background:var(--red);color:#17130b;border-color:var(--red);font-weight:800}
+.chip:disabled{opacity:.32;cursor:not-allowed}
+.day{display:flex;flex-direction:column;align-items:center;min-width:66px;line-height:1.4}
+.day small{font-size:12px;opacity:.85}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:#0b0b0b;padding:12px 14px;border:1px solid #494235;border-radius:12px;margin-bottom:10px}
+input::placeholder,textarea::placeholder{color:#817969}
+label{display:block;margin:12px 0;color:var(--mut);font-size:14px}
+input[type=color]{height:48px;padding:4px}
+input[type=url]{direction:ltr;text-align:left}
+.msg{margin-top:12px;font-weight:700;min-height:1.6em}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gallery-item{aspect-ratio:4/5;border:1px solid var(--line);border-radius:var(--rounding);overflow:hidden;background:linear-gradient(145deg,#27231a,#111);display:grid;place-items:center;color:var(--mut);text-align:center;padding:12px}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-item:has(img){padding:0}
+.gallery-placeholder{font-size:14px}
+.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.contact-card{padding:16px;border:1px solid var(--line);border-radius:var(--rounding);background:#13120f;min-width:0}
+.contact-card b{display:block;color:var(--red);margin-bottom:5px}
+footer{margin-top:42px;padding-top:24px;border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.footer-row{display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}
+.link{background:none;border:0;color:var(--mut);text-decoration:underline;font:inherit;cursor:pointer;padding:6px 0;margin-top:10px}
+dialog{border:1px solid #51452e;border-radius:20px;padding:22px;width:min(94vw,600px);max-height:88vh;overflow:auto;background:#14130f;color:var(--ink);font:inherit;box-shadow:0 25px 90px #000b}
+dialog::backdrop{background:#000c;backdrop-filter:blur(5px)}
+.ap{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
+.ap>div{min-width:0;overflow-wrap:anywhere}
+.admin-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-note{font-size:13px;color:var(--mut)}
+@media(max-width:620px){main{padding:0 16px 36px}header{min-height:370px;padding:42px 0 30px}.services-grid{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-grid{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:6px}.box{padding:17px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="pole"></div>
+<main>
+  <header id="site">
+    <p class="eyebrow">BARBER SHOP · STYLE · PRECISION</p>
+    <h1 id="brandLogo">המספרה של דני</h1>
+    <p id="heroText">דיוק בכל תספורת, תשומת לב לכל פרט. קובעים תור מראש ונהנים מחוויית מספרה אישית, מקצועית ונוחה.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#book">קובעים תור עכשיו <span aria-hidden="true">←</span></a>
+      <a class="btn secondary" id="waTop" href="#" target="_blank" rel="noopener">דברו איתנו בוואטסאפ</a>
+    </div>
+  </header>
+
+  <section class="section" id="services">
+    <div class="section-head"><div><p class="eyebrow">OUR SERVICES</p><h2>השירותים שלנו</h2></div><p>עבודה מדויקת, שירות אישי ותוצאה שמרגישים בה.</p></div>
+    <div id="prices" class="services-grid"></div>
+  </section>
+
+  <div class="rule"></div>
+  <section class="section" id="gallery">
+    <div class="section-head"><div><p class="eyebrow">THE DETAILS</p><h2>מהעבודה שלנו</h2></div><p>הגלריה מתעדכנת דרך אזור הניהול.</p></div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item"><span class="gallery-placeholder">תמונת עבודה 1<br><small>הוסיפו תמונות בניהול</small></span></div>
+      <div class="gallery-item"><span class="gallery-placeholder">תמונת עבודה 2<br><small>הוסיפו תמונות בניהול</small></span></div>
+      <div class="gallery-item"><span class="gallery-placeholder">תמונת עבודה 3<br><small>הוסיפו תמונות בניהול</small></span></div>
+    </div>
+  </section>
+
+  <section class="box" id="book">
+    <p class="eyebrow">BOOK YOUR VISIT</p>
+    <h2>קביעת תור</h2>
+    <p class="mut">בחרו שירות, יום ושעה פנויה. הזמינות נבדקת מול יומן Google.</p>
+    <div class="step"><span class="n">1</span>איזה שירות?</div>
+    <div class="chips" id="svcs"></div>
+    <div class="step"><span class="n">2</span>איזה יום?</div>
+    <div class="chips days" id="days"></div>
+    <div class="step"><span class="n">3</span>באיזו שעה?</div>
+    <div class="chips" id="times"><span class="mut">בחרו שירות ויום כדי לראות שעות פנויות</span></div>
+    <div class="step"><span class="n">4</span>הפרטים שלכם</div>
+    <input id="nm" placeholder="שם מלא" autocomplete="name" maxlength="100">
+    <input id="ph" type="tel" inputmode="tel" placeholder="מספר טלפון" autocomplete="tel" maxlength="20">
+    <button class="btn" id="go" disabled>אישור קביעת התור</button>
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="section-head"><div><p class="eyebrow">COME VISIT</p><h2>נפגשים בכיסא</h2></div><p>לשאלות, בירורים או שינוי תור אפשר ליצור קשר.</p></div>
+    <div class="contact-grid">
+      <div class="contact-card"><b>כתובת</b><span id="contactAddr">הכניסו כתובת באזור הניהול</span></div>
+      <div class="contact-card"><b>שעות פעילות</b><span id="contactHours">ראשון עד שישי, 9:00–19:00</span></div>
+      <div class="contact-card"><b>טלפון</b><a id="contactPhone" href="tel:0500000000">050-0000000</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-row"><div><strong id="footerBrand">המספרה של דני</strong><div id="info"></div></div><div>© <span id="year"></span> כל הזכויות שמורות</div></div>
+    <button class="link" id="adm" hidden>כניסת מנהל</button>
+  </footer>
+</main>
+
+<dialog id="dlg">
+  <div id="login">
+    <p class="eyebrow">PRIVATE AREA</p><h2>כניסת מנהל</h2>
+    <form id="lf"><input id="pw" type="password" placeholder="סיסמת מנהל" autocomplete="current-password" required><button class="btn">כניסה</button></form>
+    <div class="msg" id="lmsg" role="status"></div>
+  </div>
+  <div id="panel" hidden>
+    <p class="eyebrow">SITE CONTROL</p><h2>ניהול האתר</h2>
+    <p class="mut">השינויים נשמרים דרך Google Apps Script ומשפיעים על מבקרי האתר לאחר שהשרת אישר את השמירה.</p>
+    <form id="settingsForm">
+      <h3>פרטי העסק</h3>
+      <input id="setName" placeholder="שם המספרה" required maxlength="100">
+      <input id="setPhone" placeholder="טלפון" required maxlength="30">
+      <input id="setAddr" placeholder="כתובת" maxlength="250">
+      <input id="setHours" placeholder="שעות פעילות" maxlength="250">
+      <label>טקסט פתיחה<textarea id="setHero" rows="3" maxlength="500" placeholder="טקסט קצר שמופיע בראש האתר"></textarea></label>
+      <label>קישורי תמונות לגלריה — קישור אחד בכל שורה<textarea id="setGallery" rows="4" dir="ltr" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"></textarea></label>
+      <label>כתובת תמונת רקע (אופציונלי)<input id="setBg" type="url" dir="ltr" placeholder="https://example.com/background.jpg"></label>
+      <h3>צבעים</h3>
+      <label>צבע טקסט<input id="setInk" type="color" value="#f5f0e5"></label>
+      <label>צבע הדגשה / זהב<input id="setRed" type="color" value="#d7b56d"></label>
+      <label>צבע זהב כהה<input id="setBlue" type="color" value="#a17b38"></label>
+      <label>צבע רקע<input id="setPaper" type="color" value="#0b0b0b"></label>
+      <h3>גודל ומראה</h3>
+      <label>גודל טקסט<select id="setSize"><option value="15">קטן</option><option value="17">רגיל</option><option value="19">גדול</option><option value="21">גדול מאוד</option></select></label>
+      <label>רוחב האתר<select id="setWidth"><option value="640">צר</option><option value="760">רגיל</option><option value="900">רחב</option><option value="1100">רחב מאוד</option></select></label>
+      <label>גודל הלוגו<select id="setLogo"><option value="44">קטן</option><option value="56">רגיל</option><option value="68">גדול</option><option value="82">גדול מאוד</option></select></label>
+      <label>עיגול פינות<select id="setRound"><option value="6">מרובע</option><option value="16">רגיל</option><option value="24">מעוגל</option></select></label>
+      <button class="btn" type="submit">שמירת הגדרות</button>
+      <button class="chip" id="downloadHtml" type="button" style="margin-top:10px;width:100%">הורדת קובץ HTML מעודכן</button>
+      <p class="small-note">הורדת הקובץ אינה מפרסמת אותו אוטומטית. כדי לעדכן את האתר החי יש להעלות את הקובץ ל־GitHub ולפרוס דרך Vercel.</p>
+      <div class="msg" id="setMsg" role="status" aria-live="polite"></div>
+    </form>
+    <h3>התורים הקרובים</h3><div id="list"></div>
+    <div class="admin-actions"><button class="chip" id="refreshList" type="button">רענון תורים</button><button class="chip" id="out" type="button">יציאה</button></div>
+  </div>
+  <button class="chip" id="close" type="button" style="margin-top:14px">סגירה</button>
+</dialog>
+
+<script>
+/* יש להחליף בכתובת Web App של Google Apps Script, המסתיימת בדרך כלל ב-/exec */
+const API = "PASTE_APPS_SCRIPT_URL_HERE";
+
+const DEFAULT_BIZ = {
+  name:"המספרה של דני",
+  phone:"050-0000000",
+  addr:"הכניסו כאן את כתובת העסק",
+  hours:"ראשון עד שישי, 9:00–19:00",
+  hero:"דיוק בכל תספורת, תשומת לב לכל פרט. קובעים תור מראש ונהנים מחוויית מספרה אישית, מקצועית ונוחה.",
+  gallery:[]
+};
+const DEFAULT_DESIGN = {
+  ink:"#f5f0e5",red:"#d7b56d",blue:"#a17b38",paper:"#0b0b0b",
+  size:17,width:1000,logo:68,round:16,background:""
+};
+let BIZ={...DEFAULT_BIZ}, DESIGN={...DEFAULT_DESIGN}, adminPass="";
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,"0");
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const fmt=s=>new Date(s+"T12:00:00").toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
+const post=b=>fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(b)}).then(async r=>{const txt=await r.text();try{return JSON.parse(txt)}catch(_){throw new Error("השרת לא החזיר JSON תקין. בדקו את פריסת Apps Script ואת כתובת ה־API.")}});
+const get=q=>fetch(API+"?"+new URLSearchParams(q),{cache:"no-store"}).then(async r=>{const txt=await r.text();try{return JSON.parse(txt)}catch(_){throw new Error("השרת לא החזיר JSON תקין. בדקו את כתובת ה־API.")}});
+const say=(s,t,bad)=>{const m=$(s);m.textContent=t;m.className="msg"+(bad?" err":"");};
+const mark=(p,b)=>p.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+let cfg,S={svc:null,date:null,time:null};
+function ready(){$("#go").disabled=!(S.svc!=null&&S.date&&S.time&&$("#nm").value.trim().length>1&&/^0\d{8,9}$/.test($("#ph").value.replace(/\D/g,"")));}
+$("#nm").addEventListener("input",ready);$("#ph").addEventListener("input",ready);
+
+function safeUrl(value){try{const u=new URL(value);return ["https:","http:"].includes(u.protocol)?u.href:""}catch(_){return""}}
+function applySettings(settings){
+  if(settings&&settings.biz)BIZ={...DEFAULT_BIZ,...settings.biz};
+  if(settings&&settings.design)DESIGN={...DEFAULT_DESIGN,...settings.design};
+  const root=document.documentElement.style;
+  root.setProperty("--ink",DESIGN.ink);root.setProperty("--red",DESIGN.red);root.setProperty("--blue",DESIGN.blue);root.setProperty("--paper",DESIGN.paper);
+  root.setProperty("--base-size",Number(DESIGN.size||17)+"px");root.setProperty("--content-width",Number(DESIGN.width||1000)+"px");
+  root.setProperty("--logo-size","clamp(40px, 9vw, "+Number(DESIGN.logo||68)+"px)");root.setProperty("--rounding",Number(DESIGN.round||16)+"px");
+  document.title=BIZ.name+" | קביעת תור";
+  $("#brandLogo").textContent=BIZ.name;$("#footerBrand").textContent=BIZ.name;
+  $("#heroText").textContent=BIZ.hero||DEFAULT_BIZ.hero;
+  $("#contactAddr").textContent=BIZ.addr||"לא הוגדרה כתובת";
+  $("#contactHours").textContent=BIZ.hours||"יש לברר שעות פעילות";
+  $("#contactPhone").textContent=BIZ.phone||"";
+  $("#contactPhone").href="tel:"+String(BIZ.phone||"").replace(/\D/g,"");
+  $("#info").replaceChildren(el("div","",BIZ.addr||""),el("div","",BIZ.hours||""));
+  const phoneDigits=String(BIZ.phone||"").replace(/\D/g,"");
+  const intl=phoneDigits.startsWith("0")?"972"+phoneDigits.slice(1):phoneDigits;
+  $("#waTop").href="https://wa.me/"+intl+"?text="+encodeURIComponent("שלום, אשמח לקבל פרטים ולקבוע תור.");
+  const bg=safeUrl(DESIGN.background||"");
+  document.querySelector("header").style.backgroundImage=bg?"linear-gradient(90deg,#080808dd,#08080888),url("+JSON.stringify(bg)+")":"";
+  document.querySelector("header").style.backgroundSize=bg?"cover":"";
+  document.querySelector("header").style.backgroundPosition=bg?"center":"";
+  renderGallery(Array.isArray(BIZ.gallery)?BIZ.gallery:[]);
+}
+function renderGallery(urls){
+  const g=$("#galleryGrid");g.replaceChildren();
+  const valid=urls.map(safeUrl).filter(Boolean).slice(0,9);
+  if(!valid.length){for(let i=1;i<=3;i++){const item=el("div","gallery-item");item.append(el("span","gallery-placeholder","תמונת עבודה "+i));g.append(item)}return}
+  valid.forEach((url,i)=>{const item=el("div","gallery-item");const img=el("img");img.src=url;img.alt="עבודת המספרה "+(i+1);img.loading="lazy";img.onerror=()=>{item.replaceChildren(el("span","gallery-placeholder","לא ניתן לטעון את התמונה"))};item.append(img);g.append(item)});
+}
+async function init(){
+  $("#year").textContent=new Date().getFullYear();
+  if(API==="PASTE_APPS_SCRIPT_URL_HERE"){applySettings(null);say("#msg","האתר עדיין לא מחובר למערכת התורים. יש להגדיר את כתובת ה־Apps Script בקוד.",true);$("#adm").hidden=false;return}
+  try{const publicSettings=await get({action:"settings"});applySettings(publicSettings)}catch(e){applySettings(null)}
+  try{cfg=await get({action:"config"});if(!cfg||!Array.isArray(cfg.services))throw new Error("הגדרות השירותים לא תקינות")}catch(e){say("#msg","אין חיבור למערכת התורים. "+e.message,true);$("#adm").hidden=false;return}
+  const C=$("#svcs"),D=$("#days");
+  const f=new Intl.DateTimeFormat("he-IL",{weekday:"short"});
+  cfg.services.forEach(([n,m,p],i)=>{
+    const card=el("div","service-card");card.append(el("div","service-icon","✦"));
+    const copy=el("div","service-copy");copy.append(el("b","",n),el("small","",m+" דקות"));card.append(copy,el("div","service-price","₪"+p));$("#prices").append(card);
+    const b=el("button","chip",n+" · "+m+" דק׳");b.type="button";b.setAttribute("aria-pressed","false");
+    b.onclick=()=>{S.svc=i;S.time=null;mark(C,b);slots()};C.append(b);
+  });
+  for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()+i);const b=el("button","chip day");b.type="button";b.setAttribute("aria-pressed","false");
+    b.append(el("small","",i?f.format(d):"היום"),el("b","",d.getDate()+"/"+(d.getMonth()+1)));
+    b.disabled=cfg.closed.includes(d.getDay());b.onclick=()=>{S.date=iso(d);S.time=null;mark(D,b);slots()};D.append(b)}
+}
+async function slots(){
+  const T=$("#times");T.replaceChildren();ready();
+  if(S.svc==null||!S.date)return T.append(el("span","mut","בחרו שירות ויום כדי לראות שעות פנויות"));
+  T.append(el("span","mut","טוען שעות..."));
+  try{const r=await get({action:"slots",date:S.date,svc:S.svc});T.replaceChildren();
+    if(!r.slots||!r.slots.length)return T.append(el("span","mut","אין שעות פנויות ביום הזה. נסו יום אחר."));
+    r.slots.forEach(t=>{const b=el("button","chip",t);b.type="button";b.setAttribute("aria-pressed","false");b.onclick=()=>{S.time=t;mark(T,b);ready()};T.append(b)});
+  }catch(e){T.replaceChildren(el("span","err","שגיאה בטעינת השעות. "+e.message))}
+}
+$("#go").onclick=async()=>{
+  $("#go").disabled=true;say("#msg","בודקים זמינות וקובעים את התור...");
+  try{const r=await post({action:"book",svc:S.svc,date:S.date,time:S.time,name:$("#nm").value.trim(),phone:$("#ph").value.trim()});
+    if(r.ok){$("#book").replaceChildren(el("p","eyebrow","BOOKING CONFIRMED"),el("h2","","התור נקבע בהצלחה"),el("p","",cfg.services[S.svc][0]+", "+fmt(S.date)+", בשעה "+S.time),el("p","mut","לשינוי או ביטול התקשרו: "+BIZ.phone),Object.assign(el("a","btn","חזרה לעמוד הראשי"),{href:"#site"}))}
+    else{say("#msg",r.error||"לא הצלחנו לקבוע את התור",true);S.time=null;slots()}
+  }catch(e){say("#msg",e.message||"שגיאת תקשורת. נסו שוב.",true);ready()}
+};
+
+/* כניסת מנהל מוסתרת: 10 לחיצות על הלוגו */
+const dlg=$("#dlg");const show=on=>{$("#login").hidden=on;$("#panel").hidden=!on};
+let logoClicks=0,logoTimer=null;
+$("#brandLogo").style.cursor="pointer";
+$("#brandLogo").addEventListener("click",()=>{logoClicks++;clearTimeout(logoTimer);logoTimer=setTimeout(()=>logoClicks=0,3000);if(logoClicks>=10){logoClicks=0;dlg.showModal();show(false);$("#pw").focus()}});
+$("#adm").onclick=()=>{dlg.showModal();show(false)};$("#close").onclick=()=>dlg.close();
+$("#out").onclick=()=>{adminPass="";$("#pw").value="";show(false)};
+$("#lf").onsubmit=e=>{e.preventDefault();load($("#pw").value)};
+function collectSettings(){
+  const gallery=$("#setGallery").value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).slice(0,9);
+  return {biz:{name:$("#setName").value.trim(),phone:$("#setPhone").value.trim(),addr:$("#setAddr").value.trim(),hours:$("#setHours").value.trim(),hero:$("#setHero").value.trim(),gallery:gallery},
+    design:{ink:$("#setInk").value,red:$("#setRed").value,blue:$("#setBlue").value,paper:$("#setPaper").value,size:+$("#setSize").value,width:+$("#setWidth").value,logo:+$("#setLogo").value,round:+$("#setRound").value,background:$("#setBg").value.trim()}};
+}
+$("#settingsForm").onsubmit=async e=>{
+  e.preventDefault();const b=$("#setMsg");b.textContent="שומר הגדרות...";
+  if(!adminPass){b.textContent="יש להתחבר כמנהל לפני שמירה.";return}
+  const settings=collectSettings();
+  try{const r=await post({action:"saveSettings",pass:adminPass,settings});
+    if(!r.ok){b.textContent=r.error||"שמירה נכשלה";return}
+    applySettings(r.settings||settings);fillSettings();b.textContent="ההגדרות נשמרו בשרת בהצלחה.";
+  }catch(err){b.textContent="השמירה נכשלה: "+(err.message||"שגיאת תקשורת")+". בדקו את כתובת ה־API ואת פריסת Apps Script."}
+};
+async function load(pass){
+  say("#lmsg","בודקים...");
+  try{const r=await post({action:"list",pass});
+    if(!r.ok){adminPass="";show(false);return say("#lmsg",r.error||"סיסמה שגויה",true)}
+    adminPass=pass;say("#lmsg","");show(true);fillSettings();draw(r.items||[],pass);
+  }catch(e){say("#lmsg","שגיאת תקשורת: "+e.message,true)}
+}
+$("#refreshList").onclick=()=>{if(adminPass)load(adminPass)};
+function fillSettings(){
+  $("#setName").value=BIZ.name||"";$("#setPhone").value=BIZ.phone||"";$("#setAddr").value=BIZ.addr||"";$("#setHours").value=BIZ.hours||"";
+  $("#setHero").value=BIZ.hero||"";$("#setGallery").value=(BIZ.gallery||[]).join("\n");$("#setBg").value=DESIGN.background||"";
+  $("#setInk").value=DESIGN.ink;$("#setRed").value=DESIGN.red;$("#setBlue").value=DESIGN.blue;$("#setPaper").value=DESIGN.paper;
+  $("#setSize").value=String(DESIGN.size);$("#setWidth").value=String(DESIGN.width);$("#setLogo").value=String(DESIGN.logo);$("#setRound").value=String(DESIGN.round);
+}
+$("#downloadHtml").onclick=async()=>{
+  const b=$("#downloadHtml"),msg=$("#setMsg"),old=b.textContent;b.disabled=true;b.textContent="מכין קובץ...";
+  try{
+    if(!/^https?:$/.test(location.protocol))throw new Error("יש לפתוח את האתר מהכתובת הציבורית שלו, לא מקובץ מקומי.");
+    const response=await fetch(location.href.split("#")[0],{cache:"no-store"});if(!response.ok)throw new Error("לא הצלחתי לקרוא את קובץ האתר מהשרת.");
+    let source=await response.text();
+    if(!source.includes('const API = "'+API+'"'))throw new Error("לא הצלחתי לזהות את הגדרת ה־API בקובץ האתר.");
+    const settings=collectSettings();
+    source=source.replace(/const DEFAULT_BIZ = \{[\s\S]*?\};/,"const DEFAULT_BIZ = "+JSON.stringify({...DEFAULT_BIZ,...settings.biz})+";");
+    source=source.replace(/const DEFAULT_DESIGN = \{[\s\S]*?\};/,"const DEFAULT_DESIGN = "+JSON.stringify({...DEFAULT_DESIGN,...settings.design})+";");
+    const blob=new Blob([source],{type:"text/html;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download="index.html";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+    msg.textContent="הקובץ ירד. העלו את index.html ל־GitHub כדי לפרסם את העדכון.";
+  }catch(err){msg.textContent=err.message||"הורדת הקובץ נכשלה."}
+  finally{b.disabled=false;b.textContent=old}
+};
+function draw(items,pass){
+  const P=$("#list");P.replaceChildren();
+  if(!items.length)return P.append(el("p","mut","אין תורים קרובים."));
+  let last="";
+  items.forEach(it=>{const [d,t]=String(it.start||"").split("T");if(d!==last){P.append(el("h3","",fmt(d)));last=d}
+    const row=el("div","ap"),info=el("div");info.append(el("b","",t+"  "+(it.title||"תור")),el("div","mut",it.desc||""));const x=el("button","chip","ביטול");x.type="button";
+    x.onclick=async()=>{if(!confirm("לבטל את התור?"))return;x.disabled=true;try{const q=await post({action:"cancel",pass,id:it.id});if(q.ok)load(pass);else alert(q.error||"שגיאה")}catch(e){alert(e.message||"שגיאת תקשורת");x.disabled=false}};
+    row.append(info,x);P.append(row);
+  });
+}
+init();
+</script>
+<input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-30&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000d0a8820a9a54a63c3210f59c%26fn%3Dindex%252820261024-160921%2529.html%26cd%3Dattachment%26ts%3D498016%26p%3Dfs%26cid%3D1%26sig%3Dcfd277d463bf821accc29287bf9d7a318d69423ee9d4cec4307d76030dc05c1d%26v%3D0&user_id=12435&sigid=fcfb40b3ab07187c64c448c8d2e2b42beb0b30a8f76f1f9bf22423ffd28914f7&startm=200711&keyword=&referer=https%3A%2F%2Fchatgpt.com%2F&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-30'/><input type='hidden' name='ntsp_user_level' value='-30'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body>
+</html>
