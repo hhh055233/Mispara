@@ -248,7 +248,7 @@ function renderGallery(urls){
 }
 async function init(){
   $("#year").textContent=new Date().getFullYear();
-  if(API==="PASTE_APPS_SCRIPT_URL_HERE"){applySettings(null);say("#msg","האתר עדיין לא מחובר למערכת התורים. יש להגדיר את כתובת ה־Apps Script בקוד.",true);return}
+  if(API==="https://script.google.com/macros/s/AKfycbzO_bXEm37XRQ-mBkIYLquYOk3DWZ9SMwiYlkfyk1Ywb5azu_8t0SxF_yO1UY6kUDuibA/exec"){applySettings(null);say("#msg","האתר עדיין לא מחובר למערכת התורים. יש להגדיר את כתובת ה־Apps Script בקוד.",true);return}
   try{const publicSettings=await get({action:"settings"});applySettings(publicSettings)}catch(e){applySettings(null)}
   try{cfg=await get({action:"config"});if(!cfg||!Array.isArray(cfg.services))throw new Error("הגדרות השירותים לא תקינות")}catch(e){say("#msg","אין חיבור למערכת התורים. "+e.message,true);return}
   const C=$("#svcs"),D=$("#days");
