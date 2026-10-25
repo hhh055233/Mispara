@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f3ea">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="description" content="מספרה מקצועית לתספורות גברים ועיצוב זקן. צפו בשירותים ובמחירים וקבעו תור אונליין.">
+<meta name="robots" content="index,follow">
+<title>המספרה | תספורות גברים ועיצוב זקן</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&amp;family=Heebo:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f3ea;--bg2:#efe9db;--card:#fff;--ink:#17140f;--mute:#6a6154;--gold:#a8812c;--line:#e2d9c6;--btn-ink:#fff;--shadow:rgba(40,30,10,.18);--glow:rgba(201,162,74,.22);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0c0a;--bg2:#141210;--card:#1a1713;--ink:#f3ecdf;--mute:#a79e8f;--gold:#d4af5f;--line:#2d2920;--btn-ink:#14110c;--shadow:rgba(0,0,0,.55);--glow:rgba(212,175,95,.14)}}
+:root[data-theme="dark"]{--bg:#0d0c0a;--bg2:#141210;--card:#1a1713;--ink:#f3ecdf;--mute:#a79e8f;--gold:#d4af5f;--line:#2d2920;--btn-ink:#14110c;--shadow:rgba(0,0,0,.55);--glow:rgba(212,175,95,.14)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:transparent;color:var(--ink);font-family:'Heebo',Arial,sans-serif;line-height:1.7}
+.site-background{position:fixed;inset:0;z-index:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:50vh;overflow:hidden;pointer-events:none;background:var(--bg)}
+.site-background img{width:100%;height:100%;object-fit:cover;min-width:0;min-height:0;filter:saturate(.82)}
+.site-background:after{content:"";position:absolute;inset:0;background:rgba(247,243,234,.82)}
+:root[data-theme="dark"] .site-background:after{background:rgba(13,12,10,.78)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .site-background:after{background:rgba(13,12,10,.78)}}
+body>:not(.site-background){position:relative;z-index:1}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{font-family:'Frank Ruhl Libre',Georgia,serif;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo{font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:1.35rem;color:var(--gold);letter-spacing:.04em;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn{display:inline-block;background:var(--gold);color:var(--btn-ink);border:1px solid var(--gold);padding:14px 38px;font:700 1rem 'Heebo',sans-serif;border-radius:3px;cursor:pointer;text-decoration:none;letter-spacing:.03em;transition:transform .2s,box-shadow .2s,opacity .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px var(--shadow)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{padding:9px 22px;font-size:.9rem}.btn.wide{width:100%}
+.hero{text-align:center;padding:100px 0 90px;background:linear-gradient(180deg,transparent, color-mix(in srgb,var(--bg) 22%,transparent));animation:fade 1s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.orn{color:var(--gold);letter-spacing:.7em;font-size:1.1rem}
+.hero h1{font-size:clamp(2.8rem,9vw,5.4rem);font-weight:900;line-height:1.05;margin:18px 0 14px}
+.hero p{color:var(--mute);font-size:1.2rem;max-width:30em;margin:0 auto 34px}
+.rule{width:64px;height:2px;background:var(--gold);margin:0 auto 18px}
+section{padding:70px 0;border-top:1px solid var(--line);background:color-mix(in srgb,var(--bg) 22%,transparent)}
+section h2{font-size:2.1rem;text-align:center;margin-bottom:10px}
+.sub{text-align:center;color:var(--mute);margin:0 auto 34px;max-width:32em}
+.svc{max-width:38em;margin:30px auto 0}
+.svc div{display:flex;align-items:baseline;gap:12px;padding:13px 0}
+.svc .n{font-size:1.12rem}.svc .d{flex:1;border-bottom:1px dotted var(--line)}
+.svc .p{color:var(--gold);font:700 1.25rem 'Frank Ruhl Libre',serif}
+.bk{max-width:620px;margin:0 auto;background:color-mix(in srgb,var(--card) 91%,transparent);border:1px solid var(--line);padding:30px;border-radius:4px;box-shadow:0 20px 50px var(--shadow)}
+.step{margin-bottom:26px}
+.step h3{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.step h3 i{font:700 .85rem 'Heebo',sans-serif;font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--btn-ink);display:grid;place-items:center}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:14px;border-radius:3px;cursor:pointer;text-align:start;font:inherit;transition:border-color .2s,background .2s}
+.card b{display:block}.card span{color:var(--gold);font-weight:700}
+.card.on,.chip.on{border-color:var(--gold);background:var(--gold);color:var(--btn-ink)}
+.card.on span{color:var(--btn-ink)}
+.chips{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.chips.grid{flex-wrap:wrap;overflow:visible}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px;padding:10px 16px;cursor:pointer;font:600 .95rem 'Heebo',sans-serif;text-align:center;min-width:64px}
+.chip small{display:block;font-weight:400;font-size:.75rem;opacity:.8}
+.chip.off{opacity:.4;text-decoration:line-through}
+.empty{color:var(--mute);font-size:.95rem}
+label{display:block;margin:14px 0 6px;font-weight:600;font-size:.9rem}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;border-radius:3px}
+textarea{min-height:96px}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.sum{background:var(--bg2);padding:12px 16px;border-radius:3px;margin:6px 0 16px;color:var(--mute);min-height:48px}
+.msg{color:var(--gold);min-height:1.4em;margin:12px 0 0;font-weight:600}
+.done{max-width:520px;margin:0 auto;text-align:center;background:var(--card);border:1px solid var(--gold);padding:40px 26px;border-radius:4px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:660px;margin:0 auto}
+.box{background:color-mix(in srgb,var(--card) 91%,transparent);border:1px solid var(--line);padding:22px;border-radius:3px}
+.box h3{color:var(--gold);margin-bottom:8px;font-size:1.1rem}.box p{margin:0;white-space:pre-line;color:var(--mute)}
+footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;border-top:1px solid var(--line)}
+.photo-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.photo-gallery figure{margin:0;border:1px solid var(--line);background:var(--card);padding:7px;border-radius:4px;overflow:hidden}
+.photo-gallery img{display:block;width:100%;height:220px;object-fit:cover;border-radius:2px}
+.photo-gallery figcaption{padding:7px 4px 2px;color:var(--mute);font-size:.9rem}
+.admin-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:14px 0}
+.admin-photo{border:1px solid var(--line);border-radius:4px;padding:8px;min-width:0;background:var(--bg)}
+.admin-photo img{width:100%;height:125px;object-fit:cover;display:block;border-radius:3px}
+.admin-photo input{margin-top:7px}.admin-photo .btn{margin-top:7px}
+@media(max-width:600px){.photo-gallery{grid-template-columns:1fr 1fr;gap:8px}.photo-gallery img{height:150px}}
+/* admin */
+#admin{display:none;padding:34px 22px 60px;max-width:760px}
+.panel{background:var(--card);border:1px solid var(--line);padding:26px;border-radius:4px}
+.pubbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);z-index:15;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);padding:10px 16px;border-radius:3px;margin-bottom:16px}
+#dirty{font-weight:600;font-size:.9rem}#dirty.y{color:var(--gold)}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:18px}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 16px;border-radius:30px;cursor:pointer;font:600 .9rem 'Heebo',sans-serif}
+.tab.on{background:var(--gold);color:var(--btn-ink);border-color:var(--gold)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.srow{display:grid;grid-template-columns:1fr 110px 42px;gap:8px;margin-bottom:8px}
+.wrow{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:center;margin-bottom:8px}
+.wrow input[type=checkbox]{width:20px;height:20px}.wrow input{min-width:0}input[type=time],input[type=date]{min-width:0;max-width:100%}.row>div,.srow>*{min-width:0}
+.x{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:3px;cursor:pointer;font-size:1.1rem}
+.note{color:var(--mute);font-size:.85rem;margin-top:12px}
+@media(max-width:600px){.info,.row,.cards{grid-template-columns:1fr}.hero{padding:64px 0}.bk{padding:22px}.wrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.wrow .lbl{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div id="siteBackground" class="site-background" aria-hidden="true"></div>
+<header class="top"><div class="wrap bar"><div class="logo" id="logo"></div><a href="#book" class="btn sm ghost" id="topbtn">קביעת תור</a></div></header>
+
+<main id="site">
+  <div class="wrap">
+    <div class="hero">
+      <div class="orn">✂ ✦ ✂</div>
+      <h1 id="name"></h1>
+      <div class="rule"></div>
+      <p id="tag"></p>
+      <a href="#book" class="btn">קבעו תור עכשיו</a>
+    </div>
+  </div>
+  <section><div class="wrap">
+    <h2>שירותים ומחירים</h2><div class="rule"></div>
+    <div class="svc" id="svc"></div>
+  </div></section>
+  <section id="gallerySection" hidden=""><div class="wrap">
+    <h2>גלריית תמונות</h2><div class="rule"></div>
+    <p class="sub">הצצה למספרה ולעבודות שלנו</p>
+    <div id="publicGallery" class="photo-gallery"></div>
+  </div></section>
+  <section id="book"><div class="wrap">
+    <h2>קביעת תור</h2>
+    <p class="sub">בחרו שירות, יום ושעה והזמינו תור אונליין.</p>
+    <div class="bk" id="bk">
+      <div class="step"><h3><i>1</i>שירות</h3><div id="svcBox" class="cards"></div></div>
+      <div class="step"><h3><i>2</i>יום</h3><div id="dateBox" class="chips"></div></div>
+      <div class="step"><h3><i>3</i>שעה</h3><div id="timeBox" class="chips grid"></div></div>
+      <div class="step"><h3><i>4</i>פרטים</h3>
+        <label for="b_name">שם מלא</label><input id="b_name" autocomplete="name">
+        <label for="b_phone">טלפון</label><input id="b_phone" type="tel" dir="ltr" autocomplete="tel" placeholder="050-0000000">
+      </div>
+      <div class="sum" id="sum"></div>
+      <button class="btn wide" id="send">אישור וקביעת תור</button>
+      <p class="msg" id="bmsg"></p>
+    </div>
+    <div class="done" id="done" hidden="">
+      <div class="orn">✦</div><h2 style="margin:10px 0">התור נקבע בהצלחה</h2>
+      <p class="sub" style="margin-bottom:22px">התור נשמר ביומן Google. אפשר לחזור לאתר ולקבוע תור נוסף.</p>
+      <button class="btn ghost" id="again">קביעת תור נוסף</button>
+    </div>
+  </div></section>
+  <section><div class="wrap">
+    <h2>מידע</h2><div class="rule"></div><div style="height:26px"></div>
+    <div class="info">
+      <div class="box"><h3>שעות פעילות</h3><p id="hours"></p></div>
+      <div class="box"><h3>כתובת</h3><p id="addr"></p></div>
+    </div>
+  </div></section>
+  <section id="locationSection" hidden=""><div class="wrap">
+    <h2>איפה אנחנו?</h2><div class="rule"></div>
+    <p class="sub" id="locationLabel"></p>
+    <div class="bk" style="padding:10px"><iframe id="locationMap" title="מפת מיקום המספרה" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:300px;border:0;border-radius:3px" allowfullscreen=""></iframe></div>
+    <div style="text-align:center;margin-top:18px"><a class="btn" id="directionsLink" target="_blank" rel="noopener noreferrer">נווטו אלינו ב־Google Maps</a></div>
+  </div></section>
+</main>
+
+<div id="admin" class="wrap">
+  <div class="panel" id="login">
+    <h2>כניסת הנהלה</h2>
+    <label for="pw">סיסמה</label>
+    <input type="password" id="pw" autocomplete="current-password">
+    <p class="msg" id="lmsg"></p>
+    <button class="btn" id="loginBtn">כניסה</button>
+    <a href="#site" class="btn ghost" style="margin-inline-start:8px">חזרה לאתר</a>
+  </div>
+  <div id="dash" style="display:none"></div>
+</div>
+<footer>© <span id="yr"></span> כל הזכויות שמורות · קביעת תורים אונליין</footer>
+
+<script type="application/json" id="cfgdata">{"name":"הספר","tag":"אנחנו עושים את המיטב למען הלקוחות שלנו","addr":"רחוב הדוגמה 1, עיר","hours":"א׳–ה׳: 09:00–20:00\nו׳: 08:00–14:00\nשבת: סגור","pw":"8041475d9d855ae03e31153b7eeee1378d8c545702ae8412bd7619861b76db5d","services":[{"n":"תספורת גבר","p":"₪70"},{"n":"עיצוב זקן","p":"₪40"},{"n":"תספורת + זקן","p":"₪100"},{"n":"תספורת ילד","p":"₪50"}],"week":[{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"08:00","to":"14:00"},{"on":false,"from":"09:00","to":"14:00"}],"step":45,"ahead":7,"blocked":[],"off":[],"locationName":"","locationAddress":"הקוממיות 40, קרני שומרון","images":[]}</script>
+<script>
+// צילום מקור העמוד לפני כל שינוי, כדי שאפשר יהיה לפרסם גרסה מעודכנת
+const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^<html[^>]*>/, '<html lang="he" dir="rtl">');
+const ADMIN_HASH = "8041475d9d855ae03e31153b7eeee1378d8c545702ae8412bd7619861b76db5d";
+const BARBER_HASH = "08a2d3c63bf9fc88276d97a9e8df5f841fd772724ad10f119f7e516f228b74c6";
+const ROUTE = "#5215";
+// הדביקו כאן את כתובת Web App של Google Apps Script שמסתיימת ב-/exec.
+const API_URL = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+let serverBusyKeys = [];
+let serverBookings = [];
+let serverToken = "";
+let availabilityLoadedAt = 0;
+function apiReady(){ return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(API_URL); }
+function apiCall(action, params={}){
+  return new Promise((resolve,reject)=>{
+    if(!apiReady()) return reject(new Error("צריך להגדיר את כתובת Google Apps Script בקבוע API_URL."));
+    const cb="barberCb_"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+    const script=document.createElement("script"); let done=false;
+    const cleanup=()=>{ if(done)return; done=true; clearTimeout(timer); delete window[cb]; script.remove(); };
+    const timer=setTimeout(()=>{cleanup();reject(new Error("השרת לא הגיב בזמן. בדקו שה-Web App פורסם ושיש חיבור לאינטרנט."));},15000);
+    window[cb]=(data)=>{cleanup(); if(data && data.ok) resolve(data); else reject(new Error(data&&data.error || "הפעולה נכשלה."));};
+    const q=new URLSearchParams({action,callback:cb,...Object.fromEntries(Object.entries(params).map(([k,v])=>[k,typeof v==="object"?JSON.stringify(v):String(v)]))});
+    script.onerror=()=>{cleanup();reject(new Error("לא ניתן להתחבר לשרת התורים."));};
+    script.src=API_URL+"?"+q.toString(); document.head.appendChild(script);
+  });
+}
+async function refreshServerAvailability(force=false){
+  if(!apiReady() || (!force && Date.now()-availabilityLoadedAt<20000)) return;
+  try { const d=new Date(); d.setHours(0,0,0,0); const end=new Date(d); end.setDate(end.getDate()+Math.min(90,+cfg.ahead||7)+1);
+    const r=await apiCall("availability",{from:ymd(d),to:ymd(end),step:cfg.step||45,week:cfg.week,off:cfg.off,blocked:cfg.blocked});
+    serverBusyKeys=Array.isArray(r.busy)?r.busy:[]; availabilityLoadedAt=Date.now(); renderBook();
+  } catch(e){ console.warn("Availability API:",e.message); }
+}
+const DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,"0");
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lget = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const lset = (k,v) => { try { localStorage.setItem(k,v); } catch(e){} };
+const clone = o => JSON.parse(JSON.stringify(o));
+
+const DEFAULT_CONFIG = JSON.parse($("cfgdata").textContent);
+function loadSavedConfig(){
+  try {
+    const raw = localStorage.getItem("barber_site_config_v1");
+    if (!raw) return clone(DEFAULT_CONFIG);
+    const envelope = JSON.parse(raw);
+    // Ignore a local save made for an older deployed version of the site.
+    if (!envelope || envelope.base !== JSON.stringify(DEFAULT_CONFIG) || !envelope.config) {
+      localStorage.removeItem("barber_site_config_v1");
+      return clone(DEFAULT_CONFIG);
+    }
+    const saved = envelope.config;
+    if (typeof saved !== "object" || !Array.isArray(saved.services) ||
+        !Array.isArray(saved.week) || typeof saved.name !== "string") {
+      localStorage.removeItem("barber_site_config_v1");
+      return clone(DEFAULT_CONFIG);
+    }
+    return Object.assign(clone(DEFAULT_CONFIG), saved);
+  } catch(e) { return clone(DEFAULT_CONFIG); }
+}
+let cfg = loadSavedConfig();
+if (!Array.isArray(cfg.images)) cfg.images = [];
+let draft = clone(cfg), dirty = false;
+let pendingImages = [];
+
+// ===== עזרי תאריך ושעות =====
+const ymd = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseYMD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0); };
+const fmtDate = s => { const d=parseYMD(s); return "יום "+DAYS[d.getDay()]+" "+pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear(); };
+function allSlots(c, dateStr){
+  const w = c.week[parseYMD(dateStr).getDay()];
+  if (!w || !w.on || c.off.includes(dateStr)) return [];
+  const step = Math.max(10, +c.step || 30), out = [];
+  for (let m=toM(w.from); m+step<=toM(w.to); m+=step) out.push(pad(Math.floor(m/60))+":"+pad(m%60));
+  return out;
+}
+function freeSlots(c, dateStr){
+  const now = new Date();
+  // Hide slots already requested through this site's booking form on this device.
+  // A shared booking database is needed to sync bookings across different customers/devices.
+  let bookedKeys = [];
+  try {
+    const bookings = JSON.parse(localStorage.getItem("barber_booking_requests_v1") || "[]");
+    if (Array.isArray(bookings)) bookedKeys = bookings.filter(b=>b && b.date && b.time).map(b=>b.date+" "+b.time);
+  } catch(e) {}
+  return allSlots(c, dateStr).filter(t=>{
+    const key = dateStr+" "+t, d = parseYMD(dateStr);
+    d.setHours(Math.floor(toM(t)/60), toM(t)%60, 0, 0);
+    return !c.blocked.includes(key) && !bookedKeys.includes(key) && !serverBusyKeys.includes(key) && d > now;
+  });
+}
+// ===== האתר הציבורי =====
+const sel = {svc:-1, date:"", time:""};
+function renderSite(){
+  document.title = cfg.name;
+  $("logo").textContent = cfg.name; $("name").textContent = cfg.name; $("tag").textContent = cfg.tag;
+  $("hours").textContent = cfg.hours; $("addr").textContent = cfg.addr; $("yr").textContent = new Date().getFullYear();
+  const locationValue = String(cfg.locationAddress||"").trim();
+  const locationSection = $("locationSection");
+  if (locationValue) {
+    let mapQuery = locationValue;
+    const isMapUrl = /^https?:\/\//i.test(locationValue);
+    if (isMapUrl && /google\.com\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/i.test(locationValue)) {
+      mapQuery = locationValue;
+      $("locationMap").src = "https://maps.google.com/maps?q=" + encodeURIComponent(locationValue) + "&output=embed";
+      $("directionsLink").href = locationValue;
+    } else {
+      $("locationMap").src = "https://maps.google.com/maps?q=" + encodeURIComponent(mapQuery) + "&output=embed";
+      $("directionsLink").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(mapQuery);
+    }
+    $("locationLabel").textContent = [cfg.locationName, locationValue].filter(Boolean).join(" · ");
+    locationSection.hidden = false;
+  } else {
+    locationSection.hidden = true;
+    $("locationMap").removeAttribute("src");
+    $("directionsLink").removeAttribute("href");
+    $("locationLabel").textContent = "";
+  }
+  $("svc").innerHTML = cfg.services.map(s=>`<div><span class="n">${esc(s.n)}</span><span class="d"></span><span class="p">${esc(s.p)}</span></div>`).join("");
+  const images = Array.isArray(cfg.images) ? cfg.images : [];
+  const bg = $("siteBackground");
+  bg.innerHTML = images.map(im=>`<img src="${im.data}" alt="" loading="eager">`).join("");
+  bg.style.display = images.length ? "grid" : "none";
+  if (images.length === 1) bg.style.gridTemplateColumns = "1fr";
+  else bg.style.gridTemplateColumns = "repeat(2,minmax(0,1fr))";
+  $("gallerySection").hidden = images.length === 0;
+  $("publicGallery").innerHTML = images.map(im=>`<figure><img loading="lazy" src="${im.data}" alt="${esc(im.caption || 'תמונה מהמספרה')}"><figcaption>${esc(im.caption || '')}</figcaption></figure>`).join("");
+  renderBook();
+}
+function renderBook(){
+  if (sel.svc >= cfg.services.length) sel.svc = -1;
+  $("svcBox").innerHTML = cfg.services.map((s,i)=>`<button type="button" class="card${i===sel.svc?" on":""}" data-svc="${i}"><b>${esc(s.n)}</b><span>${esc(s.p)}</span></button>`).join("");
+  const dates = [], today = new Date();
+  for (let i=0; i<=Math.max(1,Math.min(90,+cfg.ahead||14)); i++){
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate()+i), k = ymd(d);
+    if (freeSlots(cfg,k).length) dates.push({k,d,i});
+  }
+  if (sel.date && !dates.some(x=>x.k===sel.date)) { sel.date=""; sel.time=""; }
+  $("dateBox").innerHTML = dates.length ? dates.map(x=>`<button type="button" class="chip${x.k===sel.date?" on":""}" data-date="${x.k}">${x.i===0?"היום":DAYS[x.d.getDay()]}<small>${pad(x.d.getDate())}/${pad(x.d.getMonth()+1)}</small></button>`).join("")
+    : '<span class="empty">אין כרגע תורים פנויים.</span>';
+  const times = sel.date ? freeSlots(cfg, sel.date) : [];
+  if (sel.time && !times.includes(sel.time)) sel.time = "";
+  $("timeBox").innerHTML = sel.date ? (times.length ? times.map(t=>`<button type="button" class="chip${t===sel.time?" on":""}" data-time="${t}">${t}</button>`).join("") : '<span class="empty">אין שעות פנויות ביום הזה.</span>') : '<span class="empty">בחרו יום כדי לראות שעות פנויות.</span>';
+  const parts = [sel.svc>=0 ? cfg.services[sel.svc].n : "", sel.date ? fmtDate(sel.date) : "", sel.time].filter(Boolean);
+  $("sum").textContent = parts.length ? parts.join("  ·  ") : "בחרו שירות, יום ושעה כדי להמשיך.";
+  $("send").disabled = !(sel.svc>=0 && sel.date && sel.time);
+  if (apiReady() && Date.now()-availabilityLoadedAt>20000) refreshServerAvailability();
+}
+function loadBookings(){
+  try { const a=JSON.parse(localStorage.getItem("barber_booking_requests_v1")||"[]"); return Array.isArray(a)?a.filter(x=>x&&x.id&&x.date&&x.time):[]; } catch(e){ return []; }
+}
+function saveBookingRequest(b){
+  try { const a=loadBookings(); a.push(b); localStorage.setItem("barber_booking_requests_v1",JSON.stringify(a)); return true; } catch(e){ return false; }
+}
+async function sendBooking(){
+  const name = $("b_name").value.trim(), phone = $("b_phone").value.trim();
+  if (!(sel.svc>=0 && sel.date && sel.time)) { $("bmsg").textContent = "יש לבחור שירות, יום ושעה."; return; }
+  if (name.length < 2) { $("bmsg").textContent = "נא להזין שם מלא."; return; }
+  if (!/^[0-9+\-\s()]{7,18}$/.test(phone)) { $("bmsg").textContent = "נא להזין מספר טלפון תקין."; return; }
+  const svc = cfg.services[sel.svc];
+  const b={id:(Date.now().toString(36)+Math.random().toString(36).slice(2,7)),name,phone,service:svc.n+" ("+svc.p+")",date:sel.date,time:sel.time,createdAt:new Date().toISOString(),status:"requested",source:"website"};
+  $("send").disabled=true; $("bmsg").textContent="בודק זמינות ושומר את התור...";
+  try {
+    if (apiReady()) {
+      await apiCall("book",{booking:b,step:cfg.step||45,week:cfg.week,off:cfg.off,blocked:cfg.blocked});
+      await refreshServerAvailability(true);
+    } else {
+      throw new Error("שירות קביעת התורים אינו מחובר. יש לחבר את Google Apps Script ולנסות שוב.");
+    }
+    $("bmsg").textContent="";
+    $("bk").hidden=true; $("done").hidden=false;
+    sel.svc=-1; sel.date=""; sel.time="";
+  } catch(e) {
+    $("bmsg").textContent = apiReady() ? (e.message || "לא הצלחנו לשמור את התור. בחרו שעה אחרת ונסו שוב.") : "שירות קביעת התורים אינו מחובר. יש להגדיר את כתובת Google Apps Script בקבוע API_URL ולפרסם את האתר מחדש.";
+  } finally { $("send").disabled=false; }
+}
+
+// ===== ניהול =====
+async function sha(s){
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+let fails = 0, lockUntil = 0, tab = "gen", dayV = ymd(new Date());
+async function login(){
+  if (Date.now() < lockUntil) { $("lmsg").textContent = "נסו שוב בעוד כמה שניות."; return; }
+  const password = $("pw").value;
+  if (!password) { $("lmsg").textContent = "יש להזין סיסמה."; return; }
+
+  if (apiReady()) {
+    try {
+      const r = await apiCall("login", { password });
+      if (r && r.ok && (r.role === "admin" || r.role === "barber")) {
+        serverToken = r.token || "";
+        try {
+          sessionStorage.setItem("adm", "1");
+          sessionStorage.setItem("barber_role", r.role);
+          if (serverToken) sessionStorage.setItem("barber_token", serverToken);
+        } catch(e) {}
+        fails = 0; $("pw").value = ""; $("lmsg").textContent = "";
+        if (r.role === "barber") await showBarber(); else showDash();
+        return;
+      }
+    } catch(e) {
+      // אם השרת לא זמין, אפשר עדיין להיכנס עם סיסמת המנהל המקומית הישנה.
+    }
+  }
+
+  const h = await sha(password);
+  if (h === ADMIN_HASH || h === (cfg.pw || ADMIN_HASH)) {
+    try { sessionStorage.setItem("adm", "1"); sessionStorage.setItem("barber_role", "admin"); } catch(e) {}
+    fails = 0; $("pw").value = ""; $("lmsg").textContent = ""; showDash();
+  } else {
+    fails++;
+    $("lmsg").textContent = apiReady() ? "סיסמה שגויה, או שהשרת לא זמין והסיסמה המקומית אינה מתאימה." : "סיסמה שגויה.";
+    if (fails >= 5) { lockUntil = Date.now() + 30000; fails = 0; }
+  }
+}
+function showDash(){ $("login").style.display="none"; $("dash").style.display="block"; renderAdmin(); }
+async function showBarber(){ $("login").style.display="none"; $("dash").style.display="block"; await renderBarberBookings(); }
+async function renderBarberBookings(){
+  const allLocal=loadBookings();
+  let all=allLocal, serverNote="מוצגות הזמנות מקומיות בלבד. כדי לראות תורים מכל המכשירים, פרסמו את Google Apps Script וחברו את API_URL.";
+  const token=serverToken || (function(){try{return sessionStorage.getItem("barber_token")||""}catch(e){return ""}})();
+  if(apiReady() && token){
+    try { const r=await apiCall("barberBookings",{token}); all=Array.isArray(r.bookings)?r.bookings:[]; serverNote="הזמנות משותפות מיומן Google Calendar. ניתן לרענן כדי לקבל את המצב העדכני."; }
+    catch(e){ serverNote="לא הצלחנו לטעון את היומן המשותף: "+e.message; }
+  }
+  const now=Date.now();
+  const upcoming=all.filter(b=>new Date(b.date+"T"+b.time+":00").getTime()>now).sort((a,b)=>(a.date+" "+a.time).localeCompare(b.date+" "+b.time));
+  let h=`<div class="pubbar"><b>יומן ההזמנות של הספר</b><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-act="refreshBarber">רענון</button><button class="btn ghost sm" data-act="logout">יציאה</button></div></div>`;
+  h+=`<div class="panel"><h2>הזמנות קרובות</h2><p class="note">${esc(serverNote)}</p>`;
+  h+=upcoming.length?upcoming.map(b=>`<div class="panel" style="margin:10px 0"><b>${esc(b.name)}</b><div>${esc(b.date)} · ${esc(b.time)}</div><div>${esc(b.service)}</div><div>טלפון: <a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></div></div>`).join(""):`<p class="empty">אין הזמנות עתידיות.</p>`;
+  h+=`</div><p class="msg" id="amsg"></p>`; $("dash").innerHTML=h;
+}
+function renderAdminPhotos(items, pending){
+  return (items||[]).map((im,i)=>`<div class="admin-photo"><img src="${im.data}" alt="תצוגה מקדימה"><input type="text" maxlength="80" placeholder="כיתוב לתמונה (לא חובה)" value="${esc(im.caption||"")}" data-photo-caption="${pending?"pending":"approved"}" data-v="${i}"><button class="btn ghost sm wide" data-act="${pending?"removePending":"removeApproved"}" data-v="${i}">הסרה</button></div>`).join("") || `<p class="note">${pending?"עדיין לא נבחרו תמונות.":"עדיין אין תמונות מאושרות."}</p>`;
+}
+async function imageToJpeg(file){
+  if (!file || !/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error("סוג קובץ לא נתמך");
+  if (file.size > 12*1024*1024) throw new Error("התמונה גדולה מדי (מקסימום 12MB לפני הקטנה)");
+  const source = await new Promise((resolve,reject)=>{ const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=()=>reject(new Error("לא ניתן לקרוא את הקובץ")); r.readAsDataURL(file); });
+  const img = await new Promise((resolve,reject)=>{ const im=new Image(); im.onload=()=>resolve(im); im.onerror=()=>reject(new Error("קובץ תמונה לא תקין")); im.src=source; });
+  const max=1200, scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement("canvas"); canvas.width=Math.max(1,Math.round(img.naturalWidth*scale)); canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const ctx=canvas.getContext("2d"); if(!ctx) throw new Error("הדפדפן לא תומך בהקטנת תמונות");
+  ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const data=canvas.toDataURL("image/jpeg",0.78);
+  if(data.length>850000) throw new Error("התמונה עדיין גדולה מדי לאחר הקטנה");
+  return {data,caption:file.name.replace(/\.[^.]+$/,"").slice(0,80)};
+}
+function renderAdmin(){
+  const tabs = [["gen","כללי"],["svc","שירותים"],["photos","תמונות"],["sch","לוח שבועי"],["day","ימים ושעות"],["bookings","הזמנות"],["sec","אבטחה"]];
+  let h = `<div class="pubbar"><div id="dirty" class="${dirty?"y":""}">${dirty?"יש שינויים שלא נשמרו":"ההגדרות שמורות"}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-act="saveLocal">שמירה באתר</button><button class="btn ghost sm" data-act="reset">איפוס לברירת מחדל</button><button class="btn sm" data-act="publish">הורדת קובץ לפרסום</button></div></div>`;
+  h += `<div class="tabs">${tabs.map(t=>`<button class="tab${t[0]===tab?" on":""}" data-act="tab" data-v="${t[0]}">${t[1]}</button>`).join("")}</div><div class="panel">`;
+  if (tab==="gen") h += `
+    <label>שם המספרה</label><input data-p="name" value="${esc(draft.name)}">
+    <label>משפט שיווקי</label><input data-p="tag" value="${esc(draft.tag)}">
+    <label>כתובת להצגה באתר</label><input data-p="addr" value="${esc(draft.addr)}">
+    <h3 style="margin-top:24px">מיקום המספרה במפה</h3>
+    <p class="note">אפשר להשאיר ריק עד שתדעו את הכתובת. כשתעדכנו ותפרסמו, תופיע באתר מפה וכפתור ניווט.</p>
+    <label>שם המקום (לא חובה)</label><input data-p="locationName" value="${esc(draft.locationName||"")}" placeholder="למשל: המספרה">
+    <label>כתובת מדויקת או קישור Google Maps</label><input data-p="locationAddress" value="${esc(draft.locationAddress||"")}" placeholder="הקלידו כתובת או הדביקו קישור למיקום">
+    <label>שעות פעילות (טקסט להצגה באתר)</label><textarea data-p="hours">${esc(draft.hours)}</textarea>
+`;
+  if (tab==="svc") h += draft.services.map((s,i)=>`<div class="srow"><input data-p="services.${i}.n" value="${esc(s.n)}" placeholder="שם השירות"><input data-p="services.${i}.p" value="${esc(s.p)}" placeholder="מחיר"><button class="x" data-act="delsvc" data-v="${i}" aria-label="מחיקה">✕</button></div>`).join("")
+    + `<button class="btn ghost sm" data-act="addsvc" style="margin-top:8px">+ הוספת שירות</button>`;
+  if (tab==="photos") h += `
+    <h3>הוספת תמונות לאתר</h3>
+    <p class="note">בחרו עד 8 תמונות. אחרי האישור הן יוצגו כרקע קבוע לכל האתר (ללא החלפה אוטומטית), וגם בגלריה. לחצו „אישור התמונות” ואז „הורדת קובץ לפרסום”.</p>
+    <label for="photoFiles">בחירת תמונות מהמכשיר</label>
+    <input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+    <div id="pendingGallery" class="admin-photos">${renderAdminPhotos(pendingImages, true)}</div>
+    <button class="btn" data-act="approvePhotos" ${pendingImages.length ? "" : "disabled"}>אישור התמונות</button>
+    <h3 style="margin-top:28px">תמונות שאושרו לאתר (${(draft.images||[]).length}/8)</h3>
+    <div class="admin-photos">${renderAdminPhotos(draft.images||[], false)}</div>
+    <p class="note">מחיקת תמונה מרשימת התמונות המאושרות מסירה אותה מהטיוטה. יש להוריד ולהעלות קובץ חדש כדי שהמחיקה תופיע לכל המבקרים.</p>`;
+  if (tab==="sch") h += `<div class="row"><div><label>אורך תור (דקות)</label><select data-p="step" data-num="1">${[15,20,30,45,60].map(n=>`<option${+draft.step===n?" selected":""}>${n}</option>`).join("")}</select></div>
+    <div><label>כמה ימים קדימה אפשר להזמין</label><input type="number" min="1" max="90" data-p="ahead" data-num="1" value="${esc(draft.ahead)}"></div></div><label>ימי עבודה ושעות</label>`
+    + draft.week.map((w,i)=>`<div class="wrow"><label class="lbl" style="margin:0"><input type="checkbox" data-p="week.${i}.on" data-bool="1"${w.on?" checked":""} style="width:auto;margin-inline-end:8px">${DAYS[i]}</label><input type="time" data-p="week.${i}.from" value="${esc(w.from)}"><input type="time" data-p="week.${i}.to" value="${esc(w.to)}"></div>`).join("");
+  if (tab==="day"){
+    const slots = allSlots(draft, dayV), off = draft.off.includes(dayV);
+    h += `<label>בחרו תאריך</label><input type="date" id="dayPick" value="${dayV}">
+      <p class="note">לחיצה על שעה חוסמת אותה ללקוחות (למשל עבור תור שנקבע מחוץ לאתר). לחיצה נוספת פותחת אותה שוב.</p>
+      <button class="btn ghost sm" data-act="dayoff" style="margin:10px 0 14px">${off?"פתיחת היום מחדש":"סגירת היום כולו"}</button>
+      <div class="chips grid">${slots.length ? slots.map(t=>`<button class="chip${draft.blocked.includes(dayV+" "+t)?" off":""}" data-act="slot" data-v="${t}">${t}</button>`).join("") : '<span class="empty">'+(off?"היום הזה סגור.":"אין שעות עבודה ביום הזה לפי הלוח השבועי.")+'</span>'}</div>`;
+  }
+  if (tab==="bookings") {
+    const all = loadBookings();
+    const now = Date.now();
+    const upcoming = all.filter(b => new Date(b.date+"T"+b.time+":00").getTime() > now).sort((a,b)=>(a.date+" "+a.time).localeCompare(b.date+" "+b.time));
+    h += `<h3>הזמנות מהאתר</h3><p class="note">מוצגות כאן הזמנות שנוצרו בטופס האתר בדפדפן הזה. תורים שעבר זמנם מוסתרים אוטומטית. הזמנות מהמכשירים של לקוחות אחרים יופיעו ביומן המשותף כשהשרת מחובר.</p>`;
+    h += upcoming.length ? upcoming.map(b=>`<div class="panel" style="margin:10px 0"><b>${esc(b.name)}</b><div>${esc(b.date)} · ${esc(b.time)}</div><div>${esc(b.service)}</div><div>טלפון: ${esc(b.phone)}</div><button class="btn ghost sm" data-act="deleteBooking" data-v="${esc(b.id)}" style="margin-top:8px">מחיקת הזמנה</button></div>`).join("") : `<p class="empty">אין הזמנות עתידיות שמורות בדפדפן הזה.</p>`;
+    h += `<button class="btn ghost sm" data-act="refreshBookings">רענון הרשימה</button>`;
+  }
+  if (tab==="sec") h += `<label>סיסמה חדשה</label><input type="password" id="newpw" autocomplete="new-password" placeholder="לפחות 8 תווים">
+    <button class="btn ghost sm" data-act="chpw" style="margin-top:12px">עדכון סיסמה</button>
+    <p class="note">חשוב: זהו אתר סטטי. סיסמת מנהל בצד הלקוח אינה אבטחה חזקה, והזמנות אינן מסתנכרנות בין מכשירים. לאחר שינוי יש ללחוץ על „הורדת קובץ לפרסום” ולהעלות את index.html החדש. לפני פרסום, עדכנו את הכתובת, הטלפון, השעות והמחירים לפרטים האמיתיים.</p>
+    <button class="btn ghost sm" data-act="logout" style="margin-top:18px">יציאה מההנהלה</button>`;
+  h += `</div><p class="msg" id="amsg"></p>`;
+  $("dash").innerHTML = h;
+}
+function markDirty(){ dirty = true; const d=$("dirty"); if (d){ d.textContent="יש שינויים שלא נשמרו"; d.className="y"; } }
+function setPath(obj, path, val){
+  const k = path.split("."); let o = obj;
+  for (let i=0;i<k.length-1;i++) o = o[k[i]];
+  o[k[k.length-1]] = val;
+}
+function buildHtml(c){
+  const keep = new Date(); keep.setHours(0,0,0,0); const today = ymd(keep);
+  c = clone(c);
+  c.blocked = c.blocked.filter(k=>k.slice(0,10) >= today); c.off = c.off.filter(k=>k >= today);
+  const json = JSON.stringify(c).replace(/</g,"\\u003c");
+  return SRC.replace(/(<script type="application\/json" id="cfgdata">)[\s\S]*?(<\/script>)/, (m,a,b)=>a+json+b);
+}
+async function publish(){
+  const msg = $("amsg");
+  // GitHub Pages is static hosting: the browser cannot commit files to GitHub by itself.
+  // Export the updated single-file site; upload the downloaded index.html to the repository.
+  try {
+    msg.textContent = "מכין קובץ אתר מעודכן...";
+    const output = buildHtml(draft);
+    const blob = new Blob([output], {type:"text/html;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "index.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    cfg = clone(draft);
+    try { localStorage.setItem("barber_site_config_v1", JSON.stringify({base:JSON.stringify(DEFAULT_CONFIG), config:cfg})); } catch(e) {}
+    dirty = false;
+    msg.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
+    renderAdmin();
+    const m = $("amsg");
+    if (m) m.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
+  } catch(e) {
+    msg.textContent = "לא הצלחנו ליצור את הקובץ. נסו שוב בדפדפן אחר.";
+  }
+}
+$("dash").addEventListener("input", e=>{
+  const t = e.target;
+  if (t.dataset.photoCaption){
+    const list = t.dataset.photoCaption === "pending" ? pendingImages : (draft.images||[]);
+    if (list[+t.dataset.v]) list[+t.dataset.v].caption = t.value;
+    if (t.dataset.photoCaption === "approved") markDirty();
+    return;
+  }
+  if (!t.dataset.p) return;
+  let v = t.dataset.bool ? t.checked : t.dataset.num ? Number(t.value) : t.value;
+  setPath(draft, t.dataset.p, v); markDirty();
+  if (t.dataset.p === "locationAddress" || t.dataset.p === "locationName") {
+    const oldCfg = cfg; cfg = clone(draft); renderSite(); cfg = oldCfg;
+  }
+});
+$("dash").addEventListener("change", async e=>{
+  if (e.target.id==="dayPick" && e.target.value){ dayV=e.target.value; renderAdmin(); return; }
+  if (e.target.id==="photoFiles"){
+    const files=Array.from(e.target.files||[]); e.target.value="";
+    if(!files.length) return;
+    const remaining=8-(draft.images||[]).length-pendingImages.length;
+    if(remaining<=0){ const m=$("amsg"); if(m)m.textContent="אפשר להציג עד 8 תמונות באתר."; return; }
+    const chosen=files.slice(0,remaining); const m=$("amsg"); if(m)m.textContent="מכין תמונות...";
+    for(const file of chosen){ try{ pendingImages.push(await imageToJpeg(file)); }catch(err){ if(m)m.textContent="לא ניתן להוסיף את "+file.name+": "+err.message; } }
+    renderAdmin(); const out=$("amsg"); if(out)out.textContent="התמונות מוכנות לבדיקה. לחצו „אישור התמונות” כדי להוסיף אותן לטיוטה.";
+  }
+});
+$("dash").addEventListener("click", e=>{
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const a = b.dataset.act, v = b.dataset.v;
+  if (a==="tab"){ tab=v; renderAdmin(); }
+  else if (a==="deleteBooking"){
+    if(confirm("למחוק את ההזמנה מהרשימה בדפדפן הזה?")){
+      try { localStorage.setItem("barber_booking_requests_v1",JSON.stringify(loadBookings().filter(x=>x.id!==v))); } catch(e){}
+      renderAdmin();
+    }
+  }
+  else if (a==="refreshBookings"){ renderAdmin(); }
+  else if (a==="refreshBarber"){ renderBarberBookings(); }
+  else if (a==="saveLocal"){
+    try {
+      localStorage.setItem("barber_site_config_v1", JSON.stringify({base:JSON.stringify(DEFAULT_CONFIG), config:draft}));
+      cfg = clone(draft); dirty = false;
+      renderSite(); renderAdmin();
+      const m = $("amsg");
+      if (m) m.textContent = "השינויים נשמרו בדפדפן הזה. כדי שיעברו לכל המבקרים, הורידו את הקובץ לפרסום והעלו אותו לאתר.";
+    } catch(e) {
+      const m = $("amsg");
+      if (m) m.textContent = "לא ניתן לשמור בדפדפן הזה. נסו להוריד את קובץ האתר המעודכן.";
+    }
+  }
+  else if (a==="reset"){
+    if (!confirm("לאפס את כל הגדרות האתר לברירת המחדל שבקובץ? שינויים שנשמרו במכשיר הזה יימחקו.")) return;
+    try { localStorage.removeItem("barber_site_config_v1"); } catch(e) {}
+    cfg = clone(DEFAULT_CONFIG); draft = clone(DEFAULT_CONFIG); pendingImages=[]; dirty = false;
+    sel.svc=-1; sel.date=""; sel.time="";
+    renderSite(); renderAdmin();
+    const m = $("amsg");
+    if (m) m.textContent = "ההגדרות אופסו לברירת המחדל. כדי לפרסם את האיפוס לכל המבקרים, הורידו את הקובץ והעלו אותו לאתר.";
+  }
+  else if (a==="publish") publish();
+  else if (a==="approvePhotos"){
+    if(!pendingImages.length){ const m=$("amsg"); if(m)m.textContent="בחרו תמונות לפני האישור."; return; }
+    const approved=draft.images||[];
+    if(approved.length+pendingImages.length>8){ const m=$("amsg"); if(m)m.textContent="אפשר להציג עד 8 תמונות באתר."; return; }
+    draft.images=approved.concat(pendingImages.map(im=>({...im}))); pendingImages=[]; markDirty(); renderAdmin();
+    const m=$("amsg"); if(m)m.textContent="התמונות אושרו בטיוטה. כדי לפרסם אותן, לחצו „הורדת קובץ לפרסום” והעלו את הקובץ ל-Netlify.";
+  }
+  else if (a==="removePending"){ pendingImages.splice(+v,1); renderAdmin(); }
+  else if (a==="removeApproved"){ if(confirm("להסיר את התמונה מהטיוטה?")){ draft.images.splice(+v,1); markDirty(); renderAdmin(); } }
+  else if (a==="addsvc"){ draft.services.push({n:"שירות חדש",p:"₪0"}); markDirty(); renderAdmin(); }
+  else if (a==="delsvc"){ draft.services.splice(+v,1); markDirty(); renderAdmin(); }
+  else if (a==="slot"){ const k=dayV+" "+v, i=draft.blocked.indexOf(k); if(i<0) draft.blocked.push(k); else draft.blocked.splice(i,1); markDirty(); renderAdmin(); }
+  else if (a==="dayoff"){ const i=draft.off.indexOf(dayV); if(i<0) draft.off.push(dayV); else draft.off.splice(i,1); markDirty(); renderAdmin(); }
+  else if (a==="chpw"){
+    const p = $("newpw").value;
+    if (p.length<8){ $("amsg").textContent="הסיסמה חייבת להכיל לפחות 8 תווים."; return; }
+    sha(p).then(h=>{ draft.pw=h; markDirty(); $("newpw").value=""; $("amsg").textContent="הסיסמה עודכנה בטיוטה. יש ללחוץ על פרסום לאתר."; });
+  }
+  else if (a==="logout"){ try{ sessionStorage.removeItem("adm"); sessionStorage.removeItem("barber_role"); sessionStorage.removeItem("barber_token"); }catch(e){} location.hash=""; route(); }
+});
+
+// ===== ניתוב וחיבורים =====
+function route(){
+  const adm = location.hash === ROUTE;
+  $("site").style.display = adm ? "none" : "block";
+  $("admin").style.display = adm ? "block" : "none";
+  $("topbtn").style.display = adm ? "none" : "";
+  if (adm){
+    let ok=false, role=""; try{ ok = sessionStorage.getItem("adm")==="1"; role=sessionStorage.getItem("barber_role")||"admin"; }catch(e){}
+    if (ok) { if (role === "barber") showBarber(); else showDash(); }
+    else { $("dash").style.display="none"; $("login").style.display="block"; $("pw").value=""; }
+  }
+}
+$("loginBtn").addEventListener("click", login);
+$("pw").addEventListener("keydown", e=>{ if (e.key==="Enter") login(); });
+$("svcBox").addEventListener("click", e=>{ const b=e.target.closest("[data-svc]"); if(b){ sel.svc=+b.dataset.svc; renderBook(); } });
+$("dateBox").addEventListener("click", e=>{ const b=e.target.closest("[data-date]"); if(b){ sel.date=b.dataset.date; sel.time=""; renderBook(); } });
+$("timeBox").addEventListener("click", e=>{ const b=e.target.closest("[data-time]"); if(b){ sel.time=b.dataset.time; renderBook(); } });
+$("send").addEventListener("click", sendBooking);
+$("again").addEventListener("click", ()=>{ $("done").hidden=true; $("bk").hidden=false; $("bmsg").textContent=""; renderBook(); });
+let taps=0, tapTimer=null;
+$("logo").addEventListener("click", ()=>{
+  taps++; clearTimeout(tapTimer); tapTimer=setTimeout(()=>{taps=0;},1500);
+  if (taps>=10){ taps=0; if (location.hash===ROUTE) route(); else location.hash=ROUTE; setTimeout(()=>{ const p=$("pw"); if($("login").style.display!=="none") p.focus(); },60); }
+});
+window.addEventListener("hashchange", route);
+renderSite(); route();
+if (apiReady()) refreshServerAvailability(true);
+
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(err => console.warn('PWA offline support unavailable:', err)));
+}
+</script><input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-30&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000ad04820aa07fa367a8ef774e%26fn%3Dindex%252820261025-065029%2529.html%26cd%3Dattachment%26ts%3D498030%26p%3Dfs%26cid%3D1%26sig%3D0a59bad856bc1c3df7bc4e6f7e3699c77e8c14e393f0d251e5ea087b7312fcfa%26v%3D0&user_id=12435&sigid=fcfb40b3ab07187c64c448c8d2e2b42beb0b30a8f76f1f9bf22423ffd28914f7&startm=200711&keyword=&referer=https%3A%2F%2Fchatgpt.com%2F&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-30'/><input type='hidden' name='ntsp_user_level' value='-30'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body></html>
