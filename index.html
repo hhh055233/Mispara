@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="he" dir="rtl"><head>
 <meta charset="utf-8">
@@ -176,8 +177,8 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
 <script>
 // צילום מקור העמוד לפני כל שינוי, כדי שאפשר יהיה לפרסם גרסה מעודכנת
 const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^<html[^>]*>/, '<html lang="he" dir="rtl">');
-const ADMIN_HASH = "8041475d9d855ae03e31153b7eeee1378d8c545702ae8412bd7619861b76db5d";
-const BARBER_HASH = "08a2d3c63bf9fc88276d97a9e8df5f841fd772724ad10f119f7e516f228b74c6";
+const ADMIN_HASH = "8041475d9d855ae03e31153b7eeee1378d8c545702ae8412bd7619861b76db5";
+const BARBER_HASH = "4045d242908d6f148d718d6c8ddf307b85f075e7fc088320abbd57c997f65533"; // SHA-256("barber67")
 const ROUTE = "#5215";
 // הדביקו כאן את כתובת Web App של Google Apps Script שמסתיימת ב-/exec.
 const API_URL = "https://script.google.com/macros/s/AKfycbx6e8_EHAw_8yVoXPjPuT1xrnXwbh-luedHeUDjkUCCAYnjeHbeC8XOOwIPl-_Ddmil/exec";
@@ -242,8 +243,7 @@ let pendingImages = [];
 // ===== עזרי תאריך ושעות =====
 const ymd = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 const parseYMD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0);
-};
+const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0); };
 const fmtDate = s => { const d=parseYMD(s); return "יום "+DAYS[d.getDay()]+" "+pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear(); };
 function allSlots(c, dateStr){
   const w = c.week[parseYMD(dateStr).getDay()];
@@ -387,10 +387,8 @@ async function login(){
       }
     }
 
-    // Local fallback: support BOTH roles. BARBER_HASH existed in the old file,
-    // but the old login only checked ADMIN_HASH, so local barber login never worked.
-    // The default administrator access code is 5215; check it without Web Crypto
-    // so it also works in mobile webviews that disable crypto.subtle.
+    // Local fallback: support BOTH roles.
+    // The default administrator access code is 5215.
     let h = "";
     if (password !== "5215") {
       try { h = await sha(password); } catch(e) { h = ""; }
@@ -399,7 +397,7 @@ async function login(){
     let localRole = "";
     if (password === "5215" || h === ADMIN_HASH || h === (cfg.pw || ADMIN_HASH)) {
       localRole = "admin";
-    } else if (h && h === BARBER_HASH) {
+    } else if (password === "barber67" || (h && h === BARBER_HASH)) {
       localRole = "barber";
     }
 
@@ -414,7 +412,7 @@ async function login(){
       fails++;
       $("lmsg").textContent = apiReady()
         ? "הסיסמה לא התקבלה. בדקו את ADMIN_PASS/BARBER_PASS ב-Google Apps Script, או את הקוד המקומי המתאים."
-        : "הסיסמה שגויה. קוד המנהל המקומי הוא 5215, אלא אם שיניתם אותו ופרסמתם קובץ חדש. קוד הספר המקומי תלוי בסיסמה שהוגדרה לגרסת האתר.";
+        : "הסיסמה שגויה. קוד המנהל המקומי הוא 5215, אלא אם שיניתם אותו ופרסמתם קובץ חדש. סיסמת הספר המקומית היא barber67.";
       if (fails >= 5) { lockUntil = Date.now() + 30000; fails = 0; }
     }
   } finally {
@@ -520,8 +518,7 @@ function buildHtml(c){
 }
 async function publish(){
   const msg = $("amsg");
-  // GitHub Pages is static hosting: the browser cannot commit files to GitHub by itself.
-  // Export the updated single-file site; upload the downloaded index.html to the repository.
+  // Export the updated single-file site; upload the downloaded index.html to Vercel.
   try {
     msg.textContent = "מכין קובץ אתר מעודכן...";
     const output = buildHtml(draft);
@@ -537,10 +534,10 @@ async function publish(){
     cfg = clone(draft);
     try { localStorage.setItem("barber_site_config_v1", JSON.stringify({base:JSON.stringify(DEFAULT_CONFIG), config:cfg})); } catch(e) {}
     dirty = false;
-    msg.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
+    msg.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Vercel או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
     renderAdmin();
     const m = $("amsg");
-    if (m) m.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
+    if (m) m.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Vercel או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
   } catch(e) {
     msg.textContent = "לא הצלחנו ליצור את הקובץ. נסו שוב בדפדפן אחר.";
   }
@@ -611,7 +608,7 @@ $("dash").addEventListener("click", e=>{
     const approved=draft.images||[];
     if(approved.length+pendingImages.length>8){ const m=$("amsg"); if(m)m.textContent="אפשר להציג עד 8 תמונות באתר."; return; }
     draft.images=approved.concat(pendingImages.map(im=>({...im}))); pendingImages=[]; markDirty(); renderAdmin();
-    const m=$("amsg"); if(m)m.textContent="התמונות אושרו בטיוטה. כדי לפרסם אותן, לחצו „הורדת קובץ לפרסום” והעלו את הקובץ ל-Netlify.";
+    const m=$("amsg"); if(m)m.textContent="התמונות אושרו בטיוטה. כדי לפרסם אותן, לחצו „הורדת קובץ לפרסום” והעלו את הקובץ ל-Vercel.";
   }
   else if (a==="removePending"){ pendingImages.splice(+v,1); renderAdmin(); }
   else if (a==="removeApproved"){ if(confirm("להסיר את התמונה מהטיוטה?")){ draft.images.splice(+v,1); markDirty(); renderAdmin(); } }
@@ -659,3 +656,4 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(err => console.warn('PWA offline support unavailable:', err)));
 }
 </script></body></html>
+```
