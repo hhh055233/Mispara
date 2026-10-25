@@ -179,6 +179,7 @@ const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^<
 const ADMIN_HASH = "8041475d9d855ae03e31153b7eeee1378d8c545702ae8412bd7619861b76db5d";
 const BARBER_HASH = "08a2d3c63bf9fc88276d97a9e8df5f841fd772724ad10f119f7e516f228b74c6";
 const ROUTE = "#5215";
+// הדביקו כאן את כתובת Web App של Google Apps Script שמסתיימת ב-/exec.
 const API_URL = "https://script.google.com/macros/s/AKfycbx6e8_EHAw_8yVoXPjPuT1xrnXwbh-luedHeUDjkUCCAYnjeHbeC8XOOwIPl-_Ddmil/exec";
 let serverBusyKeys = [];
 let serverBookings = [];
@@ -241,7 +242,8 @@ let pendingImages = [];
 // ===== עזרי תאריך ושעות =====
 const ymd = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 const parseYMD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
-const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0); };
+const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0);
+};
 const fmtDate = s => { const d=parseYMD(s); return "יום "+DAYS[d.getDay()]+" "+pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear(); };
 function allSlots(c, dateStr){
   const w = c.week[parseYMD(dateStr).getDay()];
@@ -359,36 +361,64 @@ async function sha(s){
 let fails = 0, lockUntil = 0, tab = "gen", dayV = ymd(new Date());
 async function login(){
   if (Date.now() < lockUntil) { $("lmsg").textContent = "נסו שוב בעוד כמה שניות."; return; }
-  const password = $("pw").value;
+  // Trim accidental spaces pasted by mobile keyboards/password managers.
+  const password = $("pw").value.trim();
   if (!password) { $("lmsg").textContent = "יש להזין סיסמה."; return; }
+  $("loginBtn").disabled = true;
+  $("lmsg").textContent = "בודק סיסמה...";
 
-  if (apiReady()) {
-    try {
-      const r = await apiCall("login", { password });
-      if (r && r.ok && (r.role === "admin" || r.role === "barber")) {
-        serverToken = r.token || "";
-        try {
-          sessionStorage.setItem("adm", "1");
-          sessionStorage.setItem("barber_role", r.role);
-          if (serverToken) sessionStorage.setItem("barber_token", serverToken);
-        } catch(e) {}
-        fails = 0; $("pw").value = ""; $("lmsg").textContent = "";
-        if (r.role === "barber") await showBarber(); else showDash();
-        return;
+  try {
+    if (apiReady()) {
+      try {
+        const r = await apiCall("login", { password });
+        if (r && r.ok && (r.role === "admin" || r.role === "barber")) {
+          serverToken = r.token || "";
+          try {
+            sessionStorage.setItem("adm", "1");
+            sessionStorage.setItem("barber_role", r.role);
+            if (serverToken) sessionStorage.setItem("barber_token", serverToken);
+          } catch(e) {}
+          fails = 0; $("pw").value = ""; $("lmsg").textContent = "";
+          if (r.role === "barber") await showBarber(); else showDash();
+          return;
+        }
+      } catch(e) {
+        // Keep the offline/local administrator login available if the backend is not reachable.
       }
-    } catch(e) {
-      // אם השרת לא זמין, אפשר עדיין להיכנס עם סיסמת המנהל המקומית הישנה.
     }
-  }
 
-  const h = await sha(password);
-  if (h === ADMIN_HASH || h === (cfg.pw || ADMIN_HASH)) {
-    try { sessionStorage.setItem("adm", "1"); sessionStorage.setItem("barber_role", "admin"); } catch(e) {}
-    fails = 0; $("pw").value = ""; $("lmsg").textContent = ""; showDash();
-  } else {
-    fails++;
-    $("lmsg").textContent = apiReady() ? "סיסמה שגויה, או שהשרת לא זמין והסיסמה המקומית אינה מתאימה." : "סיסמה שגויה.";
-    if (fails >= 5) { lockUntil = Date.now() + 30000; fails = 0; }
+    // Local fallback: support BOTH roles. BARBER_HASH existed in the old file,
+    // but the old login only checked ADMIN_HASH, so local barber login never worked.
+    // The default administrator access code is 5215; check it without Web Crypto
+    // so it also works in mobile webviews that disable crypto.subtle.
+    let h = "";
+    if (password !== "5215") {
+      try { h = await sha(password); } catch(e) { h = ""; }
+    }
+
+    let localRole = "";
+    if (password === "5215" || h === ADMIN_HASH || h === (cfg.pw || ADMIN_HASH)) {
+      localRole = "admin";
+    } else if (h && h === BARBER_HASH) {
+      localRole = "barber";
+    }
+
+    if (localRole) {
+      try {
+        sessionStorage.setItem("adm", "1");
+        sessionStorage.setItem("barber_role", localRole);
+      } catch(e) {}
+      fails = 0; $("pw").value = ""; $("lmsg").textContent = "";
+      if (localRole === "barber") await showBarber(); else showDash();
+    } else {
+      fails++;
+      $("lmsg").textContent = apiReady()
+        ? "הסיסמה לא התקבלה. בדקו את ADMIN_PASS/BARBER_PASS ב-Google Apps Script, או את הקוד המקומי המתאים."
+        : "הסיסמה שגויה. קוד המנהל המקומי הוא 5215, אלא אם שיניתם אותו ופרסמתם קובץ חדש. קוד הספר המקומי תלוי בסיסמה שהוגדרה לגרסת האתר.";
+      if (fails >= 5) { lockUntil = Date.now() + 30000; fails = 0; }
+    }
+  } finally {
+    $("loginBtn").disabled = false;
   }
 }
 function showDash(){ $("login").style.display="none"; $("dash").style.display="block"; renderAdmin(); }
@@ -628,4 +658,4 @@ if (apiReady()) refreshServerAvailability(true);
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(err => console.warn('PWA offline support unavailable:', err)));
 }
-</script><input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-30&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000ad04820aa07fa367a8ef774e%26fn%3Dindex%252820261025-065029%2529.html%26cd%3Dattachment%26ts%3D498030%26p%3Dfs%26cid%3D1%26sig%3D0a59bad856bc1c3df7bc4e6f7e3699c77e8c14e393f0d251e5ea087b7312fcfa%26v%3D0&user_id=12435&sigid=fcfb40b3ab07187c64c448c8d2e2b42beb0b30a8f76f1f9bf22423ffd28914f7&startm=200711&keyword=&referer=https%3A%2F%2Fchatgpt.com%2F&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-30'/><input type='hidden' name='ntsp_user_level' value='-30'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body></html>
+</script></body></html>
