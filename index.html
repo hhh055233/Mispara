@@ -83,7 +83,6 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
 .admin-photo img{width:100%;height:125px;object-fit:cover;display:block;border-radius:3px}
 .admin-photo input{margin-top:7px}.admin-photo .btn{margin-top:7px}
 @media(max-width:600px){.photo-gallery{grid-template-columns:1fr 1fr;gap:8px}.photo-gallery img{height:150px}}
-/* admin */
 #admin{display:none;padding:34px 22px 60px;max-width:760px}
 .panel{background:var(--card);border:1px solid var(--line);padding:26px;border-radius:4px}
 .pubbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);z-index:15;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line);padding:10px 16px;border-radius:3px;margin-bottom:16px}
@@ -100,9 +99,12 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
 .booking-card{border:1px solid var(--line);background:var(--bg);padding:16px;margin:12px 0;border-radius:4px}
 .booking-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
 .status-pill{display:inline-block;border:1px solid var(--line);border-radius:30px;padding:3px 10px;font-size:.82rem;font-weight:700}
-.status-pending{color:#9a6b14;border-color:#c79a43}.status-completed{color:#24804c;border-color:#58a87a}.status-cancelled{color:#a83434;border-color:#d77c7c}
+.status-pending{color:#9a6b14;border-color:#c79a43}.status-completed{color:#24804c;border-color:#58a87a}.status-cancelled{color:#a83434;border-color:#d77c7c}.status-external{color:var(--mute);border-color:var(--line)}
 .booking-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .booking-actions .btn{padding:8px 12px;font-size:.85rem}
+.server-status{font-size:.9rem;margin:12px 0;color:var(--mute)}.server-status.online{color:#24804c}.server-status.offline{color:#a83434}
+.calendar-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.calendar-day{min-width:0;border:1px solid var(--line);background:var(--bg);padding:8px;border-radius:4px;min-height:150px}.calendar-day.today{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}.calendar-day-head{font-weight:700;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:8px;font-size:.9rem}.calendar-event{background:var(--card);border:1px solid var(--line);padding:7px;border-radius:4px;margin:7px 0;font-size:.83rem;overflow-wrap:anywhere}.calendar-event .booking-actions{gap:5px}.calendar-event .booking-actions .btn{font-size:.75rem;padding:5px 7px}.calendar-empty{font-size:.78rem;color:var(--mute)}
+@media(max-width:800px){.calendar-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar-day{min-height:100px}}
 @media(max-width:600px){.info,.row,.cards{grid-template-columns:1fr}.hero{padding:64px 0}.bk{padding:22px}.wrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.wrow .lbl{grid-column:1/-1}}
 </style>
 </head>
@@ -132,6 +134,8 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
   <section id="book"><div class="wrap">
     <h2>קביעת תור</h2>
     <p class="sub">בחרו שירות, יום ושעה והזמינו תור אונליין.</p>
+    <p class="server-status" id="serverStatus" aria-live="polite">בודק חיבור ליומן המשותף...</p>
+    <button class="btn ghost sm" id="serverRetry" type="button" hidden>בדיקת חיבור מחדש</button>
     <div class="bk" id="bk">
       <div class="step"><h3><i>1</i>שירות</h3><div id="svcBox" class="cards"></div></div>
       <div class="step"><h3><i>2</i>יום</h3><div id="dateBox" class="chips"></div></div>
@@ -180,13 +184,39 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
 
 <script type="application/json" id="cfgdata">{"name":"הספר","tag":"אנחנו עושים את המיטב למען הלקוחות שלנו","addr":"רחוב הדוגמה 1, עיר","hours":"א׳–ה׳: 09:00–20:00\nו׳: 08:00–14:00\nשבת: סגור","services":[{"n":"תספורת גבר","p":"₪70"},{"n":"עיצוב זקן","p":"₪40"},{"n":"תספורת + זקן","p":"₪100"},{"n":"תספורת ילד","p":"₪50"}],"week":[{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"08:00","to":"14:00"},{"on":false,"from":"09:00","to":"14:00"}],"step":45,"ahead":7,"blocked":[],"off":[],"locationName":"","locationAddress":"הקוממיות 40, קרני שומרון","images":[]}</script>
 <script>
-// צילום מקור העמוד לפני כל שינוי
 const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^<html[^>]*>/, '<html lang="he" dir="rtl">');
 const ROUTE = "#manager";
-const API_URL = "https://script.google.com/macros/s/AKfycbxhY6vzn9XNLahWnKWFksMy1YZHlJU6ioZPTqH01hssv1-epyg7Takp7JNr_r2AZN9U/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw0a-QuhXUJt3a-22idmHDHkiBzUFkn26_z1Zj2tlrX2jDRMV-PLntuk5Kx3Ubo9olN/exec";
 
+(function installCopyDeterrents(){
+  document.addEventListener("contextmenu", function(e){
+    if (e.target && e.target.closest && e.target.closest("input, textarea, select, [contenteditable=\"true\"]")) return;
+    e.preventDefault();
+  }, true);
+  document.addEventListener("keydown", function(e){
+    var key = String(e.key || "").toLowerCase();
+    var devtoolsShortcut = e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && ["i", "j", "c"].indexOf(key) !== -1) ||
+      (e.metaKey && e.altKey && ["i", "j", "c"].indexOf(key) !== -1) ||
+      (e.ctrlKey && key === "u") ||
+      (e.metaKey && key === "u");
+    if (devtoolsShortcut) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+      return false;
+    }
+  }, true);
+})();
+
+const EXPECTED_SERVER_VERSION = "2026-10-26-passwords-v4";
+let serverOnline = false;
+let availabilityLoading = false;
+let serverError = "";
+let serverVersion = "";
 let serverBusyKeys = [];
 let serverBookings = [];
+let serverCalendarEvents = [];
 let serverToken = "";
 let availabilityLoadedAt = 0;
 let availabilityAttemptAt = 0;
@@ -201,88 +231,115 @@ function apiReady(){
   return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(API_URL);
 }
 
-function apiCall(action, params = {}){
-  return new Promise((resolve, reject) => {
-    if (!apiReady()) return reject(new Error("צריך להגדיר את כתובת Google Apps Script בקבוע API_URL."));
-    const cb = "barberCb_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-    const script = document.createElement("script");
-    let done = false;
+function apiCall(action, params={}){
+  return new Promise((resolve,reject)=>{
+    if(!apiReady()) return reject(new Error("צריך להגדיר את כתובת Google Apps Script בקבוע API_URL."));
+    const cb="barberCb_"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+    const script=document.createElement("script");
+    let done=false;
 
-    const cleanup = () => {
-      if (done) return;
-      done = true;
+    const cleanup=()=>{
+      if(done)return;
+      done=true;
       clearTimeout(timer);
       delete window[cb];
       script.remove();
     };
 
-    const timer = setTimeout(() => {
+    const timer=setTimeout(()=>{
       cleanup();
       reject(new Error("השרת לא הגיב בזמן. בדקו שה-Web App פורסם ושיש חיבור לאינטרנט."));
-    }, 15000);
+    },15000);
 
-    window[cb] = (data) => {
+    window[cb]=(data)=>{
       cleanup();
-      if (data && data.ok) resolve(data);
-      else reject(new Error(data && data.error || "הפעולה נכשלה."));
+      if(data && data.ok) resolve(data);
+      else reject(new Error(data&&data.error || "הפעולה נכשלה."));
     };
 
-    const q = new URLSearchParams({
+    const q=new URLSearchParams({
       action,
-      callback: cb,
-      ...Object.fromEntries(Object.entries(params).map(([k, v]) => [
-        k, typeof v === "object" ? JSON.stringify(v) : String(v)
+      callback:cb,
+      ...Object.fromEntries(Object.entries(params).map(([k,v])=>[
+        k,typeof v==="object"?JSON.stringify(v):String(v)
       ]))
     });
 
-    script.onerror = () => {
+    script.onerror=()=>{
       cleanup();
-      reject(new Error("לא ניתן להתחבר לשרת התורים."));
+      reject(new Error("Google Apps Script לא טען את ה-Web App. בדקו שהכתובת מסתיימת ב-/exec, שהפריסה היא Execute as: Me ו-Who has access: Anyone, ושפרסמתם New version."));
     };
 
-    script.src = API_URL + "?" + q.toString();
+    script.src=API_URL+"?"+q.toString();
     document.head.appendChild(script);
   });
 }
 
-async function refreshServerAvailability(force = false){
-  if (!apiReady() || (!force && Date.now() - availabilityAttemptAt < 20000)) return;
-  availabilityAttemptAt = Date.now();
+async function refreshServerAvailability(force=false){
+  if(!apiReady() || availabilityLoading || (!force && Date.now()-availabilityAttemptAt<20000)) return;
+
+  availabilityLoading=true;
+  availabilityAttemptAt=Date.now();
+  serverOnline=false;
 
   try {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    const end = new Date(d);
-    end.setDate(end.getDate() + Math.min(90, +cfg.ahead || 7) + 1);
+    const health=await apiCall("health",{});
+    if(!health || health.ok!==true) throw new Error("שרת התורים לא החזיר בדיקת תקינות תקפה.");
 
-    const r = await apiCall("availability", { from: ymd(d), to: ymd(end) });
-    serverBusyKeys = Array.isArray(r.busy) ? r.busy : [];
-
-    if (r.settings && Array.isArray(r.settings.week) && r.settings.week.length === 7) {
-      cfg.step = Number(r.settings.step) || 45;
-      cfg.ahead = Number(r.settings.ahead) || 7;
-      cfg.week = clone(r.settings.week);
-      cfg.off = Array.isArray(r.settings.off) ? clone(r.settings.off) : [];
-      cfg.blocked = Array.isArray(r.settings.blocked) ? clone(r.settings.blocked) : [];
-      if (!dirty) draft = clone(cfg);
+    if(health.version!==EXPECTED_SERVER_VERSION) {
+      throw new Error("השרת מחובר אבל רץ בו קוד ישן ("+(health.version||"גרסה לא ידועה")+"). הדביקו את Code.gs המעודכן, הריצו setup ואחר כך פרסמו New version.");
     }
 
-    bookingApiError = "";
-    availabilityLoadedAt = Date.now();
-    renderBook();
-  } catch (e) {
-    bookingApiError = e.message || "לא ניתן לטעון זמינות מהשרת.";
-    console.warn("Availability API:", bookingApiError);
-    renderBook();
+    if(health.calendarReady!==true) throw new Error("השרת לא הצליח לגשת ליומן Google. הפעילו setup בפרויקט ואשרו גישה ליומן.");
+
+    serverVersion=health.version;
+
+    const d=new Date();
+    d.setHours(0,0,0,0);
+    const end=new Date(d);
+    end.setDate(end.getDate()+Math.min(90,+cfg.ahead||7)+1);
+
+    const r=await apiCall("availability",{from:ymd(d),to:ymd(end)});
+
+    if(!r || !Array.isArray(r.busy) || !r.settings) throw new Error("שרת התורים החזיר תשובת זמינות לא תקינה.");
+
+    serverBusyKeys=r.busy;
+    cfg.step=Number(r.settings.step)||45;
+    cfg.ahead=Number(r.settings.ahead)||7;
+    cfg.week=clone(r.settings.week);
+    cfg.off=Array.isArray(r.settings.off)?clone(r.settings.off):[];
+    cfg.blocked=Array.isArray(r.settings.blocked)?clone(r.settings.blocked):[];
+
+    if(!dirty) draft=clone(cfg);
+
+    serverOnline=true;
+    serverError="";
+    bookingApiError="";
+    availabilityLoadedAt=Date.now();
+  } catch(e){
+    serverOnline=false;
+    serverError=e.message||"לא ניתן להתחבר לשרת התורים.";
+    bookingApiError=serverError;
+    serverBusyKeys=[];
+    console.warn("Appointments server unavailable:",serverError);
+  } finally {
+    availabilityLoading=false;
+  }
+
+  renderBook();
+
+  if((tab==="bookings" || tab==="calendar") && currentRole()==="admin" && currentToken()) {
+    bookingCacheAt=0;
+    loadSharedBookings(true);
   }
 }
 
-const DAYS = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"];
+const DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
 const $ = id => document.getElementById(id);
-const pad = n => String(n).padStart(2, "0");
-const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-}[c]));
+const pad = n => String(n).padStart(2,"0");
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const lget = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const lset = (k,v) => { try { localStorage.setItem(k,v); } catch(e){} };
 const clone = o => JSON.parse(JSON.stringify(o));
 
 const DEFAULT_CONFIG = JSON.parse($("cfgdata").textContent);
@@ -291,13 +348,16 @@ function loadSavedConfig(){
   try {
     const raw = localStorage.getItem("barber_site_config_v1");
     if (!raw) return clone(DEFAULT_CONFIG);
+
     const envelope = JSON.parse(raw);
+
     if (!envelope || !envelope.config) {
       localStorage.removeItem("barber_site_config_v1");
       return clone(DEFAULT_CONFIG);
     }
 
     const saved = envelope.config;
+
     if (typeof saved !== "object" || !Array.isArray(saved.services) ||
         !Array.isArray(saved.week) || typeof saved.name !== "string") {
       localStorage.removeItem("barber_site_config_v1");
@@ -305,10 +365,10 @@ function loadSavedConfig(){
     }
 
     delete saved.pw;
-    const merged = Object.assign(clone(DEFAULT_CONFIG), saved);
+    const merged=Object.assign(clone(DEFAULT_CONFIG), saved);
     delete merged.pw;
     return merged;
-  } catch (e) {
+  } catch(e) {
     return clone(DEFAULT_CONFIG);
   }
 }
@@ -318,40 +378,33 @@ if (!Array.isArray(cfg.images)) cfg.images = [];
 let draft = clone(cfg), dirty = false;
 let pendingImages = [];
 
-const ymd = d => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-const parseYMD = s => {
-  const [y, m, d] = s.split("-").map(Number);
-  return new Date(y, m - 1, d);
-};
-const toM = t => {
-  const [h, m] = String(t).split(":").map(Number);
-  return (h || 0) * 60 + (m || 0);
-};
-const fmtDate = s => {
-  const d = parseYMD(s);
-  return "יום " + DAYS[d.getDay()] + " " + pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear();
-};
+const ymd = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseYMD = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const toM = t => { const [h,m]=String(t).split(":").map(Number); return (h||0)*60+(m||0); };
+const fmtDate = s => { const d=parseYMD(s); return "יום "+DAYS[d.getDay()]+" "+pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear(); };
 
 function allSlots(c, dateStr){
   const w = c.week[parseYMD(dateStr).getDay()];
   if (!w || !w.on || c.off.includes(dateStr)) return [];
+
   const step = Math.max(10, +c.step || 30), out = [];
-  for (let m = toM(w.from); m + step <= toM(w.to); m += step) {
-    out.push(pad(Math.floor(m / 60)) + ":" + pad(m % 60));
+  for (let m=toM(w.from); m+step<=toM(w.to); m+=step) {
+    out.push(pad(Math.floor(m/60))+":"+pad(m%60));
   }
   return out;
 }
 
 function freeSlots(c, dateStr){
   const now = new Date();
-  return allSlots(c, dateStr).filter(t => {
-    const key = dateStr + " " + t, d = parseYMD(dateStr);
-    d.setHours(Math.floor(toM(t) / 60), toM(t) % 60, 0, 0);
-    return !c.blocked.includes(key) && !serverBusyKeys.includes(key) && d > now;
+
+  return allSlots(c, dateStr).filter(t=>{
+    const key=dateStr+" "+t, d=parseYMD(dateStr);
+    d.setHours(Math.floor(toM(t)/60),toM(t)%60,0,0);
+    return !c.blocked.includes(key) && !serverBusyKeys.includes(key) && d>now;
   });
 }
 
-const sel = { svc: -1, date: "", time: "" };
+const sel = {svc:-1, date:"", time:""};
 
 function renderSite(){
   document.title = cfg.name;
@@ -362,18 +415,22 @@ function renderSite(){
   $("addr").textContent = cfg.addr;
   $("yr").textContent = new Date().getFullYear();
 
-  const locationValue = String(cfg.locationAddress || "").trim();
+  const locationValue = String(cfg.locationAddress||"").trim();
   const locationSection = $("locationSection");
 
   if (locationValue) {
+    let mapQuery = locationValue;
     const isMapUrl = /^https?:\/\//i.test(locationValue);
+
     if (isMapUrl && /google\.com\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/i.test(locationValue)) {
+      mapQuery = locationValue;
       $("locationMap").src = "https://maps.google.com/maps?q=" + encodeURIComponent(locationValue) + "&output=embed";
       $("directionsLink").href = locationValue;
     } else {
-      $("locationMap").src = "https://maps.google.com/maps?q=" + encodeURIComponent(locationValue) + "&output=embed";
-      $("directionsLink").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(locationValue);
+      $("locationMap").src = "https://maps.google.com/maps?q=" + encodeURIComponent(mapQuery) + "&output=embed";
+      $("directionsLink").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(mapQuery);
     }
+
     $("locationLabel").textContent = [cfg.locationName, locationValue].filter(Boolean).join(" · ");
     locationSection.hidden = false;
   } else {
@@ -383,17 +440,20 @@ function renderSite(){
     $("locationLabel").textContent = "";
   }
 
-  $("svc").innerHTML = cfg.services.map(s =>
+  $("svc").innerHTML = cfg.services.map(s=>
     `<div><span class="n">${esc(s.n)}</span><span class="d"></span><span class="p">${esc(s.p)}</span></div>`
   ).join("");
 
   const images = Array.isArray(cfg.images) ? cfg.images : [];
   const bg = $("siteBackground");
-  bg.innerHTML = images.map(im => `<img src="${im.data}" alt="" loading="eager">`).join("");
+
+  bg.innerHTML = images.map(im=>`<img src="${im.data}" alt="" loading="eager">`).join("");
   bg.style.display = images.length ? "grid" : "none";
-  bg.style.gridTemplateColumns = images.length === 1 ? "1fr" : "repeat(2,minmax(0,1fr))";
+  if (images.length === 1) bg.style.gridTemplateColumns = "1fr";
+  else bg.style.gridTemplateColumns = "repeat(2,minmax(0,1fr))";
+
   $("gallerySection").hidden = images.length === 0;
-  $("publicGallery").innerHTML = images.map(im =>
+  $("publicGallery").innerHTML = images.map(im=>
     `<figure><img loading="lazy" src="${im.data}" alt="${esc(im.caption || 'תמונה מהמספרה')}"><figcaption>${esc(im.caption || '')}</figcaption></figure>`
   ).join("");
 
@@ -402,67 +462,96 @@ function renderSite(){
 
 function renderBook(){
   if (sel.svc >= cfg.services.length) sel.svc = -1;
-  $("svcBox").innerHTML = cfg.services.map((s, i) =>
-    `<button type="button" class="card${i === sel.svc ? " on" : ""}" data-svc="${i}"><b>${esc(s.n)}</b><span>${esc(s.p)}</span></button>`
+
+  $("svcBox").innerHTML = cfg.services.map((s,i)=>
+    `<button type="button" class="card${i===sel.svc?" on":""}" data-svc="${i}"><b>${esc(s.n)}</b><span>${esc(s.p)}</span></button>`
   ).join("");
 
+  const statusEl=$("serverStatus");
+
+  if(statusEl){
+    statusEl.className="server-status "+(serverOnline?"online":"offline");
+    statusEl.textContent=serverOnline
+      ?"מחובר ליומן Google · תורים נשמרים אונליין"
+      :(serverError?"מערכת התורים לא מחוברת: "+serverError:"מתחבר ליומן Google כדי לבדוק שעות פנויות...");
+  }
+
+  const retryBtn=$("serverRetry");
+  if(retryBtn) retryBtn.hidden=serverOnline || !serverError;
+
+  if(!serverOnline){
+    sel.date="";
+    sel.time="";
+    $("dateBox").innerHTML='<span class="empty">'+(serverError?'לא ניתן להציג שעות פנויות בלי חיבור ליומן המשותף.':'טוען יומן ומוודא זמינות...')+'</span>';
+    $("timeBox").innerHTML='<span class="empty">השעות יופיעו לאחר אימות החיבור לשרת.</span>';
+    $("sum").textContent="אי אפשר לקבוע תור עד שהחיבור ליומן Google פעיל.";
+    $("send").disabled=true;
+
+    if(apiReady() && Date.now()-availabilityAttemptAt>20000) refreshServerAvailability();
+    return;
+  }
+
   const dates = [], today = new Date();
-  for (let i = 0; i <= Math.max(1, Math.min(90, +cfg.ahead || 14)); i++) {
-    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i), k = ymd(d);
-    if (freeSlots(cfg, k).length) dates.push({ k, d, i });
+
+  for (let i=0; i<=Math.max(1,Math.min(90,+cfg.ahead||14)); i++){
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate()+i), k = ymd(d);
+    if (freeSlots(cfg,k).length) dates.push({k,d,i});
   }
 
-  if (sel.date && !dates.some(x => x.k === sel.date)) {
-    sel.date = "";
-    sel.time = "";
+  if (sel.date && !dates.some(x=>x.k===sel.date)) {
+    sel.date="";
+    sel.time="";
   }
 
-  $("dateBox").innerHTML = dates.length ? dates.map(x =>
-    `<button type="button" class="chip${x.k === sel.date ? " on" : ""}" data-date="${x.k}">${x.i === 0 ? "היום" : DAYS[x.d.getDay()]}<small>${pad(x.d.getDate())}/${pad(x.d.getMonth() + 1)}</small></button>`
-  ).join("") : '<span class="empty">אין כרגע תורים פנויים.</span>';
+  $("dateBox").innerHTML = dates.length ? dates.map(x=>
+    `<button type="button" class="chip${x.k===sel.date?" on":""}" data-date="${x.k}">${x.i===0?"היום":DAYS[x.d.getDay()]}<small>${pad(x.d.getDate())}/${pad(x.d.getMonth()+1)}</small></button>`
+  ).join("") : '<span class="empty">אין כרגע תורים פנויים לפי יומן Google.</span>';
 
   const times = sel.date ? freeSlots(cfg, sel.date) : [];
   if (sel.time && !times.includes(sel.time)) sel.time = "";
 
   $("timeBox").innerHTML = sel.date
-    ? (times.length ? times.map(t =>
-        `<button type="button" class="chip${t === sel.time ? " on" : ""}" data-time="${t}">${t}</button>`
+    ? (times.length ? times.map(t=>
+        `<button type="button" class="chip${t===sel.time?" on":""}" data-time="${t}">${t}</button>`
       ).join("") : '<span class="empty">אין שעות פנויות ביום הזה.</span>')
     : '<span class="empty">בחרו יום כדי לראות שעות פנויות.</span>';
 
-  if (bookingApiError) {
-    $("timeBox").insertAdjacentHTML("beforeend",
-      '<p class="msg">אין אפשרות כרגע לאמת את השעות מול יומן Google. נסו לרענן את הדף; אם הבעיה נמשכת, בדקו את פריסת השרת.</p>');
-  }
-
   const parts = [
-    sel.svc >= 0 ? cfg.services[sel.svc].n : "",
+    sel.svc>=0 ? cfg.services[sel.svc].n : "",
     sel.date ? fmtDate(sel.date) : "",
     sel.time
   ].filter(Boolean);
 
   $("sum").textContent = parts.length ? parts.join("  ·  ") : "בחרו שירות, יום ושעה כדי להמשיך.";
-  $("send").disabled = !(sel.svc >= 0 && sel.date && sel.time);
+  $("send").disabled = !(serverOnline && sel.svc>=0 && sel.date && sel.time);
 
-  if (apiReady() && Date.now() - availabilityLoadedAt > 20000) refreshServerAvailability();
+  if(apiReady() && Date.now()-availabilityAttemptAt>20000) refreshServerAvailability();
 }
 
 async function sendBooking(){
   const name = $("b_name").value.trim();
   const phone = $("b_phone").value.trim();
 
-  if (!(sel.svc >= 0 && sel.date && sel.time)) {
+  if (!serverOnline) {
+    $("bmsg").textContent = "השרת אינו מחובר. התור לא נשמר. בדקו את חיבור Google Apps Script.";
+    return;
+  }
+
+  if (!(sel.svc>=0 && sel.date && sel.time)) {
     $("bmsg").textContent = "יש לבחור שירות, יום ושעה.";
     return;
   }
+
   if (name.length < 2) {
     $("bmsg").textContent = "נא להזין שם מלא.";
     return;
   }
+
   if (name.length > 100) {
     $("bmsg").textContent = "השם ארוך מדי.";
     return;
   }
+
   if (!/^[0-9+\-\s()]{7,18}$/.test(phone)) {
     $("bmsg").textContent = "נא להזין מספר טלפון תקין.";
     return;
@@ -470,55 +559,72 @@ async function sendBooking(){
 
   const svc = cfg.services[sel.svc];
   const b = {
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    name: name,
-    phone: phone,
-    service: svc.n + " (" + svc.p + ")",
+    id: Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+    name,
+    phone,
+    service: svc.n+" ("+svc.p+")",
     date: sel.date,
     time: sel.time,
     createdAt: new Date().toISOString()
   };
 
-  $("send").disabled = true;
-  $("bmsg").textContent = "בודק זמינות ושומר את התור...";
+  $("send").disabled=true;
+  $("bmsg").textContent="בודק זמינות ושומר את התור...";
 
   try {
     if (!apiReady()) throw new Error("כתובת שרת התורים אינה מוגדרת.");
-    await apiCall("book", { booking: b });
+
+    await apiCall("book",{booking:b});
     await refreshServerAvailability(true);
-    $("bmsg").textContent = "";
-    $("bk").hidden = true;
-    $("done").hidden = false;
-    sel.svc = -1;
-    sel.date = "";
-    sel.time = "";
-  } catch (e) {
+
+    $("bmsg").textContent="";
+    $("bk").hidden=true;
+    $("done").hidden=false;
+
+    sel.svc=-1;
+    sel.date="";
+    sel.time="";
+  } catch(e) {
     $("bmsg").textContent = (e.message || "לא הצלחנו לשמור את התור.") + " אם זו שגיאת חיבור, בדקו את פריסת Google Apps Script.";
   } finally {
-    $("send").disabled = false;
+    $("send").disabled=false;
   }
 }
 
-// Admin / barber authentication is performed server-side.
+// ===== ניהול =====
 let fails = 0, lockUntil = 0, tab = "gen", dayV = ymd(new Date());
+let calendarAnchor = new Date();
+let barberView = "calendar";
 
 async function sha256Hex(value){
-  if (!window.crypto || !crypto.subtle) {
-    throw new Error("הדפדפן לא תומך בכניסה מאובטחת. פתחו את האתר ב-HTTPS.");
-  }
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(value)));
-  return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, "0")).join("");
+  if(!window.crypto || !crypto.subtle) throw new Error("הדפדפן לא תומך בכניסה מאובטחת. פתחו את האתר ב-HTTPS.");
+
+  const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(value)));
+  return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+async function hmacSha256Hex(keyText, message){
+  if(!window.crypto || !crypto.subtle) throw new Error("הדפדפן לא תומך בכניסה מאובטחת. פתחו את האתר ב-HTTPS.");
+
+  const key=await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(String(keyText)),
+    {name:"HMAC",hash:"SHA-256"},
+    false,
+    ["sign"]
+  );
+
+  const sig=await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(String(message)));
+  return Array.from(new Uint8Array(sig),b=>b.toString(16).padStart(2,"0")).join("");
 }
 
 function currentToken(){
-  if (serverToken) return serverToken;
-  try { return sessionStorage.getItem("barber_token") || ""; }
-  catch (e) { return ""; }
+  if(serverToken) return serverToken;
+  try{return sessionStorage.getItem("barber_token")||"";}catch(e){return "";}
 }
 
 function currentRole(){
-  try { return sessionStorage.getItem("barber_role") || ""; }
-  catch (e) { return ""; }
+  try{return sessionStorage.getItem("barber_role")||"";}catch(e){return "";}
 }
 
 async function login(){
@@ -528,83 +634,92 @@ async function login(){
   }
 
   const password = $("pw").value.trim();
+
   if (!password) {
     $("lmsg").textContent = "יש להזין סיסמה.";
     return;
   }
 
-  $("loginBtn").disabled = true;
-  $("lmsg").textContent = "מתחבר לשרת המאובטח...";
+  $("loginBtn").disabled=true;
+  $("lmsg").textContent="מתחבר לשרת המאובטח...";
 
   try {
-    const challenge = await apiCall("challenge", {});
-    if (!challenge || !challenge.nonce) throw new Error("השרת לא החזיר אתגר התחברות.");
+    const challenge=await apiCall("challenge",{});
 
-    const proof = await sha256Hex(password + "|" + challenge.nonce);
-    const r = await apiCall("login", { nonce: challenge.nonce, proof });
+    if(!challenge || !challenge.nonce) throw new Error("השרת לא החזיר אתגר התחברות.");
 
-    if (!r || !r.ok || !r.token || (r.role !== "admin" && r.role !== "barber")) {
+    const proof=await sha256Hex(password+"|"+challenge.nonce);
+    const passwordVerifier=await sha256Hex(password);
+    const proofV2=await hmacSha256Hex(passwordVerifier,challenge.nonce);
+
+    const r=await apiCall("login",{nonce:challenge.nonce,proof,proofV2});
+
+    if(!r || !r.ok || !r.token || (r.role!=="admin" && r.role!=="barber")) {
       throw new Error("השרת החזיר תשובת התחברות לא תקינה.");
     }
 
-    serverToken = r.token;
-    try {
-      sessionStorage.setItem("adm", "1");
-      sessionStorage.setItem("barber_role", r.role);
-      sessionStorage.setItem("barber_token", r.token);
-    } catch (e) {}
+    serverToken=r.token;
 
-    fails = 0;
-    $("pw").value = "";
-    $("lmsg").textContent = "";
+    try{
+      sessionStorage.setItem("adm","1");
+      sessionStorage.setItem("barber_role",r.role);
+      sessionStorage.setItem("barber_token",r.token);
+    }catch(e){}
 
-    if (r.role === "barber") await showBarber();
+    fails=0;
+    $("pw").value="";
+    $("lmsg").textContent="";
+
+    if(r.role==="barber") await showBarber();
     else showDash();
-  } catch (e) {
+  } catch(e){
     fails++;
-    $("lmsg").textContent = "ההתחברות לשרת נכשלה: " + (e.message || "שגיאה לא ידועה") +
-      ". אין כניסה מקומית חלופית כדי לא להציג נתוני תורים לא מסונכרנים.";
-    if (fails >= 5) {
-      lockUntil = Date.now() + 30000;
-      fails = 0;
+    $("lmsg").textContent="ההתחברות לשרת נכשלה: "+(e.message||"שגיאה לא ידועה")+". אין כניסה מקומית חלופית כדי לא להציג נתוני תורים מזויפים או לא מסונכרנים.";
+
+    if(fails>=5){
+      lockUntil=Date.now()+30000;
+      fails=0;
     }
   } finally {
-    $("loginBtn").disabled = false;
+    $("loginBtn").disabled=false;
   }
 }
 
 function showDash(){
-  $("login").style.display = "none";
-  $("dash").style.display = "block";
+  $("login").style.display="none";
+  $("dash").style.display="block";
   renderAdmin();
 }
 
 async function showBarber(){
-  $("login").style.display = "none";
-  $("dash").style.display = "block";
+  $("login").style.display="none";
+  $("dash").style.display="block";
   await renderBarberBookings();
 }
 
 function statusLabel(status){
-  if (status === "completed") return "טופל";
-  if (status === "cancelled") return "בוטל";
+  if(status==="completed") return "טופל";
+  if(status==="cancelled") return "בוטל";
+  if(status==="external") return "אירוע ביומן";
   return "ממתין לטיפול";
 }
 
 function statusPill(status){
-  return `<span class="status-pill status-${esc(status || "pending")}">${statusLabel(status)}</span>`;
+  return `<span class="status-pill status-${esc(status||"pending")}">${statusLabel(status)}</span>`;
 }
 
 function bookingCard(b, role){
-  const actions = [];
+  const actions=[];
 
-  if (b.status !== "pending") {
+  if(b.status!=="pending") {
     actions.push(`<button class="btn ghost sm" data-act="status" data-status="pending" data-v="${esc(b.id)}">החזרה לממתין</button>`);
   }
-  if (b.status !== "completed") {
+
+  if(b.status!=="completed") {
     actions.push(`<button class="btn sm" data-act="status" data-status="completed" data-v="${esc(b.id)}">סימון כטופל</button>`);
   }
-  if (role === "admin" && b.status !== "cancelled") {
+
+  if(role==="admin" && b.status!=="cancelled") {
     actions.push(`<button class="btn ghost sm" data-act="status" data-status="cancelled" data-v="${esc(b.id)}" data-confirm="cancel">ביטול תור</button>`);
   }
 
@@ -612,150 +727,235 @@ function bookingCard(b, role){
     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
       <strong>${esc(b.name)}</strong>${statusPill(b.status)}
     </div>
-    <div class="booking-meta"><span>${esc(b.date)}</span><span>· ${esc(b.time)}${b.end ? "–" + esc(b.end) : ""}</span></div>
+    <div class="booking-meta"><span>${esc(b.date)}</span><span>· ${esc(b.time)}${b.end?"–"+esc(b.end):""}</span></div>
     <div>${esc(b.service)}</div>
     <div>טלפון: <a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></div>
-    ${b.status === "cancelled" ? '<p class="note">התור בוטל והשעה זמינה מחדש, אם לא קיים אירוע אחר ביומן.</p>' : ""}
+    ${b.status==="cancelled"?'<p class="note">התור בוטל והשעה זמינה מחדש, אם לא קיים אירוע אחר ביומן.</p>':""}
     <div class="booking-actions">${actions.join("")}</div>
   </article>`;
 }
 
-function bookingsContent(role){
-  if (bookingsLoading) return '<p class="note">טוען תורים מיומן Google...</p>';
-  if (bookingsError) {
-    return `<p class="msg">שגיאה בטעינת התורים: ${esc(bookingsError)}</p>
-      <button class="btn ghost sm" data-act="${role === "barber" ? "refreshBarber" : "refreshBookings"}">נסה שוב</button>`;
+function calendarWeekStart(){
+  const d=new Date(calendarAnchor.getFullYear(),calendarAnchor.getMonth(),calendarAnchor.getDate());
+  d.setDate(d.getDate()-d.getDay());
+  return d;
+}
+
+function shiftCalendar(delta){
+  if(delta===0) calendarAnchor=new Date();
+  else calendarAnchor=new Date(calendarAnchor.getFullYear(),calendarAnchor.getMonth(),calendarAnchor.getDate()+delta*7);
+}
+
+function compactCalendarEvent(b,role){
+  const actions=[];
+
+  if(b.isBooking && b.status!=="pending") {
+    actions.push(`<button class="btn ghost sm" data-act="status" data-status="pending" data-v="${esc(b.id)}">ממתין</button>`);
   }
 
-  const chosen = bookingFilter === "all"
-    ? serverBookings
-    : serverBookings.filter(b => (b.status || "pending") === bookingFilter);
-  const ordered = chosen.slice().sort((a, b) =>
-    (a.date + " " + a.time).localeCompare(b.date + " " + b.time)
-  );
-  const filters = [
-    ["pending", "ממתינים"],
-    ["completed", "טופלו"],
-    ["cancelled", "בוטלו"],
-    ["all", "הכול"]
-  ];
+  if(b.isBooking && b.status!=="completed" && b.status!=="cancelled") {
+    actions.push(`<button class="btn sm" data-act="status" data-status="completed" data-v="${esc(b.id)}">טופל</button>`);
+  }
+
+  if(role==="admin" && b.isBooking && b.status!=="cancelled") {
+    actions.push(`<button class="btn ghost sm" data-act="status" data-status="cancelled" data-v="${esc(b.id)}" data-confirm="cancel">ביטול</button>`);
+  }
+
+  const phone=b.phone?`<div><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></div>`:"";
+  const service=b.service?`<div>${esc(b.service)}</div>`:"";
+
+  return `<div class="calendar-event">
+    <div><b>${esc(b.time)} · ${esc(b.name)}</b></div>
+    ${statusPill(b.status)}
+    ${service}
+    ${phone}
+    <div class="booking-actions">${actions.join("")}</div>
+  </div>`;
+}
+
+function calendarViewContent(role){
+  if(bookingsLoading) return '<p class="note">טוען את היומן המשותף...</p>';
+
+  if(bookingsError) {
+    return `<p class="msg">לא ניתן לטעון את היומן: ${esc(bookingsError)}</p><button class="btn ghost sm" data-act="${role==="barber"?"refreshBarber":"refreshBookings"}">נסה שוב</button>`;
+  }
+
+  const start=calendarWeekStart();
+  const end=new Date(start);
+  end.setDate(end.getDate()+7);
+
+  const lastDay=new Date(end.getTime()-86400000);
+  const rangeLabel=pad(start.getDate())+"/"+pad(start.getMonth()+1)+" – "+pad(lastDay.getDate())+"/"+pad(lastDay.getMonth()+1)+"/"+lastDay.getFullYear();
+  const today=ymd(new Date());
+
+  let html=`<div class="calendar-toolbar">
+    <div><b>יומן שבועי</b><div class="note">${rangeLabel}</div></div>
+    <div class="booking-actions">
+      <button class="btn ghost sm" data-act="calendarShift" data-v="-1">שבוע קודם</button>
+      <button class="btn ghost sm" data-act="calendarShift" data-v="0">היום</button>
+      <button class="btn ghost sm" data-act="calendarShift" data-v="1">שבוע הבא</button>
+    </div>
+  </div><div class="calendar-grid">`;
+
+  for(let i=0;i<7;i++){
+    const d=new Date(start);
+    d.setDate(start.getDate()+i);
+
+    const key=ymd(d);
+    const dayBookings=serverCalendarEvents.filter(b=>b.date===key).sort((a,b)=>a.time.localeCompare(b.time));
+
+    html+=`<div class="calendar-day${key===today?" today":""}">
+      <div class="calendar-day-head">${DAYS[d.getDay()]}<br>${pad(d.getDate())}/${pad(d.getMonth()+1)} <span class="note">(${dayBookings.length})</span></div>`;
+
+    html+=dayBookings.length
+      ?dayBookings.map(b=>compactCalendarEvent(b,role)).join("")
+      :'<div class="calendar-empty">אין תורים</div>';
+
+    html+='</div>';
+  }
+
+  html+='</div><p class="note">תורים מסומנים במצב ממתין/טופל/בוטל. היומן מציג גם תורים מהאתר וגם אירועים ידניים ביומן Google. אירועים ידניים חוסמים שעה אך לא ניתן לשנות את מצבם מכאן.</p>';
+
+  return html;
+}
+
+function bookingsContent(role){
+  if(bookingsLoading) return '<p class="note">טוען תורים מיומן Google...</p>';
+
+  if(bookingsError) {
+    return `<p class="msg">שגיאה בטעינת התורים: ${esc(bookingsError)}</p><button class="btn ghost sm" data-act="${role==="barber"?"refreshBarber":"refreshBookings"}">נסה שוב</button>`;
+  }
+
+  const chosen=bookingFilter==="all"
+    ?serverBookings
+    :serverBookings.filter(b=>(b.status||"pending")===bookingFilter);
+
+  const ordered=chosen.slice().sort((a,b)=>(a.date+" "+a.time).localeCompare(b.date+" "+b.time));
+  const filters=[["pending","ממתינים"],["completed","טופלו"],["cancelled","בוטלו"],["all","הכול"]];
 
   return `<div class="booking-actions" style="margin:0 0 14px">
-    ${filters.map(f => `<button class="tab${bookingFilter === f[0] ? " on" : ""}" data-act="bookingFilter" data-v="${f[0]}">
-      ${f[1]} (${f[0] === "all" ? serverBookings.length : serverBookings.filter(b => (b.status || "pending") === f[0]).length})
-    </button>`).join("")}
-    <button class="btn ghost sm" data-act="${role === "barber" ? "refreshBarber" : "refreshBookings"}">רענון</button>
+    ${filters.map(f=>`<button class="tab${bookingFilter===f[0]?" on":""}" data-act="bookingFilter" data-v="${f[0]}">${f[1]} (${f[0]==="all"?serverBookings.length:serverBookings.filter(b=>(b.status||"pending")===f[0]).length})</button>`).join("")}
+    <button class="btn ghost sm" data-act="${role==="barber"?"refreshBarber":"refreshBookings"}">רענון</button>
   </div>
   <p class="note">הרשימה משותפת למנהל ולספר ונקראת מיומן Google. מצב התור נשמר ביומן, ולא רק בדפדפן הזה.</p>
-  ${ordered.length ? ordered.map(b => bookingCard(b, role)).join("") : '<p class="empty">אין תורים בקטגוריה הזאת.</p>'}`;
+  ${ordered.length?ordered.map(b=>bookingCard(b,role)).join(""):'<p class="empty">אין תורים בקטגוריה הזאת.</p>'}`;
 }
 
 async function fetchSharedBookings(){
-  const token = currentToken();
-  if (!token) throw new Error("לא נמצאה התחברות לשרת. צאו והתחברו שוב.");
-  const r = await apiCall("bookings", { token });
-  if (!r || !Array.isArray(r.bookings)) throw new Error("השרת לא החזיר רשימת תורים תקינה.");
+  const token=currentToken();
 
-  serverBookings = r.bookings;
-  bookingCacheAt = Date.now();
-  bookingsError = "";
+  if(!token) throw new Error("לא נמצאה התחברות לשרת. צאו והתחברו שוב.");
+
+  const r=await apiCall("bookings",{token});
+
+  if(!r || !Array.isArray(r.bookings)) throw new Error("השרת לא החזיר רשימת תורים תקינה.");
+
+  serverBookings=r.bookings;
+  serverCalendarEvents=Array.isArray(r.calendarEvents)?r.calendarEvents:serverBookings;
+  bookingCacheAt=Date.now();
+  bookingsError="";
 }
 
-async function loadSharedBookings(force = false){
-  if (bookingsLoading) return;
-  if (!force && bookingCacheAt && Date.now() - bookingCacheAt < 15000) return;
+async function loadSharedBookings(force=false){
+  if(bookingsLoading) return;
+  if(!force && bookingCacheAt && Date.now()-bookingCacheAt<15000) return;
 
-  bookingsLoading = true;
-  bookingsError = "";
-  lastBookingsAttempt = Date.now();
-  if (tab === "bookings") renderAdmin();
+  bookingsLoading=true;
+  bookingsError="";
+  lastBookingsAttempt=Date.now();
+
+  if(tab==="bookings" || tab==="calendar") renderAdmin();
 
   try {
     await fetchSharedBookings();
-  } catch (e) {
-    bookingsError = e.message || "לא ניתן לטעון תורים.";
+  } catch(e) {
+    bookingsError=e.message||"לא ניתן לטעון תורים.";
   } finally {
-    bookingsLoading = false;
-    if (tab === "bookings" && currentRole() === "admin") renderAdmin();
+    bookingsLoading=false;
+    if((tab==="bookings" || tab==="calendar") && currentRole()==="admin") renderAdmin();
   }
 }
 
 async function renderBarberBookings(){
-  $("dash").innerHTML = `
-    <div class="pubbar">
-      <b>יומן ההזמנות של הספר</b>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn ghost sm" data-act="refreshBarber">רענון</button>
-        <button class="btn ghost sm" data-act="logout">יציאה</button>
-      </div>
+  $("dash").innerHTML=`<div class="pubbar">
+    <b>מערכת התורים של הספר</b>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost sm" data-act="refreshBarber">רענון</button>
+      <button class="btn ghost sm" data-act="logout">יציאה</button>
     </div>
-    <div class="panel">
-      <h2>תורים משותפים</h2>
-      <div id="barberAppointments"><p class="note">טוען תורים מיומן Google...</p></div>
+  </div>
+  <div class="panel">
+    <div class="booking-actions">
+      <button class="tab${barberView==="calendar"?" on":""}" data-act="barberView" data-v="calendar">יומן שבועי</button>
+      <button class="tab${barberView==="list"?" on":""}" data-act="barberView" data-v="list">רשימה לפי מצב</button>
     </div>
-    <p class="msg" id="amsg"></p>`;
+    <div id="barberAppointments"><p class="note">טוען תורים מיומן Google...</p></div>
+  </div>
+  <p class="msg" id="amsg"></p>`;
 
   try {
     await fetchSharedBookings();
-    $("barberAppointments").innerHTML = bookingsContent("barber");
-  } catch (e) {
-    $("barberAppointments").innerHTML = `<p class="msg">לא הצלחנו לטעון את התורים מהשרת: ${esc(e.message)}</p>
-      <button class="btn ghost sm" data-act="refreshBarber">נסה שוב</button>`;
+    $("barberAppointments").innerHTML=barberView==="calendar"
+      ?calendarViewContent("barber")
+      :bookingsContent("barber");
+  } catch(e) {
+    $("barberAppointments").innerHTML=`<p class="msg">לא הצלחנו לטעון את התורים מהשרת: ${esc(e.message)}</p><button class="btn ghost sm" data-act="refreshBarber">נסה שוב</button>`;
   }
 }
 
 function renderAdminPhotos(items, pending){
-  return (items || []).map((im, i) => `
-    <div class="admin-photo">
-      <img src="${im.data}" alt="תצוגה מקדימה">
-      <input type="text" maxlength="80" placeholder="כיתוב לתמונה (לא חובה)" value="${esc(im.caption || "")}" data-photo-caption="${pending ? "pending" : "approved"}" data-v="${i}">
-      <button class="btn ghost sm wide" data-act="${pending ? "removePending" : "removeApproved"}" data-v="${i}">הסרה</button>
-    </div>`).join("") || `<p class="note">${pending ? "עדיין לא נבחרו תמונות." : "עדיין אין תמונות מאושרות."}</p>`;
+  return (items||[]).map((im,i)=>`<div class="admin-photo">
+    <img src="${im.data}" alt="תצוגה מקדימה">
+    <input type="text" maxlength="80" placeholder="כיתוב לתמונה (לא חובה)" value="${esc(im.caption||"")}" data-photo-caption="${pending?"pending":"approved"}" data-v="${i}">
+    <button class="btn ghost sm wide" data-act="${pending?"removePending":"removeApproved"}" data-v="${i}">הסרה</button>
+  </div>`).join("") || `<p class="note">${pending?"עדיין לא נבחרו תמונות.":"עדיין אין תמונות מאושרות."}</p>`;
 }
 
 async function imageToJpeg(file){
   if (!file || !/^image\/(jpeg|png|webp)$/.test(file.type)) throw new Error("סוג קובץ לא נתמך");
-  if (file.size > 12 * 1024 * 1024) throw new Error("התמונה גדולה מדי (מקסימום 12MB לפני הקטנה)");
+  if (file.size > 12*1024*1024) throw new Error("התמונה גדולה מדי (מקסימום 12MB לפני הקטנה)");
 
-  const source = await new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result);
-    r.onerror = () => reject(new Error("לא ניתן לקרוא את הקובץ"));
+  const source = await new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result);
+    r.onerror=()=>reject(new Error("לא ניתן לקרוא את הקובץ"));
     r.readAsDataURL(file);
   });
 
-  const img = await new Promise((resolve, reject) => {
-    const im = new Image();
-    im.onload = () => resolve(im);
-    im.onerror = () => reject(new Error("קובץ תמונה לא תקין"));
-    im.src = source;
+  const img = await new Promise((resolve,reject)=>{
+    const im=new Image();
+    im.onload=()=>resolve(im);
+    im.onerror=()=>reject(new Error("קובץ תמונה לא תקין"));
+    im.src=source;
   });
 
-  const max = 1200, scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-  canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("הדפדפן לא תומך בהקטנת תמונות");
+  const max=1200, scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement("canvas");
+  canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
 
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  const ctx=canvas.getContext("2d");
+  if(!ctx) throw new Error("הדפדפן לא תומך בהקטנת תמונות");
 
-  const data = canvas.toDataURL("image/jpeg", 0.78);
-  if (data.length > 850000) throw new Error("התמונה עדיין גדולה מדי לאחר הקטנה");
-  return { data, caption: file.name.replace(/\.[^.]+$/, "").slice(0, 80) };
+  ctx.fillStyle="#ffffff";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+
+  const data=canvas.toDataURL("image/jpeg",0.78);
+  if(data.length>850000) throw new Error("התמונה עדיין גדולה מדי לאחר הקטנה");
+
+  return {data,caption:file.name.replace(/\.[^.]+$/,"").slice(0,80)};
 }
 
 function renderAdmin(){
   const tabs = [
-    ["gen", "כללי"], ["svc", "שירותים"], ["photos", "תמונות"],
-    ["sch", "לוח שבועי"], ["day", "ימים ושעות"],
-    ["bookings", "הזמנות"], ["sec", "אבטחה"]
+    ["gen","כללי"],["svc","שירותים"],["photos","תמונות"],
+    ["sch","לוח שבועי"],["day","ימים ושעות"],
+    ["calendar","יומן שבועי"],["bookings","הזמנות לפי מצב"],["sec","אבטחה"]
   ];
 
   let h = `<div class="pubbar">
-    <div id="dirty" class="${dirty ? "y" : ""}">${dirty ? "יש שינויים שלא נשמרו" : "ההגדרות שמורות"}</div>
+    <div id="dirty" class="${dirty?"y":""}">${dirty?"יש שינויים שלא נשמרו":"ההגדרות שמורות"}</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn ghost sm" data-act="saveLocal">שמירת לוח התורים</button>
       <button class="btn ghost sm" data-act="reset">איפוס לברירת מחדל</button>
@@ -763,121 +963,147 @@ function renderAdmin(){
     </div>
   </div>`;
 
-  h += `<div class="tabs">${tabs.map(t =>
-    `<button class="tab${t[0] === tab ? " on" : ""}" data-act="tab" data-v="${t[0]}">${t[1]}</button>`
+  h += `<div class="tabs">${tabs.map(t=>
+    `<button class="tab${t[0]===tab?" on":""}" data-act="tab" data-v="${t[0]}">${t[1]}</button>`
   ).join("")}</div><div class="panel">`;
 
-  if (tab === "gen") h += `
+  if (tab==="gen") h += `
     <label>שם המספרה</label><input data-p="name" value="${esc(draft.name)}">
     <label>משפט שיווקי</label><input data-p="tag" value="${esc(draft.tag)}">
     <label>כתובת להצגה באתר</label><input data-p="addr" value="${esc(draft.addr)}">
     <h3 style="margin-top:24px">מיקום המספרה במפה</h3>
     <p class="note">אפשר להשאיר ריק עד שתדעו את הכתובת. כשתעדכנו ותפרסמו, תופיע באתר מפה וכפתור ניווט.</p>
-    <label>שם המקום (לא חובה)</label><input data-p="locationName" value="${esc(draft.locationName || "")}" placeholder="למשל: המספרה">
-    <label>כתובת מדויקת או קישור Google Maps</label><input data-p="locationAddress" value="${esc(draft.locationAddress || "")}" placeholder="הקלידו כתובת או הדביקו קישור למיקום">
-    <label>שעות פעילות (טקסט להצגה באתר)</label><textarea data-p="hours">${esc(draft.hours)}</textarea>`;
+    <label>שם המקום (לא חובה)</label><input data-p="locationName" value="${esc(draft.locationName||"")}" placeholder="למשל: המספרה">
+    <label>כתובת מדויקת או קישור Google Maps</label><input data-p="locationAddress" value="${esc(draft.locationAddress||"")}" placeholder="הקלידו כתובת או הדביקו קישור למיקום">
+    <label>שעות פעילות (טקסט להצגה באתר)</label><textarea data-p="hours">${esc(draft.hours)}</textarea>
+`;
 
-  if (tab === "svc") h += draft.services.map((s, i) => `
-    <div class="srow">
+  if (tab==="svc") h += draft.services.map((s,i)=>
+    `<div class="srow">
       <input data-p="services.${i}.n" value="${esc(s.n)}" placeholder="שם השירות">
       <input data-p="services.${i}.p" value="${esc(s.p)}" placeholder="מחיר">
       <button class="x" data-act="delsvc" data-v="${i}" aria-label="מחיקה">✕</button>
-    </div>`).join("") +
-    `<button class="btn ghost sm" data-act="addsvc" style="margin-top:8px">+ הוספת שירות</button>`;
+    </div>`
+  ).join("") + `<button class="btn ghost sm" data-act="addsvc" style="margin-top:8px">+ הוספת שירות</button>`;
 
-  if (tab === "photos") h += `
+  if (tab==="photos") h += `
     <h3>הוספת תמונות לאתר</h3>
     <p class="note">בחרו עד 8 תמונות. אחרי האישור הן יוצגו כרקע קבוע לכל האתר (ללא החלפה אוטומטית), וגם בגלריה. לחצו „אישור התמונות” ואז „הורדת קובץ לפרסום”.</p>
     <label for="photoFiles">בחירת תמונות מהמכשיר</label>
     <input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple>
     <div id="pendingGallery" class="admin-photos">${renderAdminPhotos(pendingImages, true)}</div>
     <button class="btn" data-act="approvePhotos" ${pendingImages.length ? "" : "disabled"}>אישור התמונות</button>
-    <h3 style="margin-top:28px">תמונות שאושרו לאתר (${(draft.images || []).length}/8)</h3>
-    <div class="admin-photos">${renderAdminPhotos(draft.images || [], false)}</div>
+    <h3 style="margin-top:28px">תמונות שאושרו לאתר (${(draft.images||[]).length}/8)</h3>
+    <div class="admin-photos">${renderAdminPhotos(draft.images||[], false)}</div>
     <p class="note">מחיקת תמונה מרשימת התמונות המאושרות מסירה אותה מהטיוטה. יש להוריד ולהעלות קובץ חדש כדי שהמחיקה תופיע לכל המבקרים.</p>`;
 
-  if (tab === "sch") h += `
-    <div class="row">
-      <div><label>אורך תור (דקות)</label>
-        <select data-p="step" data-num="1">${[15,20,30,45,60].map(n =>
-          `<option${+draft.step === n ? " selected" : ""}>${n}</option>`
-        ).join("")}</select>
-      </div>
-      <div><label>כמה ימים קדימה אפשר להזמין</label>
-        <input type="number" min="1" max="90" data-p="ahead" data-num="1" value="${esc(draft.ahead)}">
-      </div>
-    </div>
-    <label>ימי עבודה ושעות</label>` +
-    draft.week.map((w, i) => `
-      <div class="wrow">
-        <label class="lbl" style="margin:0">
-          <input type="checkbox" data-p="week.${i}.on" data-bool="1"${w.on ? " checked" : ""} style="width:auto;margin-inline-end:8px">${DAYS[i]}
-        </label>
-        <input type="time" data-p="week.${i}.from" value="${esc(w.from)}">
-        <input type="time" data-p="week.${i}.to" value="${esc(w.to)}">
-      </div>`).join("");
+  if (tab==="sch") h += `<div class="row">
+    <div><label>אורך תור (דקות)</label><select data-p="step" data-num="1">${[15,20,30,45,60].map(n=>
+      `<option${+draft.step===n?" selected":""}>${n}</option>`
+    ).join("")}</select></div>
+    <div><label>כמה ימים קדימה אפשר להזמין</label><input type="number" min="1" max="90" data-p="ahead" data-num="1" value="${esc(draft.ahead)}"></div>
+  </div><label>ימי עבודה ושעות</label>` +
+    draft.week.map((w,i)=>`<div class="wrow">
+      <label class="lbl" style="margin:0"><input type="checkbox" data-p="week.${i}.on" data-bool="1"${w.on?" checked":""} style="width:auto;margin-inline-end:8px">${DAYS[i]}</label>
+      <input type="time" data-p="week.${i}.from" value="${esc(w.from)}">
+      <input type="time" data-p="week.${i}.to" value="${esc(w.to)}">
+    </div>`).join("");
 
-  if (tab === "day") {
+  if (tab==="day"){
     const slots = allSlots(draft, dayV), off = draft.off.includes(dayV);
+
     h += `<label>בחרו תאריך</label><input type="date" id="dayPick" value="${dayV}">
       <p class="note">לחיצה על שעה חוסמת אותה ללקוחות (למשל עבור תור שנקבע מחוץ לאתר). לחיצה נוספת פותחת אותה שוב.</p>
-      <button class="btn ghost sm" data-act="dayoff" style="margin:10px 0 14px">${off ? "פתיחת היום מחדש" : "סגירת היום כולו"}</button>
-      <div class="chips grid">${slots.length ? slots.map(t =>
-        `<button class="chip${draft.blocked.includes(dayV + " " + t) ? " off" : ""}" data-act="slot" data-v="${t}">${t}</button>`
-      ).join("") : '<span class="empty">' + (off ? "היום הזה סגור." : "אין שעות עבודה ביום הזה לפי הלוח השבועי.") + '</span>'}</div>`;
+      <button class="btn ghost sm" data-act="dayoff" style="margin:10px 0 14px">${off?"פתיחת היום מחדש":"סגירת היום כולו"}</button>
+      <div class="chips grid">${slots.length ? slots.map(t=>
+        `<button class="chip${draft.blocked.includes(dayV+" "+t)?" off":""}" data-act="slot" data-v="${t}">${t}</button>`
+      ).join("") : '<span class="empty">'+(off?"היום הזה סגור.":"אין שעות עבודה ביום הזה לפי הלוח השבועי.")+'</span>'}</div>`;
   }
 
-  if (tab === "bookings") {
+  if (tab==="calendar") {
+    h += `<h3>יומן תורים</h3>
+      <p class="note">תצוגת שבוע של האירועים האמיתיים ביומן Google. מעבר שבוע ושינוי מצב מתעדכנים ברשת.</p>
+      <div id="adminCalendar">${calendarViewContent("admin")}</div>`;
+  }
+
+  if (tab==="bookings") {
     h += `<h3>ניהול תורים משותף</h3>
       <p class="note">כאן רואים תורים ממתינים, שטופלו ובוטלו. שינוי המצב נשמר ביומן Google ויופיע גם במסך הספר.</p>
       <div id="adminAppointments">${bookingsContent("admin")}</div>`;
   }
 
-  if (tab === "sec") h += `
-    <h3>אבטחת המערכת</h3>
-    <p class="note">הכניסה למנהל ולספר נבדקת בשרת. אין כניסה מקומית חלופית, כדי למנוע מצב שבו מוצגים תורים מקומיים שאינם משותפים.</p>
-    <p class="note">סיסמאות הכניסה אינן נשמרות בקובץ HTML. הן מוגדרות רק ב-Script Properties של Google Apps Script.</p>
-    <p class="note">סיסמת מנהל: ADMIN_PASS. סיסמת ספר: BARBER_PASS. אין להכניס את הערכים עצמם לקובץ האתר.</p>
-    <p class="note">לצמצום סיכון: השאירו את קוד השרת פרטי, היכנסו דרך Web App שפורסם כ-Execute as: Me, וצאו מהממשק במכשירים משותפים.</p>
+  if (tab==="sec") h += `<h3>אבטחה ושינוי קודים</h3>
+    <p class="note">אפשר להיכנס לאתר מכל מחשב או טלפון עם הסיסמה המתאימה. לא צריך להיות מחוברים לחשבון Google שבו נבנה האתר. זה תלוי בכך שפריסת Apps Script מוגדרת ל-Execute as: Me ול-Who has access: Anyone.</p>
+    <p class="note">סיסמאות נשמרות בשרת Google Apps Script ולא בקובץ HTML. שינוי סיסמה כאן יפעל מכל המכשירים אחרי התחברות מחדש.</p>
+    <div class="panel" style="margin-top:18px">
+      <h3>שינוי קוד המנהל</h3>
+      <label for="managerPassNew">סיסמה חדשה למנהל (לפחות 8 תווים)</label>
+      <input type="password" id="managerPassNew" autocomplete="new-password" minlength="8" maxlength="72" placeholder="הקלידו סיסמה חדשה">
+      <label for="managerPassConfirm">אימות סיסמת המנהל</label>
+      <input type="password" id="managerPassConfirm" autocomplete="new-password" minlength="8" maxlength="72" placeholder="הקלידו שוב את הסיסמה">
+      <button class="btn" data-act="changeCredential" data-v="admin" style="margin-top:12px">עדכון קוד המנהל</button>
+    </div>
+    <div class="panel" style="margin-top:18px">
+      <h3>שינוי קוד הספר</h3>
+      <label for="barberPassNew">סיסמה חדשה לספר (לפחות 8 תווים)</label>
+      <input type="password" id="barberPassNew" autocomplete="new-password" minlength="8" maxlength="72" placeholder="למשל, קוד חדש שתבחרו">
+      <label for="barberPassConfirm">אימות סיסמת הספר</label>
+      <input type="password" id="barberPassConfirm" autocomplete="new-password" minlength="8" maxlength="72" placeholder="הקלידו שוב את הסיסמה">
+      <button class="btn" data-act="changeCredential" data-v="barber" style="margin-top:12px">עדכון קוד הספר</button>
+    </div>
+    <p class="note">אחרי שינוי קוד הספר, כל החיבורים הקודמים של הספר יתנתקו והוא יצטרך להתחבר מחדש. שינוי קוד המנהל יחליף גם הוא את החיבורים הקודמים של המנהל. מומלץ לבחור סיסמה ארוכה ולא להשתמש באותה סיסמה באתרים אחרים.</p>
     <button class="btn ghost sm" data-act="logout" style="margin-top:18px">יציאה מההנהלה</button>`;
 
   h += `</div><p class="msg" id="amsg"></p>`;
   $("dash").innerHTML = h;
 
-  if (tab === "bookings" && !bookingsLoading && Date.now() - lastBookingsAttempt > 15000) {
+  if((tab==="bookings" || tab==="calendar") && !bookingsLoading && Date.now()-lastBookingsAttempt>15000) {
     loadSharedBookings(false);
   }
 }
 
 function markDirty(){
   dirty = true;
-  const d = $("dirty");
-  if (d) {
-    d.textContent = "יש שינויים שלא נשמרו";
-    d.className = "y";
+  const d=$("dirty");
+  if(d){
+    d.textContent="יש שינויים שלא נשמרו";
+    d.className="y";
   }
 }
 
 function setPath(obj, path, val){
   const k = path.split(".");
   let o = obj;
-  for (let i = 0; i < k.length - 1; i++) o = o[k[i]];
-  o[k[k.length - 1]] = val;
+  for(let i=0;i<k.length-1;i++) o = o[k[i]];
+  o[k[k.length-1]] = val;
 }
 
 async function saveScheduleToServer(source){
-  const token = currentToken();
-  if (!token || currentRole() !== "admin") throw new Error("רק מנהל מחובר יכול לשמור שעות עבודה בשרת.");
+  const token=currentToken();
 
-  const s = source || draft;
-  const r = await apiCall("saveSchedule", {
+  if(!token || currentRole()!=="admin") {
+    throw new Error("רק מנהל מחובר יכול לשמור שעות עבודה בשרת.");
+  }
+
+  const s=source||draft;
+
+  const r=await apiCall("saveSchedule",{
     token,
-    schedule: { step: s.step, ahead: s.ahead, week: s.week, off: s.off, blocked: s.blocked }
+    schedule:{
+      step:s.step,
+      ahead:s.ahead,
+      week:s.week,
+      off:s.off,
+      blocked:s.blocked
+    }
   });
 
-  if (!r || !r.ok || !r.settings) throw new Error("השרת לא אישר שמירת שעות עבודה.");
-  serverBusyKeys = [];
-  availabilityLoadedAt = 0;
+  if(!r || !r.ok || !r.settings) {
+    throw new Error("השרת לא אישר שמירת שעות עבודה.");
+  }
+
+  serverBusyKeys=[];
+  availabilityLoadedAt=0;
   return r.settings;
 }
 
@@ -887,11 +1113,15 @@ function buildHtml(c){
   const today = ymd(keep);
 
   c = clone(c);
-  c.blocked = c.blocked.filter(k => k.slice(0,10) >= today);
-  c.off = c.off.filter(k => k >= today);
+  c.blocked = c.blocked.filter(k=>k.slice(0,10) >= today);
+  c.off = c.off.filter(k=>k >= today);
 
-  const json = JSON.stringify(c).replace(/</g, "\\u003c");
-  return SRC.replace(/(<script type="application\/json" id="cfgdata">)[\s\S]*?(<\/script>)/, (m, a, b) => a + json + b);
+  const json = JSON.stringify(c).replace(/</g,"\\u003c");
+
+  return SRC.replace(
+    /(<script type="application\/json" id="cfgdata">)[\s\S]*?(<\/script>)/,
+    (m,a,b)=>a+json+b
+  );
 }
 
 async function publish(){
@@ -902,7 +1132,7 @@ async function publish(){
     await saveScheduleToServer(draft);
 
     const output = buildHtml(draft);
-    const blob = new Blob([output], { type: "text/html;charset=utf-8" });
+    const blob = new Blob([output], {type:"text/html;charset=utf-8"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
 
@@ -911,42 +1141,47 @@ async function publish(){
     document.body.appendChild(a);
     a.click();
     a.remove();
+
     setTimeout(() => URL.revokeObjectURL(url), 1500);
 
     cfg = clone(draft);
+
     try {
       localStorage.setItem("barber_site_config_v1", JSON.stringify({
-        base: JSON.stringify(DEFAULT_CONFIG), config: cfg
+        base:JSON.stringify(DEFAULT_CONFIG),
+        config:cfg
       }));
-    } catch (e) {}
+    } catch(e) {}
 
     dirty = false;
     msg.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
 
     renderAdmin();
+
     const m = $("amsg");
-    if (m) m.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
-  } catch (e) {
+    if(m) m.textContent = "הקובץ index.html ירד למכשיר. העלו אותו ל-Netlify או ל-GitHub כדי שהשינויים יופיעו לכל המבקרים.";
+  } catch(e) {
     msg.textContent = "לא הצלחנו ליצור את הקובץ. נסו שוב בדפדפן אחר.";
   }
 }
 
-$("dash").addEventListener("input", e => {
+$("dash").addEventListener("input", e=>{
   const t = e.target;
 
-  if (t.dataset.photoCaption) {
-    const list = t.dataset.photoCaption === "pending" ? pendingImages : (draft.images || []);
-    if (list[+t.dataset.v]) list[+t.dataset.v].caption = t.value;
-    if (t.dataset.photoCaption === "approved") markDirty();
+  if(t.dataset.photoCaption){
+    const list = t.dataset.photoCaption === "pending" ? pendingImages : (draft.images||[]);
+    if(list[+t.dataset.v]) list[+t.dataset.v].caption = t.value;
+    if(t.dataset.photoCaption === "approved") markDirty();
     return;
   }
 
-  if (!t.dataset.p) return;
-  const v = t.dataset.bool ? t.checked : t.dataset.num ? Number(t.value) : t.value;
+  if(!t.dataset.p) return;
+
+  let v = t.dataset.bool ? t.checked : t.dataset.num ? Number(t.value) : t.value;
   setPath(draft, t.dataset.p, v);
   markDirty();
 
-  if (t.dataset.p === "locationAddress" || t.dataset.p === "locationName") {
+  if(t.dataset.p === "locationAddress" || t.dataset.p === "locationName"){
     const oldCfg = cfg;
     cfg = clone(draft);
     renderSite();
@@ -954,93 +1189,178 @@ $("dash").addEventListener("input", e => {
   }
 });
 
-$("dash").addEventListener("change", async e => {
-  if (e.target.id === "dayPick" && e.target.value) {
-    dayV = e.target.value;
+$("dash").addEventListener("change", async e=>{
+  if(e.target.id==="dayPick" && e.target.value){
+    dayV=e.target.value;
     renderAdmin();
     return;
   }
 
-  if (e.target.id === "photoFiles") {
-    const files = Array.from(e.target.files || []);
-    e.target.value = "";
-    if (!files.length) return;
+  if(e.target.id==="photoFiles"){
+    const files=Array.from(e.target.files||[]);
+    e.target.value="";
+    if(!files.length) return;
 
-    const remaining = 8 - (draft.images || []).length - pendingImages.length;
-    if (remaining <= 0) {
-      const m = $("amsg");
-      if (m) m.textContent = "אפשר להציג עד 8 תמונות באתר.";
+    const remaining=8-(draft.images||[]).length-pendingImages.length;
+
+    if(remaining<=0){
+      const m=$("amsg");
+      if(m)m.textContent="אפשר להציג עד 8 תמונות באתר.";
       return;
     }
 
-    const chosen = files.slice(0, remaining);
-    const m = $("amsg");
-    if (m) m.textContent = "מכין תמונות...";
+    const chosen=files.slice(0,remaining);
+    const m=$("amsg");
+    if(m)m.textContent="מכין תמונות...";
 
-    for (const file of chosen) {
-      try {
+    for(const file of chosen){
+      try{
         pendingImages.push(await imageToJpeg(file));
-      } catch (err) {
-        if (m) m.textContent = "לא ניתן להוסיף את " + file.name + ": " + err.message;
+      }catch(err){
+        if(m)m.textContent="לא ניתן להוסיף את "+file.name+": "+err.message;
       }
     }
 
     renderAdmin();
-    const out = $("amsg");
-    if (out) out.textContent = "התמונות מוכנות לבדיקה. לחצו „אישור התמונות” כדי להוסיף אותן לטיוטה.";
+
+    const out=$("amsg");
+    if(out)out.textContent="התמונות מוכנות לבדיקה. לחצו „אישור התמונות” כדי להוסיף אותן לטיוטה.";
   }
 });
 
-$("dash").addEventListener("click", async e => {
+$("dash").addEventListener("click", async e=>{
   const b = e.target.closest("[data-act]");
-  if (!b) return;
+  if(!b) return;
 
   const a = b.dataset.act, v = b.dataset.v;
 
-  if (a === "tab") {
-    tab = v;
-    renderAdmin();
-    if (v === "bookings") loadSharedBookings(true);
-  } else if (a === "bookingFilter") {
-    bookingFilter = v;
-    if (currentRole() === "barber") {
-      const box = $("barberAppointments");
-      if (box) box.innerHTML = bookingsContent("barber");
-    } else {
-      renderAdmin();
+  if(a === "changeCredential"){
+    if(currentRole() !== "admin"){
+      const m=$("amsg");
+      if(m)m.textContent="רק מנהל יכול לשנות סיסמאות.";
+      return;
     }
-  } else if (a === "status") {
-    if (b.dataset.confirm === "cancel" && !confirm("לבטל את התור? אחרי הביטול השעה תהיה זמינה שוב.")) return;
+
+    const target = v === "admin" ? "admin" : v === "barber" ? "barber" : "";
+    const passId = target === "admin" ? "managerPassNew" : "barberPassNew";
+    const confirmId = target === "admin" ? "managerPassConfirm" : "barberPassConfirm";
+    const pass = $(passId).value;
+    const confirmPass = $(confirmId).value;
+    const m = $("amsg");
+
+    if(!target){
+      if(m)m.textContent="סוג החשבון אינו תקין.";
+      return;
+    }
+
+    if(pass.length < 8 || pass.length > 72){
+      if(m)m.textContent="הסיסמה חייבת להכיל בין 8 ל־72 תווים.";
+      return;
+    }
+
+    if(pass !== confirmPass){
+      if(m)m.textContent="הסיסמאות אינן תואמות.";
+      return;
+    }
 
     b.disabled = true;
-    const m = $("amsg");
-    if (m) m.textContent = "מעדכן את מצב התור...";
+    if(m)m.textContent="מעדכן את הסיסמה בשרת...";
 
     try {
-      await apiCall("updateStatus", {
-        token: currentToken(), bookingId: v, status: b.dataset.status
+      const verifier = await sha256Hex(pass);
+      const result = await apiCall("changePassword", {
+        token: currentToken(),
+        target,
+        verifier
       });
 
-      bookingCacheAt = 0;
-      bookingsError = "";
+      if(!result || !result.ok) throw new Error("השרת לא אישר את שינוי הסיסמה.");
 
-      if (currentRole() === "barber") await renderBarberBookings();
-      else await loadSharedBookings(true);
-    } catch (err) {
-      if (m) m.textContent = "לא ניתן לעדכן את מצב התור: " + (err.message || "שגיאה.");
+      if(target === "admin"){
+        if(!result.token) throw new Error("הסיסמה השתנתה אך השרת לא החזיר הפעלת מנהל חדשה. התחברו שוב.");
+
+        serverToken = result.token;
+
+        try {
+          sessionStorage.setItem("barber_token", result.token);
+          sessionStorage.setItem("barber_role", "admin");
+          sessionStorage.setItem("adm", "1");
+        } catch(e) {}
+      }
+
+      $(passId).value = "";
+      $(confirmId).value = "";
+
+      if(m)m.textContent = result.message || (target === "admin" ? "קוד המנהל עודכן." : "קוד הספר עודכן. הספר צריך להתחבר מחדש.");
+    } catch(err) {
+      if(m)m.textContent="שינוי הסיסמה נכשל: "+(err.message || "שגיאה לא ידועה");
+    } finally {
       b.disabled = false;
     }
-  } else if (a === "refreshBookings") {
-    bookingCacheAt = 0;
+  }
+  else if(a==="tab"){
+    tab=v;
+    renderAdmin();
+    if(v==="bookings" || v==="calendar") loadSharedBookings(true);
+  }
+  else if(a==="calendarShift"){
+    shiftCalendar(Number(v));
+    if(currentRole()==="barber"){
+      const box=$("barberAppointments");
+      if(box)box.innerHTML=calendarViewContent("barber");
+    }else renderAdmin();
+  }
+  else if(a==="barberView"){
+    barberView=v==="list"?"list":"calendar";
+    renderBarberBookings();
+  }
+  else if(a==="bookingFilter"){
+    bookingFilter=v;
+    if(currentRole()==="barber"){
+      const box=$("barberAppointments");
+      if(box)box.innerHTML=bookingsContent("barber");
+    }else renderAdmin();
+  }
+  else if(a==="status"){
+    if(b.dataset.confirm==="cancel" && !confirm("לבטל את התור? אחרי הביטול השעה תהיה זמינה שוב.")) return;
+
+    b.disabled=true;
+
+    const m=$("amsg");
+    if(m)m.textContent="מעדכן את מצב התור...";
+
+    try{
+      await apiCall("updateStatus",{
+        token:currentToken(),
+        bookingId:v,
+        status:b.dataset.status
+      });
+
+      bookingCacheAt=0;
+      bookingsError="";
+
+      if(currentRole()==="barber") await renderBarberBookings();
+      else await loadSharedBookings(true);
+    }catch(err){
+      if(m)m.textContent="לא ניתן לעדכן את מצב התור: "+(err.message||"שגיאה.");
+      b.disabled=false;
+    }
+  }
+  else if(a==="refreshBookings"){
+    bookingCacheAt=0;
     await loadSharedBookings(true);
-  } else if (a === "refreshBarber") {
-    bookingCacheAt = 0;
+  }
+  else if(a==="refreshBarber"){
+    bookingCacheAt=0;
     await renderBarberBookings();
-  } else if (a === "saveLocal") {
+  }
+  else if(a==="saveLocal"){
     try {
       await saveScheduleToServer(draft);
+
       localStorage.setItem("barber_site_config_v1", JSON.stringify({
-        base: JSON.stringify(DEFAULT_CONFIG), config: draft
+        base:JSON.stringify(DEFAULT_CONFIG),
+        config:draft
       }));
 
       cfg = clone(draft);
@@ -1049,182 +1369,251 @@ $("dash").addEventListener("click", async e => {
       renderAdmin();
 
       const m = $("amsg");
-      if (m) m.textContent = "שעות העבודה נשמרו בשרת המשותף. שאר הגדרות העיצוב נשמרו בדפדפן הזה; כדי לפרסם אותן לכל המבקרים, הורידו את הקובץ והעלו אותו ל-Vercel.";
-    } catch (e) {
+      if(m) m.textContent = "שעות העבודה נשמרו בשרת המשותף. שאר הגדרות העיצוב נשמרו בדפדפן הזה; כדי לפרסם אותן לכל המבקרים, הורידו את הקובץ והעלו אותו ל-Vercel.";
+    } catch(e) {
       const m = $("amsg");
-      if (m) m.textContent = "השמירה נכשלה: " + (e.message || "שגיאה לא ידועה") + ". שעות העבודה לא הוצגו כשמורות.";
+      if(m) m.textContent = "השמירה נכשלה: "+(e.message||"שגיאה לא ידועה")+". שעות העבודה לא הוצגו כשמורות.";
     }
-  } else if (a === "reset") {
-    if (!confirm("לאפס את כל הגדרות האתר לברירת המחדל שבקובץ? שינויים שנשמרו במכשיר הזה יימחקו.")) return;
-    try { localStorage.removeItem("barber_site_config_v1"); } catch (e) {}
+  }
+  else if(a==="reset"){
+    if(!confirm("לאפס את כל הגדרות האתר לברירת המחדל שבקובץ? שינויים שנשמרו במכשיר הזה יימחקו.")) return;
+
+    try { localStorage.removeItem("barber_site_config_v1"); } catch(e) {}
 
     cfg = clone(DEFAULT_CONFIG);
     draft = clone(DEFAULT_CONFIG);
-    pendingImages = [];
+    pendingImages=[];
     dirty = false;
-    sel.svc = -1;
-    sel.date = "";
-    sel.time = "";
+    sel.svc=-1;
+    sel.date="";
+    sel.time="";
 
     renderSite();
     renderAdmin();
 
     const m = $("amsg");
-    if (m) m.textContent = "ההגדרות אופסו לברירת המחדל. כדי לפרסם את האיפוס לכל המבקרים, הורידו את הקובץ והעלו אותו לאתר.";
-  } else if (a === "publish") {
-    publish();
-  } else if (a === "approvePhotos") {
-    if (!pendingImages.length) {
-      const m = $("amsg");
-      if (m) m.textContent = "בחרו תמונות לפני האישור.";
+    if(m) m.textContent = "ההגדרות אופסו לברירת המחדל. כדי לפרסם את האיפוס לכל המבקרים, הורידו את הקובץ והעלו אותו לאתר.";
+  }
+  else if(a==="publish") publish();
+  else if(a==="approvePhotos"){
+    if(!pendingImages.length){
+      const m=$("amsg");
+      if(m)m.textContent="בחרו תמונות לפני האישור.";
       return;
     }
 
-    const approved = draft.images || [];
-    if (approved.length + pendingImages.length > 8) {
-      const m = $("amsg");
-      if (m) m.textContent = "אפשר להציג עד 8 תמונות באתר.";
+    const approved=draft.images||[];
+
+    if(approved.length+pendingImages.length>8){
+      const m=$("amsg");
+      if(m)m.textContent="אפשר להציג עד 8 תמונות באתר.";
       return;
     }
 
-    draft.images = approved.concat(pendingImages.map(im => ({ ...im })));
-    pendingImages = [];
+    draft.images=approved.concat(pendingImages.map(im=>({...im})));
+    pendingImages=[];
     markDirty();
     renderAdmin();
 
-    const m = $("amsg");
-    if (m) m.textContent = "התמונות אושרו בטיוטה. כדי לפרסם אותן, לחצו „הורדת קובץ לפרסום” והעלו את הקובץ לאתר.";
-  } else if (a === "removePending") {
-    pendingImages.splice(+v, 1);
+    const m=$("amsg");
+    if(m)m.textContent="התמונות אושרו בטיוטה. כדי לפרסם אותן, לחצו „הורדת קובץ לפרסום” והעלו את הקובץ ל-Netlify.";
+  }
+  else if(a==="removePending"){
+    pendingImages.splice(+v,1);
     renderAdmin();
-  } else if (a === "removeApproved") {
-    if (confirm("להסיר את התמונה מהטיוטה?")) {
-      draft.images.splice(+v, 1);
+  }
+  else if(a==="removeApproved"){
+    if(confirm("להסיר את התמונה מהטיוטה?")){
+      draft.images.splice(+v,1);
       markDirty();
       renderAdmin();
     }
-  } else if (a === "addsvc") {
-    draft.services.push({ n: "שירות חדש", p: "₪0" });
+  }
+  else if(a==="addsvc"){
+    draft.services.push({n:"שירות חדש",p:"₪0"});
     markDirty();
     renderAdmin();
-  } else if (a === "delsvc") {
-    draft.services.splice(+v, 1);
+  }
+  else if(a==="delsvc"){
+    draft.services.splice(+v,1);
     markDirty();
     renderAdmin();
-  } else if (a === "slot") {
-    const k = dayV + " " + v, i = draft.blocked.indexOf(k);
-    if (i < 0) draft.blocked.push(k);
-    else draft.blocked.splice(i, 1);
+  }
+  else if(a==="slot"){
+    const k=dayV+" "+v, i=draft.blocked.indexOf(k);
+    if(i<0) draft.blocked.push(k);
+    else draft.blocked.splice(i,1);
     markDirty();
     renderAdmin();
-  } else if (a === "dayoff") {
-    const i = draft.off.indexOf(dayV);
-    if (i < 0) draft.off.push(dayV);
-    else draft.off.splice(i, 1);
+  }
+  else if(a==="dayoff"){
+    const i=draft.off.indexOf(dayV);
+    if(i<0) draft.off.push(dayV);
+    else draft.off.splice(i,1);
     markDirty();
     renderAdmin();
-  } else if (a === "logout") {
-    try {
+  }
+  else if(a==="logout"){
+    try{
       sessionStorage.removeItem("adm");
       sessionStorage.removeItem("barber_role");
       sessionStorage.removeItem("barber_token");
-    } catch (e) {}
+    }catch(e){}
 
-    serverToken = "";
-    bookingCacheAt = 0;
-    serverBookings = [];
-    location.hash = "";
+    serverToken="";
+    bookingCacheAt=0;
+    serverBookings=[];
+    serverCalendarEvents=[];
+    location.hash="";
     route();
   }
 });
 
+// ===== ניתוב וחיבורים =====
+let sessionValidationToken = "";
+
+function clearLoginSession(){
+  try {
+    sessionStorage.removeItem("adm");
+    sessionStorage.removeItem("barber_role");
+    sessionStorage.removeItem("barber_token");
+  } catch(e) {}
+
+  serverToken = "";
+}
+
+async function resumeSession(token, storedRole){
+  if(!token || !storedRole || sessionValidationToken === token) return;
+
+  sessionValidationToken = token;
+  serverToken = token;
+
+  $("login").style.display = "none";
+  $("dash").style.display = "block";
+  $("dash").innerHTML = '<div class="panel"><p class="note">מאמתים את ההתחברות מול השרת...</p></div>';
+
+  try {
+    const result = await apiCall("session", {token});
+
+    if(!result || !result.ok || result.role !== storedRole) {
+      throw new Error("החיבור הקודם אינו תקף עוד.");
+    }
+
+    if(result.role === "barber") await showBarber();
+    else showDash();
+  } catch(e) {
+    clearLoginSession();
+
+    $("dash").style.display = "none";
+    $("login").style.display = "block";
+    $("pw").value = "";
+    $("lmsg").textContent = "ההתחברות הקודמת פגה או שהסיסמה עודכנה. התחברו מחדש עם הסיסמה הנוכחית.";
+  } finally {
+    if(sessionValidationToken === token) sessionValidationToken = "";
+  }
+}
+
 function route(){
   const adm = location.hash === ROUTE;
+
   $("site").style.display = adm ? "none" : "block";
   $("admin").style.display = adm ? "block" : "none";
   $("topbtn").style.display = adm ? "none" : "";
 
-  if (adm) {
-    let token = "", role = "";
-    try {
-      token = sessionStorage.getItem("barber_token") || "";
-      role = sessionStorage.getItem("barber_role") || "";
-    } catch (e) {}
+  if(!adm) return;
 
-    if (token && (role === "admin" || role === "barber")) {
-      serverToken = token;
-      if (role === "barber") showBarber();
-      else showDash();
-    } else {
-      try {
-        sessionStorage.removeItem("adm");
-        sessionStorage.removeItem("barber_role");
-        sessionStorage.removeItem("barber_token");
-      } catch (e) {}
-      $("dash").style.display = "none";
-      $("login").style.display = "block";
-      $("pw").value = "";
-    }
+  let token = "", role = "";
+
+  try {
+    token = sessionStorage.getItem("barber_token") || "";
+    role = sessionStorage.getItem("barber_role") || "";
+  } catch(e) {}
+
+  if(token && (role === "admin" || role === "barber")) {
+    resumeSession(token, role);
+  } else {
+    clearLoginSession();
+    $("dash").style.display = "none";
+    $("login").style.display = "block";
+    $("pw").value = "";
   }
 }
 
 $("loginBtn").addEventListener("click", login);
-$("pw").addEventListener("keydown", e => {
-  if (e.key === "Enter") login();
+$("pw").addEventListener("keydown", e=>{
+  if(e.key==="Enter") login();
 });
-$("svcBox").addEventListener("click", e => {
-  const b = e.target.closest("[data-svc]");
-  if (b) {
-    sel.svc = +b.dataset.svc;
-    renderBook();
-  }
+$("svcBox").addEventListener("click", e=>{
+  const b=e.target.closest("[data-svc]");
+  if(b){ sel.svc=+b.dataset.svc; renderBook(); }
 });
-$("dateBox").addEventListener("click", e => {
-  const b = e.target.closest("[data-date]");
-  if (b) {
-    sel.date = b.dataset.date;
-    sel.time = "";
-    renderBook();
-  }
+$("dateBox").addEventListener("click", e=>{
+  const b=e.target.closest("[data-date]");
+  if(b){ sel.date=b.dataset.date; sel.time=""; renderBook(); }
 });
-$("timeBox").addEventListener("click", e => {
-  const b = e.target.closest("[data-time]");
-  if (b) {
-    sel.time = b.dataset.time;
-    renderBook();
-  }
+$("timeBox").addEventListener("click", e=>{
+  const b=e.target.closest("[data-time]");
+  if(b){ sel.time=b.dataset.time; renderBook(); }
 });
 $("send").addEventListener("click", sendBooking);
-$("again").addEventListener("click", () => {
-  $("done").hidden = true;
-  $("bk").hidden = false;
-  $("bmsg").textContent = "";
+$("serverRetry").addEventListener("click", ()=>{
+  serverError="";
+  availabilityAttemptAt=0;
+  renderBook();
+  refreshServerAvailability(true);
+});
+$("again").addEventListener("click", ()=>{
+  $("done").hidden=true;
+  $("bk").hidden=false;
+  $("bmsg").textContent="";
   renderBook();
 });
 
-let taps = 0, tapTimer = null;
-$("logo").addEventListener("click", () => {
+let taps=0, tapTimer=null;
+
+$("logo").addEventListener("click", ()=>{
   taps++;
   clearTimeout(tapTimer);
-  tapTimer = setTimeout(() => { taps = 0; }, 1500);
+  tapTimer=setTimeout(()=>{taps=0;},1500);
 
-  if (taps >= 10) {
-    taps = 0;
-    if (location.hash === ROUTE) route();
-    else location.hash = ROUTE;
-    setTimeout(() => {
-      const p = $("pw");
-      if ($("login").style.display !== "none") p.focus();
-    }, 60);
+  if(taps>=10){
+    taps=0;
+    if(location.hash===ROUTE) route();
+    else location.hash=ROUTE;
+
+    setTimeout(()=>{
+      const p=$("pw");
+      if($("login").style.display!=="none") p.focus();
+    },60);
   }
 });
 
 window.addEventListener("hashchange", route);
 renderSite();
 route();
-if (apiReady()) refreshServerAvailability(true);
 
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(err => console.warn('PWA offline support unavailable:', err)));
+if(apiReady()) refreshServerAvailability(true);
+
+// Remove an old service worker that could keep serving an outdated local-only version.
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', async () => {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      const hadRegistration = regs.length > 0;
+      await Promise.all(regs.map(reg => reg.unregister()));
+
+      if('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(k => /barber|workbox|site-cache/i.test(k)).map(k => caches.delete(k)));
+      }
+
+      if(hadRegistration && !sessionStorage.getItem('barber_sw_cleared_v1')) {
+        sessionStorage.setItem('barber_sw_cleared_v1', '1');
+        location.reload();
+      }
+    } catch(err) {
+      console.warn('Could not clear old site cache:', err);
+    }
+  });
 }
 </script></body></html>
