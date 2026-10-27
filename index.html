@@ -57,6 +57,7 @@ h1,h2,h3{font-family:'Frank Ruhl Libre',Georgia,serif;margin:0}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px var(--shadow)}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.delete{background:#7b2424;color:#fff;border-color:#a94747}
 .btn.sm{padding:9px 22px;font-size:.9rem}.btn.wide{width:100%}
 .hero{text-align:center;padding:100px 0 90px;background:linear-gradient(180deg,transparent, color-mix(in srgb,var(--bg) 22%,transparent));animation:fade 1s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -232,7 +233,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbw0a-QuhXUJt3a-22idmHDH
   }, true);
 })();
 
-const EXPECTED_SERVER_VERSION = "2026-10-26-passwords-v4";
+const EXPECTED_SERVER_VERSION = "2026-10-27-delete-booking-v5";
 let serverOnline = false;
 let availabilityLoading = false;
 let serverError = "";
@@ -746,6 +747,10 @@ function bookingCard(b, role){
     actions.push(`<button class="btn ghost sm" data-act="status" data-status="cancelled" data-v="${esc(b.id)}" data-confirm="cancel">ביטול תור</button>`);
   }
 
+  if(role==="admin") {
+    actions.push(`<button class="btn delete sm" data-act="deleteBooking" data-v="${esc(b.id)}">מחיקה לצמיתות</button>`);
+  }
+
   return `<article class="booking-card">
     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
       <strong>${esc(b.name)}</strong>${statusPill(b.status)}
@@ -782,6 +787,10 @@ function compactCalendarEvent(b,role){
 
   if(role==="admin" && b.isBooking && b.status!=="cancelled") {
     actions.push(`<button class="btn ghost sm" data-act="status" data-status="cancelled" data-v="${esc(b.id)}" data-confirm="cancel">ביטול</button>`);
+  }
+
+  if(role==="admin" && b.isBooking) {
+    actions.push(`<button class="btn delete sm" data-act="deleteBooking" data-v="${esc(b.id)}">מחיקה</button>`);
   }
 
   const phone=b.phone?`<div><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></div>`:"";
@@ -1343,6 +1352,50 @@ $("dash").addEventListener("click", async e=>{
       const box=$("barberAppointments");
       if(box)box.innerHTML=bookingsContent("barber");
     }else renderAdmin();
+  }
+  else if(a==="deleteBooking"){
+    if(currentRole()!=="admin"){
+      const m=$("amsg");
+      if(m)m.textContent="רק המנהל יכול למחוק תורים לצמיתות.";
+      return;
+    }
+
+    if(!confirm("למחוק את התור לצמיתות מיומן Google? לא ניתן לבטל את המחיקה.")) return;
+
+    b.disabled=true;
+    const m=$("amsg");
+    if(m)m.textContent="מוחק את התור מיומן Google...";
+
+    try{
+      const result=await apiCall("deleteBooking",{
+        token:currentToken(),
+        bookingId:v
+      });
+      if(!result || result.ok!==true) throw new Error("השרת לא אישר את מחיקת התור.");
+
+      bookingCacheAt=0;
+      bookingsError="";
+
+      // Reload appointments from Google Calendar and refresh availability so the slot can be booked again.
+      await fetchSharedBookings();
+      if(tab==="bookings"){
+        const box=$("adminAppointments");
+        if(box)box.innerHTML=bookingsContent("admin");
+      }else if(tab==="calendar"){
+        const box=$("adminCalendar");
+        if(box)box.innerHTML=calendarViewContent("admin");
+      }
+
+      availabilityAttemptAt=0;
+      await refreshServerAvailability(true);
+
+      const out=$("amsg");
+      if(out)out.textContent=result.message||"התור נמחק לצמיתות מיומן Google.";
+    }catch(err){
+      const out=$("amsg");
+      if(out)out.textContent="מחיקת התור נכשלה: "+(err.message||"שגיאה לא ידועה");
+      b.disabled=false;
+    }
   }
   else if(a==="status"){
     if(b.dataset.confirm==="cancel" && !confirm("לבטל את התור? אחרי הביטול השעה תהיה זמינה שוב.")) return;
