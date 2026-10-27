@@ -206,11 +206,11 @@ footer{padding:28px 0;color:var(--mute);font-size:.85rem;text-align:center;borde
 </div>
 <footer>© <span id="yr"></span> כל הזכויות שמורות · קביעת תורים אונליין</footer>
 
-<script type="application/json" id="cfgdata">{"name":"הספר","tag":"אנחנו עושים את המיטב למען הלקוחות שלנו","addr":"רחוב הדוגמה 1, עיר","hours":"א׳–ה׳: 09:00–20:00\nו׳: 08:00–14:00\nשבת: סגור","services":[{"n":"תספורת גבר","p":"₪70"},{"n":"עיצוב זקן","p":"₪40"},{"n":"תספורת + זקן","p":"₪100"},{"n":"תספורת ילד","p":"₪50"}],"week":[{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"08:00","to":"14:00"},{"on":false,"from":"09:00","to":"14:00"}],"step":45,"ahead":7,"blocked":[],"off":[],"locationName":"","locationAddress":"הקוממיות 40, קרני שומרון","images":[]}</script>
+<script type="application/json" id="cfgdata">{"name":"הספר","tag":"אנחנו עושים את המיטב למען הלקוחות שלנו","addr":"רחוב הדוגמה 1, עיר","hours":"א׳–ה׳: 09:00–20:00\nו׳: 08:00–14:00\nשבת: סגור","services":[{"n":"תספורת גבר","p":"₪70"},{"n":"עיצוב זקן","p":"₪40"},{"n":"תספורת + זקן","p":"₪100"},{"n":"תספורת ילד","p":"₪50"}],"week":[{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"09:00","to":"20:00"},{"on":true,"from":"08:00","to":"14:00"},{"on":false,"from":"09:00","to":"14:00"}],"step":45,"ahead":7,"capacityPerSlot":1,"blocked":[],"off":[],"locationName":"","locationAddress":"הקוממיות 40, קרני שומרון","images":[]}</script>
 <script>
 const SRC = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^<html[^>]*>/, '<html lang="he" dir="rtl">');
 const ROUTE = "#manager";
-const API_URL = "https://script.google.com/macros/s/AKfycbx459lkCDilPO5W5S7Muz7R05srvjvoUFhblvU64M8zF-yCFsLpmzt0yjNSj-ZvuW4W/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzc_Zvd8Lg4PVz5t462-sjj-DwJn75DCUNdzDMuFxefn1Nj_kfKJssydHTuUuoi56iM/exec";
 
 (function installCopyDeterrents(){
   document.addEventListener("contextmenu", function(e){
@@ -233,7 +233,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbx459lkCDilPO5W5S7Muz7R
   }, true);
 })();
 
-const EXPECTED_SERVER_VERSION = "2026-10-27-delete-booking-v5";
+const EXPECTED_SERVER_VERSION = "2026-10-27-capacity-v6";
 let serverOnline = false;
 let availabilityLoading = false;
 let serverError = "";
@@ -330,6 +330,7 @@ async function refreshServerAvailability(force=false){
     serverBusyKeys=r.busy;
     cfg.step=Number(r.settings.step)||45;
     cfg.ahead=Number(r.settings.ahead)||7;
+    cfg.capacityPerSlot=Math.max(1,Math.min(10,Number(r.settings.capacityPerSlot)||1));
     cfg.week=clone(r.settings.week);
     cfg.off=Array.isArray(r.settings.off)?clone(r.settings.off):[];
     cfg.blocked=Array.isArray(r.settings.blocked)?clone(r.settings.blocked):[];
@@ -1034,6 +1035,11 @@ function renderAdmin(){
       `<option${+draft.step===n?" selected":""}>${n}</option>`
     ).join("")}</select></div>
     <div><label>כמה ימים קדימה אפשר להזמין</label><input type="number" min="1" max="90" data-p="ahead" data-num="1" value="${esc(draft.ahead)}"></div>
+  </div><div class="row" style="margin-top:10px">
+    <div><label>מספר תורים מרבי באותה שעה בדיוק</label>
+      <input type="number" min="1" max="10" step="1" data-p="capacityPerSlot" data-num="1" value="${esc(draft.capacityPerSlot||1)}">
+    </div>
+    <div><p class="note">לדוגמה: 1 = תור אחד בכל שעת התחלה. 2 = עד שני תורים שמתחילים באותה שעה. אירוע ידני ביומן Google עדיין חוסם את השעה.</p></div>
   </div><label>ימי עבודה ושעות</label>` +
     draft.week.map((w,i)=>`<div class="wrow">
       <label class="lbl" style="margin:0"><input type="checkbox" data-p="week.${i}.on" data-bool="1"${w.on?" checked":""} style="width:auto;margin-inline-end:8px">${DAYS[i]}</label>
@@ -1124,6 +1130,7 @@ async function saveScheduleToServer(source){
     schedule:{
       step:s.step,
       ahead:s.ahead,
+      capacityPerSlot:Math.max(1,Math.min(10,Number(s.capacityPerSlot)||1)),
       week:s.week,
       off:s.off,
       blocked:s.blocked
@@ -1692,4 +1699,6 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     }
   });
 }
-</script></body></html>
+</script>
+</body>
+</html>
