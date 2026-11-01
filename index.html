@@ -1701,16 +1701,5 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 }
   <!-- AI Observer Integration -->
 <script>
-  (function() {
-    const observer = new MutationObserver((mutations) => {
-      // כאן מועברים נתונים לצפייה בלבד מבלי לשנות את האתר
-      console.log('AI Observer: Site structure monitored');
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  })();
-</script>
-<script src="https://cdn.ai-manager.com/agent-bridge.js" data-agent-id="steve-ai-v1" async></script>
-<!-- End AI Integration -->
-
 </body>
 </html>
